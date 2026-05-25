@@ -53,7 +53,7 @@ block main
                       if(item.priceNew)
                         | #{item.priceNew.toLocaleString("vi-VN")}
                     td #{item.stock}
-                    td #{item.variants.length}
+                    td #{item.variants ? item.variants.length : 0}
                     td #{item.position}
                     td
                       if (item.status == "draft")

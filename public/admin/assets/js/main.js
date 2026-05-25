@@ -1406,7 +1406,17 @@ if (listButtonPaste.length > 0) {
 
     buttonPaste.addEventListener("click", async () => {
       const listLinkJson = await window.navigator.clipboard.readText();
-      const listLink = JSON.parse(listLinkJson);
+      let listLink = [];
+      try {
+        listLink = JSON.parse(listLinkJson);
+        if (!Array.isArray(listLink)) {
+          listLink = [listLink];
+        }
+      } catch (e) {
+        if (listLinkJson && listLinkJson.trim()) {
+          listLink = [listLinkJson.trim()];
+        }
+      }
 
       let htmls = "";
 

@@ -12,11 +12,6 @@ block main
               h4.card-title #{pageTitle}
             // end col
             .col-auto          
-              a.btn.btn-info.me-1.mb-1(
-                href=`/${pathAdmin}/product/export/csv`
-                )
-                i.fa-solid.fa-download.me-1
-                | Xuất Excel
               a.btn.btn-danger.me-1.mb-1(
                 href=`/${pathAdmin}/product/trash`
                 )
@@ -35,19 +30,6 @@ block main
           .row
             .col-lg-6
               +form-search()
-            .col-lg-6
-              form.input-group.mb-3(
-                id="formImportExcel"
-                data-api=`/${pathAdmin}/product/import/csv`
-              )
-                input(
-                  class="form-control" 
-                  type="file" 
-                  name="file" 
-                  id="file"
-                  accept=".csv"
-                )
-                button.btn.btn-secondary Nhúng Excel
           .table-responsive
             table.table.table-striped.mb-0
               thead.table-light
@@ -81,12 +63,10 @@ block main
                       if(item.priceNew)
                         | #{item.priceNew.toLocaleString("vi-VN")}
                     td #{item.stock}
-                    td #{item.variants.length}
+                    td #{item.variants ? item.variants.length : 0}
                     td #{item.position}
                     td
-                      if (item.status == "draft")
-                        span(class="badge bg-waring") Bản nháp
-                      else if (item.status == "active")
+                      if (item.status == "active")
                         span(class="badge bg-primary") Hoạt động
                       else if (item.status == "inactive")
                         span(class="badge bg-danger") Tạm dừng
