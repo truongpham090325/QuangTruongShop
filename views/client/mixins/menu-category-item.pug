@@ -1,0 +1,30 @@
+mixin renderCategory(items, level = 0)
+  ul(class="menu_cat_item")
+    each item in items
+      if (item.status == "active")
+        li
+          a(href=`/product/category/${item.slug}`)
+            span
+              img(
+                alt=item.name 
+                src=`${domainCDN}${item.avatar}`
+                )
+            | #{item.name}
+          ul(class="menu_cat_droapdown")
+            if (item.children && item.children.length > 0)
+              each itemSub1 in item.children
+                if (itemSub1.status == "active")
+                  li
+                    a(href=`/product/category/${itemSub1.slug}`)
+                      | #{itemSub1.name}
+                      i.fal.fa-angle-right
+                    ul(class="sub_category")
+                      if (itemSub1.children && itemSub1.children.length > 0)
+                        each itemSub2 in itemSub1.children
+                          if (itemSub2.status == "active")
+                            li
+                              a(href=`/product/category/${itemSub2.slug}`) #{itemSub2.name}
+    li(class="all_category")
+      a(href=`/product/category`)
+        | Xem tất cả
+        i.far.fa-arrow-right

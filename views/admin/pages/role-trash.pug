@@ -1,0 +1,55 @@
+extends ../layouts/default.pug
+
+block main
+  .card-header(bis_skin_checked="1")
+    .row.align-items-center.mb-1(bis_skin_checked="1")
+      .col(bis_skin_checked="1")
+        h4.card-title #{pageTitle}
+      // end col
+      .col-auto(bis_skin_checked="1")
+          a.btn.btn-info(
+            href=`/${pathAdmin}/role/list`
+            )
+            i.fas.fa-arrow-left.me-1
+            | Quay lại danh sách
+      // end col
+    // end row
+
+  .card-body.pt-0(bis_skin_checked="1")
+    //- Table
+    .table-responsive(bis_skin_checked="1")
+      table.table.table-striped.mb-0
+        thead.table-light
+          tr
+            th STT
+            th Tên nhóm quyền
+            th Mô tả
+            th Trạng thái
+            th.text-end Hành động
+        tbody
+          each item, index in roleList
+            tr
+              td #{index+1}
+              td #{item.name}
+              td #{item.description}
+              td
+                if (item.status == "active")
+                  span.badge.bg-primary Hoạt động
+                else if(item.status == "published")
+                  span.badge.bg-danger Tạm dừng
+              td.text-end
+                a(
+                  href="javascript:;"
+                  button-api
+                  data-method="PATCH"
+                  data-api=`/${pathAdmin}/role/undo/${item.id}`
+                  )
+                  i.fas.fa-undo-alt.text-secondary.font-16.fs-20
+                a(
+                  href="javascript:;"
+                  button-api
+                  data-method="DELETE"
+                  data-api=`/${pathAdmin}/role/destroy/${item.id}`
+                  )
+                  i.las.la-trash-alt.text-secondary.font-16.fs-20
+      // end /table

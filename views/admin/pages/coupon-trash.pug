@@ -1,0 +1,85 @@
+extends ../layouts/default.pug
+
+block main
+  .row
+    .col-12
+      .card
+        .card-header
+          .row.align-items-center
+            .col
+              h4.card-title #{pageTitle}
+            // end col
+            .col-auto
+              a.btn.btn-info(
+                href=`/${pathAdmin}/coupon/list`
+                )
+                i.fas.fa-arrow-left.me-1
+                | Quay lại danh sách
+                // end col
+            // end col
+          // end row
+        // end card-header
+        .card-body.pt-0
+          //- Table
+          .table-responsive
+            table.table.table-striped.mb-0
+              thead.table-light
+                tr
+                  th STT
+                  th Mã giảm giá
+                  th Tên mã giảm giá
+                  th Kiểu giảm giá
+                  th Giá trị
+                  th Số lượng
+                  th Đã dùng
+                  th Thời gian hiệu lực
+                  th Kiểu hiển thị
+                  th Trạng thái
+                  th.text-end Hành động
+              tbody
+                each item, index in couponList
+                  tr
+                    td #{index + 1}
+                    td #{item.code}
+                    td #{item.name}
+                    td
+                      if (item.typeDiscount == "percentage")
+                        | Phần trăm
+                      else if (item.typeDiscount == "fixed")
+                        | Tiền cố định
+                    td
+                      if (item.typeDiscount == "percentage")
+                        | #{item.value}%
+                      else if (item.typeDiscount == "fixed")
+                        | #{item.value.toLocaleString("vi-VN")}đ
+                    td #{item.usageLimit}
+                    td #{item.usedCount}
+                    td
+                      div Từ: #{item.startDateFormat}
+                      div Đến: #{item.endDateFormat}
+                    td
+                      if (item.typeDisplay == "public")
+                        | Công khai
+                      else if (item.typeDisplay == "private")
+                        | Riêng tư
+                    td
+                      if (item.status == "active")
+                        span(class="badge bg-primary") Hoạt động
+                      else if (item.status == "inactive")
+                        span(class="badge bg-danger") Tạm dừng
+                    td.text-end
+                      a(
+                        href="javascript:;"
+                        button-api
+                        data-method="PATCH"
+                        data-api=`/${pathAdmin}/coupon/undo/${item.id}`
+                        )
+                        i.fas.fa-undo-alt.text-secondary.font-16.fs-20
+                      a(
+                        href="javascript:;"
+                        button-api
+                        data-method="DELETE"
+                        data-api=`/${pathAdmin}/coupon/destroy/${item.id}`
+                        )
+                        i.las.la-trash-alt.text-secondary.font-16.fs-20
+    // end col

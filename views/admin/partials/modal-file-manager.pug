@@ -1,0 +1,20 @@
+// Modal
+#modalFileManager.modal.fade(
+  aria-hidden="true" 
+  tabindex="-1"
+  )
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        h1.modal-title.fs-5 Chọn file
+        button.btn-close(
+          aria-label="Close" 
+          data-bs-dismiss="modal" 
+          type="button"
+          )
+      .modal-body
+          iframe(
+            src=`/${pathAdmin}/file-manager`, 
+            frameborder="0"
+            style="width: 100%; height: 76vh;"
+          ) 

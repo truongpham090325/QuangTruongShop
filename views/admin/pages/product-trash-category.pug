@@ -1,0 +1,57 @@
+extends ../layouts/default.pug
+
+block main
+  .card-header(bis_skin_checked="1")
+    .row.align-items-center.mb-1(bis_skin_checked="1")
+      .col(bis_skin_checked="1")
+        h4.card-title #{pageTitle}
+      // end col
+      .col-auto(bis_skin_checked="1")
+          a.btn.btn-info(
+            href=`/${pathAdmin}/product/category`
+            )
+            i.fas.fa-arrow-left.me-1
+            | Quay lại danh sách
+      // end col
+    // end row
+
+  .card-body.pt-0(bis_skin_checked="1")
+    //- Table
+    .table-responsive(bis_skin_checked="1")
+      table.table.table-striped.mb-0
+        thead.table-light
+          tr
+            th STT
+            th Tên danh mục
+            th Danh mục cha
+            th Trạng thái
+            th Lượt xem
+            th.text-end Hành động
+        tbody
+          each item, index in categoryList
+            tr
+              td #{index+1}
+              td #{item.name}
+              td #{item.parentName}
+              td
+                if (item.status == "active")
+                  span.badge.bg-primary Hoạt động
+                else if(item.status == "inactive")
+                  span.badge.bg-danger Tạm dừng
+              td #{item.view}
+              td.text-end
+                a(
+                  href="javascript:;"
+                  button-api
+                  data-method="PATCH"
+                  data-api=`/${pathAdmin}/product/category/undo/${item.id}`
+                  )
+                  i.fas.fa-undo-alt.text-secondary.font-16.fs-20
+                a(
+                  href="javascript:;"
+                  button-api
+                  data-method="DELETE"
+                  data-api=`/${pathAdmin}/product/category/destroy/${item.id}`
+                  )
+                  i.las.la-trash-alt.text-secondary.font-16.fs-20
+      // end /table

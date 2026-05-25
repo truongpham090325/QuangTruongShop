@@ -1,0 +1,47 @@
+extends ../layouts/default.pug
+include ../mixins/pagination.pug
+
+block main
+  .row
+    .col-12
+      .card
+        .card-header
+          .row.align-items-center
+            .col
+              h4.card-title #{pageTitle}
+            // end col
+            .col-auto
+              a.btn.btn-danger.me-1(
+                href=`/${pathAdmin}/admin-log/trash`
+                )
+                i.fa-solid.fa-trash.me-1
+                | Thùng rác
+          // end row
+        // end card-header
+        .card-body.pt-0
+          .table-responsive
+            table.table.table-striped.mb-0
+              thead.table-light
+                tr
+                  th STT
+                  th Người quản trị
+                  th Tiêu đề
+                  th Ngày hoạt động
+                  th.text-end Hành động
+              tbody
+                each item, index in adminLogList
+                  tr
+                    td #{pagination.skip + index + 1}
+                    td #{item.adminName}
+                    td #{item.title}
+                    td #{item.createdAtFormat}
+                    td.text-end
+                      a(
+                        href="javascript:;"
+                        button-api
+                        data-method="PATCH"
+                        data-api=`/${pathAdmin}/admin-log/delete/${item.id}`
+                      )
+                        i.las.la-trash-alt.text-secondary.fs-20.ms-1
+          +pagination()
+    // end col

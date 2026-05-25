@@ -1,0 +1,52 @@
+extends ../layouts/default.pug
+
+block main
+  .row
+    .col-12
+      .card
+        .card-header
+          .row.align-items-center
+            .col
+              h4.card-title #{pageTitle}
+            // end col
+            .col-auto
+              a.btn.btn-info(
+                href=`/${pathAdmin}/admin-log/list`
+                )
+                i.fas.fa-arrow-left.me-1
+                | Quay lại danh sách
+          // end row
+        // end card-header
+        .card-body.pt-0
+          .table-responsive
+            table.table.table-striped.mb-0
+              thead.table-light
+                tr
+                  th STT
+                  th Người quản trị
+                  th Tiêu đề
+                  th Ngày hoạt động
+                  th.text-end Hành động
+              tbody
+                each item, index in adminLogList
+                  tr
+                    td #{index + 1}
+                    td #{item.adminName}
+                    td #{item.title}
+                    td #{item.createdAtFormat}
+                    td.text-end
+                      a(
+                        href="javascript:;"
+                        button-api
+                        data-method="PATCH"
+                        data-api=`/${pathAdmin}/admin-log/undo/${item.id}`
+                        )
+                        i.fas.fa-undo-alt.text-secondary.font-16.fs-20
+                      a(
+                        href="javascript:;"
+                        button-api
+                        data-method="DELETE"
+                        data-api=`/${pathAdmin}/admin-log/destroy/${item.id}`
+                        )
+                        i.las.la-trash-alt.text-secondary.font-16.fs-20
+    // end col
