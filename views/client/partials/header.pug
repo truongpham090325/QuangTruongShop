@@ -15,17 +15,17 @@
           a.text-white(href="#") truongpham090325@gmail.com
       .top-link.pe-2
         a.text-white(href="#")
-          small.text-white.mx-2 Privacy Policy
+          small.text-white.mx-2 Chính sách bảo mật
           | /
         a.text-white(href="#")
-          small.text-white.mx-2 Terms of Use
+          small.text-white.mx-2 Điều khoản dịch vụ
           | /
         a.text-white(href="#")
-          small.text-white.ms-2 Sales and Refunds
+          small.text-white.ms-2 Bán hàng và hoàn tiền
   .container.px-0
     nav.navbar.navbar-light.bg-white.navbar-expand-xl
       a.navbar-brand(href="index.html")
-        h1.text-primary.display-6 Fruitables
+        h1.text-primary.display-6 QuangTruongShop
       button.navbar-toggler.py-2.px-3(
         data-bs-target="#navbarCollapse" 
         data-bs-toggle="collapse" 
@@ -34,20 +34,15 @@
         span.fa.fa-bars.text-primary
       #navbarCollapse.collapse.navbar-collapse.bg-white
         .navbar-nav.mx-auto
-          a.nav-item.nav-link.active(href="index.html") Home
-          a.nav-item.nav-link(href="shop.html") Shop
-          a.nav-item.nav-link(href="shop-detail.html") Shop Detail
+          a.nav-item.nav-link.active(href="/") Trang chủ
           .nav-item.dropdown
             a.nav-link.dropdown-toggle(
               data-bs-toggle="dropdown" 
               href="#"
-              ) Pages
+              ) Sản phẩm
             .dropdown-menu.m-0.bg-secondary.rounded-0
-              a.dropdown-item(href="cart.html") Cart
-              a.dropdown-item(href="chackout.html") Chackout
-              a.dropdown-item(href="testimonial.html") Testimonial
-              a.dropdown-item(href="404.html") 404 Page
-          a.nav-item.nav-link(href="contact.html") Contact
+              each item in categoryProductList
+                a.dropdown-item(href=`product/category/${item.slug}`) #{item.name}
         .d-flex.m-3.me-0
           button.btn-search.btn.border.border-secondary.btn-md-square.rounded-circle.bg-white.me-4(
             data-bs-target="#searchModal" 
@@ -69,7 +64,7 @@
   .modal-dialog.modal-fullscreen
     .modal-content.rounded-0
       .modal-header
-        h5#exampleModalLabel.modal-title Search by keyword
+        h5#exampleModalLabel.modal-title Tìm kiếm bằng từ khóa
         button.btn-close(
           aria-label="Close" 
           data-bs-dismiss="modal" 
@@ -79,7 +74,7 @@
         .input-group.w-75.mx-auto.d-flex
           input.form-control.p-3(
             aria-describedby="search-icon-1" 
-            placeholder="keywords" 
+            placeholder="Nhập từ khóa..." 
             type="search"
             )
           span#search-icon-1.input-group-text.p-3
