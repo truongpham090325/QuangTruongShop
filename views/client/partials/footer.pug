@@ -1,127 +1,86 @@
-footer(
-  style="background: url(/client/assets/images/footer_2_bg_2.jpg);" 
-  class="footer_2 pt_100"
-  )
-  .container
-    .row.justify-content-between
-      .col-xl-3.col-md-6.col-lg-3.wow.fadeInUp(data-wow-delay=".7s")
-        div(class="footer_2_logo_area")
-          a(
-            href="index.html" 
-            class="footer_logo"
-            )
-            img.img-fluid.w-100(
-              alt="Zenis" 
-              src="/client/assets/images/footer_logo_2.png"
+// Footer Start
+.container-fluid.bg-dark.text-white-50.footer.pt-5.mt-5
+  .container.py-5
+    .pb-4.mb-4(style="border-bottom: 1px solid rgba(226, 175, 24, 0.5) ;")
+      .row.g-4
+        .col-lg-3
+          a(href="#")
+            h1.text-primary.mb-0 Fruitables
+            p.text-secondary.mb-0 Fresh products
+        .col-lg-6
+          .position-relative.mx-auto
+            input.form-control.border-0.w-100.py-3.px-4.rounded-pill(
+              placeholder="Your Email" 
+              type="number"
               )
-          p
-            | Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, distinctio molestiae error
-            |   ullam obcaecati dolorem inventore.
-          ul
-            li
-              span Follow :
-            li
-              a(href="#")
-                i.fab.fa-facebook-f
-            li
-              a(href="#")
-                i.fab.fa-twitter
-            li
-              a(href="#")
-                i.fab.fa-google-plus-g
-            li
-              a(href="#")
-                i.fab.fa-linkedin-in
-      .col-xl-2.col-sm-6.col-md-4.col-lg-2.wow.fadeInUp(data-wow-delay="1s")
-        div(class="footer_link")
-          h3 Company
-          ul
-            li
-              a(href="#about") About us
-            li
-              a(href="#") Contact Us
-            li
-              a(href="#") Affiliate
-            li
-              a(href="#") Career
-            li
-              a(href="#") Latest News
-      .col-xl-2.col-sm-6.col-md-4.col-lg-2.wow.fadeInUp(data-wow-delay="1.3s")
-        div(class="footer_link")
-          h3 Category
-          ul
-            li
-              a(href="#") Men’s Fashion
-            li
-              a(href="#") denim Collection
-            li
-              a(href="#") western wear
-            li
-              a(href="#") sport wear
-            li
-              a(href="#") fashion jewellery
-      .col-xl-2.col-sm-6.col-md-4.col-lg-2.wow.fadeInUp(data-wow-delay="1.6s")
-        div(class="footer_link")
-          h3 Quick Links
-          ul
-            li
-              a(href="#") Privacy Ploicy
-            li
-              a(href="#") Terms and Condition
-            li
-              a(href="#") Return Policy
-            li
-              a(href="#") FAQ's
-            li
-              a(href="#") Become a Vendor
-      .col-xl-3.col-sm-6.col-md-4.col-lg-3.wow.fadeInUp(data-wow-delay="1.9s")
-        div(class="footer_link footer_logo_area")
-          h3 Contact Us
-          p
-            | It is a long established fact that reader distracted looking layout It is a long established
-            |   fact.
-          span
-            b
-              img.img-fluid(
-                alt="Map" 
-                src="/client/assets/images/location_icon_white.png"
-                )
-            | 37 W 24th St, New York, NY
-          span
-            b
-              img.img-fluid(
-                alt="Call" 
-                src="/client/assets/images/phone_icon_white.png"
-                )
-            a(href="callto:+123324587939") +123 324 5879 39
-          span
-            b
-              img.img-fluid(
-                alt="Mail" 
-                src="/client/assets/images/mail_icon_white.png"
-                )
-            a(href="mailto:support@mail.com") info@Zenis.com
+            button.btn.btn-primary.border-0.border-secondary.py-3.px-4.position-absolute.rounded-pill.text-white(
+              style="top: 0; right: 0;" 
+              type="submit"
+              ) Subscribe Now
+        .col-lg-3
+          .d-flex.justify-content-end.pt-3
+            a.btn.btn-outline-secondary.me-2.btn-md-square.rounded-circle(href="")
+              i.fab.fa-twitter
+            a.btn.btn-outline-secondary.me-2.btn-md-square.rounded-circle(href="")
+              i.fab.fa-facebook-f
+            a.btn.btn-outline-secondary.me-2.btn-md-square.rounded-circle(href="")
+              i.fab.fa-youtube
+            a.btn.btn-outline-secondary.btn-md-square.rounded-circle(href="")
+              i.fab.fa-linkedin-in
+    .row.g-5
+      .col-lg-3.col-md-6
+        .footer-item
+          h4.text-light.mb-3 Why People Like us!
+          p.mb-4
+            | typesetting, remaining essentially unchanged. It was 
+            |   popularised in the 1960s with the like Aldus PageMaker including of Lorem Ipsum.
+          a.btn.border-secondary.py-2.px-4.rounded-pill.text-primary(href="") Read More
+      .col-lg-3.col-md-6
+        .d-flex.flex-column.text-start.footer-item
+          h4.text-light.mb-3 Shop Info
+          a.btn-link(href="") About Us
+          a.btn-link(href="") Contact Us
+          a.btn-link(href="") Privacy Policy
+          a.btn-link(href="") Terms & Condition
+          a.btn-link(href="") Return Policy
+          a.btn-link(href="") FAQs & Help
+      .col-lg-3.col-md-6
+        .d-flex.flex-column.text-start.footer-item
+          h4.text-light.mb-3 Account
+          a.btn-link(href="") My Account
+          a.btn-link(href="") Shop details
+          a.btn-link(href="") Shopping Cart
+          a.btn-link(href="") Wishlist
+          a.btn-link(href="") Order History
+          a.btn-link(href="") International Orders
+      .col-lg-3.col-md-6
+        .footer-item
+          h4.text-light.mb-3 Contact
+          p Address: 1429 Netus Rd, NY 48247
+          p Email: Example@gmail.com
+          p Phone: +0123 4567 8910
+          p Payment Accepted
+          img.img-fluid(
+            alt="" 
+            src="/client/assets/img/payment.png"
+            )
+// Footer End
+// Copyright Start
+.container-fluid.copyright.bg-dark.py-4
+  .container
     .row
-      .col-12
-        div(class="footer_copyright mt_75")
-          p
-            | Copyright @
-            b Zenis
-            | 2025. All right reserved.
-          ul.payment
-            li Payment by :
-            li
-              img.img-fluid.w-100(
-                alt="payment" 
-                src="/client/assets/images/footer_payment_icon_1.jpg"
-                )
-            li
-              img.img-fluid.w-100(
-                alt="payment" 
-                src="/client/assets/images/footer_payment_icon_2.jpg"
-                )
-            li
-              img.img-fluid.w-100(
-                alt="payment" 
-                src="/client/assets/images/footer_payment_icon_3.jpg"
-                )
+      .col-md-6.text-center.text-md-start.mb-3.mb-md-0
+        span.text-light
+          a(href="#")
+            i.fas.fa-copyright.text-light.me-2
+            | Your Site Name
+          | , All right reserved.
+      .col-md-6.my-auto.text-center.text-md-end.text-white
+        // /*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/
+        // /*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/
+        // /*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/
+        | Designed By
+        a.border-bottom(href="https://htmlcodex.com") HTML Codex
+        | Distributed By
+        a.border-bottom(href="https://themewagon.com") ThemeWagon
+// Copyright End

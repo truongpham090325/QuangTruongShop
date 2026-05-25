@@ -456,7 +456,12 @@ export const list = async (req: Request, res: Response) => {
     skip: skip,
   };
 
-  const productList = await Product.find(find).limit(limitItems).skip(skip);
+  const productList = await Product.find(find)
+    .limit(limitItems)
+    .skip(skip)
+    .sort({
+      createdAt: "desc",
+    });
 
   res.render("admin/pages/product-list", {
     pageTitle: "Danh sách sản phẩm",
@@ -577,18 +582,6 @@ export const editPatch = async (req: Request, res: Response) => {
     req.body.category = JSON.parse(req.body.category);
 
     req.body.images = JSON.parse(req.body.images);
-
-    req.body.attributes = JSON.parse(req.body.attributes);
-
-    req.body.variants = JSON.parse(req.body.variants);
-
-    req.body.tags = JSON.parse(req.body.tags);
-
-    req.body.boughtTogether = JSON.parse(req.body.boughtTogether);
-
-    if (!req.body.sku) {
-      req.body.sku = generateRandomString(10).toUpperCase();
-    }
 
     req.body.search = slugify(`${req.body.name}`, {
       replacement: " ",

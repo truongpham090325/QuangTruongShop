@@ -1,174 +1,48 @@
 doctype html
 html(lang="en")
   head
-    meta(charset="UTF-8")
-    meta(
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi" 
-      name="viewport"
-      )
+    meta(charset="utf-8")
     title #{pageTitle}
-    script.
-      const domainCDN = "#{domainCDN}"
-    link(
-      href="/client/assets/images/favicon.png" 
-      type="image/png" 
-      rel="icon"
-      )
-    link(
-      href="/client/assets/css/all.min.css" 
-      rel="stylesheet"
-      )
-    link(
-      href="/client/assets/css/bootstrap.min.css" 
-      rel="stylesheet"
-      )
-    link(
-      href="/client/assets/css/animate.css" 
-      rel="stylesheet"
-      )
-    link(
-      href="/client/assets/css/mobile_menu.css" 
-      rel="stylesheet"
-      )
-    link(
-      href="/client/assets/css/nice-select.css" 
-      rel="stylesheet"
-      )
-    link(
-      href="/client/assets/css/scroll_button.css" 
-      rel="stylesheet"
-      )
-    link(
-      href="/client/assets/css/slick.css" 
-      rel="stylesheet"
-      )
-    link(
-      href="/client/assets/css/venobox.min.css" 
-      rel="stylesheet"
-      )
-    link(
-      href="/client/assets/css/select2.min.css" 
-      rel="stylesheet"
-      )
-    link(
-      href="/client/assets/css/jquery.pwstabs.css" 
-      rel="stylesheet"
-      )
-    link(
-      href="/client/assets/css/range_slider.css" 
-      rel="stylesheet"
-      )
-    link(
-      href="/client/assets/css/multiple-image-video.css" 
-      rel="stylesheet"
-      )
-    link(
-      href="/client/assets/css/custom_spacing.css" 
-      rel="stylesheet"
-      )
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
-    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/openlayers@4.6.5/dist/ol.min.css")
-    link(
-      href="/client/assets/css/style.css" 
-      rel="stylesheet"
-      )
-    link(
-      href="/client/assets/css/responsive.css" 
-      rel="stylesheet"
-      )
-  body(class="default_home")
-    //
-      =========================
-       HEADER START
-       ==========================
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    meta(name="keywords" content="")
+    meta(name="description" content="")
+
+    // Google Web Fonts
+    link(href="https://fonts.googleapis.com" rel="preconnect")
+    link(crossorigin="" href="https://fonts.gstatic.com" rel="preconnect")
+    link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap")
+
+    // Icon Font Stylesheet
+    link(href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" rel="stylesheet")
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css")
+
+    // Libraries Stylesheet
+    link(rel="stylesheet" href="/client/assets/lib/lightbox/css/lightbox.min.css")
+    link(rel="stylesheet" href="/client/assets/lib/owlcarousel/assets/owl.carousel.min.css")
+
+    // Customized Bootstrap Stylesheet
+    link(rel="stylesheet" href="/client/assets/css/bootstrap.min.css")
+
+    // Template Stylesheet
+    link(rel="stylesheet" href="/client/assets/css/style.css")
+
+  body
     include ../partials/header.pug
-    //
-      =========================
-       HEADER END
-       ==========================
-    //
-      =========================
-       MENU 2 START
-       ==========================
-    include ../partials/main-menu.pug
-    include ../partials/mini-cart.pug
-    //
-      =========================
-       MENU 2 END
-       ==========================
-    //
-      ============================
-       MOBILE MENU START
-       ==============================
-    include ../partials/mobile-menu-area.pug
-    //
-      ============================
-       MOBILE MENU END
-       ==============================
-    
-    // Main
+
     block main
-    // End Main
-    
-    //
-      =========================
-       FOOTER 2 START
-       ==========================
+
     include ../partials/footer.pug
-    //
-      =========================
-       FOOTER 2 END
-       ==========================
-    //
-      ==========================
-       SCROLL BUTTON START
-       ===========================
-    include ../partials/scroll-button.pug
-    //
-      ==========================
-       SCROLL BUTTON END
-       ===========================
-    // jquery library js
-    script(src="/client/assets/js/jquery-3.7.1.min.js")
-    // bootstrap js
-    script(src="/client/assets/js/bootstrap.bundle.min.js")
-    // font-awesome js
-    script(src="/client/assets/js/Font-Awesome.js")
-    // counter js
-    script(src="/client/assets/js/jquery.waypoints.min.js")
-    script(src="/client/assets/js/jquery.countup.min.js")
-    // nice select js
-    script(src="/client/assets/js/jquery.nice-select.min.js")
-    // select 2 js
-    script(src="/client/assets/js/select2.min.js")
-    // simply countdown js
-    script(src="/client/assets/js/simplyCountdown.js")
-    // slick slider js
-    script(src="/client/assets/js/slick.min.js")
-    // venobox js
-    script(src="/client/assets/js/venobox.min.js")
-    // wow js
-    script(src="/client/assets/js/wow.min.js")
-    // marquee js
-    script(src="/client/assets/js/jquery.marquee.min.js")
-    // pws tabs js
-    script(src="/client/assets/js/jquery.pwstabs.min.js")
-    // scroll button js
-    script(src="/client/assets/js/scroll_button.js")
-    // youtube background js
-    script(src="/client/assets/js/jquery.youtube-background.min.js")
-    // range slider js
-    script(src="/client/assets/js/range_slider.js")
-    // sticky sidebar js
-    block script
-    script(src="/client/assets/js/sticky_sidebar.js")
-    // multiple image upload js
-    script(src="/client/assets/js/multiple-image-video.js")
-    // main/custom js
-    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-    script(src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js")
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    script(src="https://cdn.jsdelivr.net/npm/openlayers@4.6.5/dist/ol.min.js")
-    script(src="/client/assets/js/custom.js")
+
+    // Back to Top
+    a.btn.btn-primary.border-3.border-primary.rounded-circle.back-to-top(href="#")
+      i.fa.fa-arrow-up
+    // JavaScript Libraries
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js")
+    script(src="/client/assets/lib/easing/easing.min.js")
+    script(src="/client/assets/lib/waypoints/waypoints.min.js")
+    script(src="/client/assets/lib/lightbox/js/lightbox.min.js")
+    script(src="/client/assets/lib/owlcarousel/owl.carousel.min.js")
+    // Template Javascript
     script(src="/client/assets/js/main.js")
-    
+

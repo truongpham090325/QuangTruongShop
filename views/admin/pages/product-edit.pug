@@ -38,10 +38,6 @@ block main
               label.form-label(for="status") Trạng thái
               select.form-select(id="status" name="status")
                 option(
-                  value="draft"
-                  selected=(productDetail.status == "draft" ? true : false)
-                  ) Bản nháp
-                option(
                   value="active"
                   selected=(productDetail.status == "active" ? true : false)
                   ) Hoạt động
@@ -68,44 +64,6 @@ block main
               input.form-control(id="stock" type="number" name="stock" value=productDetail.stock)
           .col-md-12.col-lg-12
             .mb-3
-              label.form-label Danh sách thuộc tính
-              div(class="checkbox-list" checkbox-list="attributes")
-                +checkbox-list(attributeList, 0, productDetail.attributes)
-              span.btn.btn-outline-info.mt-1(
-                button-render-variant="attributes"
-              ) Tạo biến thể
-              script.
-                const attributeList = !{JSON.stringify(attributeList)}
-          .col-md-12.col-lg-12
-            .mb-3
-              label.form-label Danh sách biến thể
-              .table-responsive-sm
-                table.table.mb-0(variant-table)
-                  thead.table-light
-                    tr
-                      th(scope="col") Trạng thái
-                      each name in attributeNameList
-                        th(scope="col") #{name}
-                      th(scope="col") Giá cũ
-                      th(scope="col") Giá mới
-                      th(scope="col") Còn lại
-                  tbody
-                    each item in productDetail.variants 
-                      tr
-                        td
-                          .form-check.form-switch.form-switch-success
-                            input.form-check-input(type="checkbox" checked=item.status)
-                          input(class="d-none" attribute-value value=item.attributeValue)
-                        each attr in item.attributeValue
-                          td #{attr.label}
-                        td
-                          input.form-control(type="number" value=item.priceOld price-old)
-                        td
-                          input.form-control(type="number" value=item.priceNew price-new)
-                        td
-                          input.form-control(type="number" value=item.stock stock)
-          .col-md-12.col-lg-12
-            .mb-3
               label.form-label Danh sách ảnh
               div(class="form-multi-file")
                 .input-group
@@ -129,20 +87,5 @@ block main
             .mb-3
               label.form-label(for="content") Nội dung chi tiết
               textarea(id="content" name="content" textarea-mce) #{productDetail.content} 
-          .col-md-6.col-lg-6
-            .mb-3
-              label.form-label Tags
-              select(select-tag name="tags" multiple)
-                each tag in productDetail.tags
-                  option(value=tag selected) #{tag}
-          .col-md-6.col-lg-6
-            .mb-3
-              label.form-label Sản phẩm mua kèm
-              select(select-tag name="bought-together" multiple taggable="false")
-                each item in productList
-                  option(
-                    value=item._id
-                    selected=(productDetail.boughtTogether.includes(item._id))
-                    ) #{item.name}
         button.btn.btn-primary(type="submit") Cập nhập
         a.btn.btn-danger.ms-1(href=`/${pathAdmin}/product/list`) Hủy

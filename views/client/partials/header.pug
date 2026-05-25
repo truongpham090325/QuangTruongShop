@@ -1,69 +1,87 @@
-header(class="header_2")
-  .container
-    .row.align-items-center
-      .col-lg-2
-        div(class="header_logo_area")
-          a(
-            class="header_logo" 
-            href="/"
+// Spinner Start
+#spinner.show.w-100.vh-100.bg-white.position-fixed.translate-middle.top-50.start-50.d-flex.align-items-center.justify-content-center
+  .spinner-grow.text-primary(role="status")
+// Spinner End
+// Navbar start
+.container-fluid.fixed-top
+  .container.topbar.bg-primary.d-none.d-lg-block
+    .d-flex.justify-content-between
+      .top-info.ps-2
+        small.me-3
+          i.fas.fa-map-marker-alt.me-2.text-secondary
+          a.text-white(href="#") Phú Xuyên - Hà Nội
+        small.me-3
+          i.fas.fa-envelope.me-2.text-secondary
+          a.text-white(href="#") truongpham090325@gmail.com
+      .top-link.pe-2
+        a.text-white(href="#")
+          small.text-white.mx-2 Privacy Policy
+          | /
+        a.text-white(href="#")
+          small.text-white.mx-2 Terms of Use
+          | /
+        a.text-white(href="#")
+          small.text-white.ms-2 Sales and Refunds
+  .container.px-0
+    nav.navbar.navbar-light.bg-white.navbar-expand-xl
+      a.navbar-brand(href="index.html")
+        h1.text-primary.display-6 Fruitables
+      button.navbar-toggler.py-2.px-3(
+        data-bs-target="#navbarCollapse" 
+        data-bs-toggle="collapse" 
+        type="button"
+        )
+        span.fa.fa-bars.text-primary
+      #navbarCollapse.collapse.navbar-collapse.bg-white
+        .navbar-nav.mx-auto
+          a.nav-item.nav-link.active(href="index.html") Home
+          a.nav-item.nav-link(href="shop.html") Shop
+          a.nav-item.nav-link(href="shop-detail.html") Shop Detail
+          .nav-item.dropdown
+            a.nav-link.dropdown-toggle(
+              data-bs-toggle="dropdown" 
+              href="#"
+              ) Pages
+            .dropdown-menu.m-0.bg-secondary.rounded-0
+              a.dropdown-item(href="cart.html") Cart
+              a.dropdown-item(href="chackout.html") Chackout
+              a.dropdown-item(href="testimonial.html") Testimonial
+              a.dropdown-item(href="404.html") 404 Page
+          a.nav-item.nav-link(href="contact.html") Contact
+        .d-flex.m-3.me-0
+          button.btn-search.btn.border.border-secondary.btn-md-square.rounded-circle.bg-white.me-4(
+            data-bs-target="#searchModal" 
+            data-bs-toggle="modal"
             )
-            img.img-fluid.w-100(
-              alt="Zenis" 
-              src="/client/assets/images/logo_2.png"
-              )
-          .d-block.d-lg-none(
-            aria-controls="offcanvasWithBothOptions" 
-            data-bs-target="#offcanvasWithBothOptions" 
-            data-bs-toggle="offcanvas" 
-            class="mobile_menu_icon"
+            i.fas.fa-search.text-primary
+          a.position-relative.me-4.my-auto(href="#")
+            i.fa.fa-shopping-bag.fa-2x
+            span.position-absolute.bg-secondary.rounded-circle.d-flex.align-items-center.justify-content-center.text-dark.px-1(style="top: -5px; left: 15px; height: 20px; min-width: 20px;") 3
+          a.my-auto(href="#")
+            i.fas.fa-user.fa-2x
+// Navbar End
+// Modal Search Start
+#searchModal.modal.fade(
+  aria-hidden="true" 
+  aria-labelledby="exampleModalLabel" 
+  tabindex="-1"
+  )
+  .modal-dialog.modal-fullscreen
+    .modal-content.rounded-0
+      .modal-header
+        h5#exampleModalLabel.modal-title Search by keyword
+        button.btn-close(
+          aria-label="Close" 
+          data-bs-dismiss="modal" 
+          type="button"
+          )
+      .modal-body.d-flex.align-items-center
+        .input-group.w-75.mx-auto.d-flex
+          input.form-control.p-3(
+            aria-describedby="search-icon-1" 
+            placeholder="keywords" 
+            type="search"
             )
-            span(class="mobile_menu_icon")
-              i.far.fa-stream(class="menu_icon_bar")
-      .col-xXl-6.col-xl-5.col-lg-5.d-none.d-lg-block
-        form(action="#" form-search-product)
-          select(class="select_2" name="category")
-            option(value="") Tất cả sản phẩm
-            each item in categoryProductList
-              option(value=item.slug) #{item.name}
-          .input
-            span(class="inner-voice" button-voice)
-              <i class="fas fa-microphone"></i>
-            input(
-              placeholder="Tìm kiếm sản phẩm..." 
-              type="text"
-              name="keyword"
-              )
-            button(type="submit")
-              i.far.fa-search
-          .inner-suggest(style="display: none")
-            .inner-title Sản phẩm gợi ý
-            .inner-list
-              //- a(href="#" class="inner-item")
-              //-   img(src="/client/assets/images/product_18.png" class="inner-image")
-              //-   .inner-info
-              //-     .inner-name Samsung Galaxy S25 Ultra 12GB 256GB
-              //-     .inner-prices
-              //-       .inner-price-new 27.990.000đ
-              //-       .inner-price-old 33.380.000đ
-              //- a(href="#" class="inner-item")
-              //-   img(src="/client/assets/images/product_18.png" class="inner-image")
-              //-   .inner-info
-              //-     .inner-name Samsung Galaxy S25 Ultra 12GB 256GB
-              //-     .inner-prices
-              //-       .inner-price-new 27.990.000đ
-              //-       .inner-price-old 33.380.000đ
-      .col-xXl-4.col-xl-5.col-lg-5.d-none.d-lg-flex
-        .d-flex.flex-wrap(class="header_support_user")
-          div(class="header_support")
-            span.icon
-              i.far.fa-phone-alt
-            h3
-              | Hotline:
-              a(href="callto:0979719410")
-                span 0979719410
-        .d-flex.flex-wrap.align-items-center.justify-content-end(class="topbar_right")
-          select.language(class="select_js")
-            option English
-            option Arabic
-            option Hindi
-            option Chinese
+          span#search-icon-1.input-group-text.p-3
+            i.fa.fa-search
+// Modal Search End
