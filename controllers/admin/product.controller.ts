@@ -4,7 +4,6 @@ import { buildCategoryTree } from "../../helpers/category.helper";
 import slugify from "slugify";
 import { pathAdmin } from "../../configs/variable.config";
 import Product from "../../models/product.model";
-import AttributeProduct from "../../models/attribute-product.model";
 import { Parser } from "json2csv";
 import Papa from "papaparse";
 import { generateRandomString } from "../../helpers/generate.helper";
@@ -333,10 +332,6 @@ export const create = async (req: Request, res: Response) => {
 
   const categoryTree = buildCategoryTree(categoryList);
 
-  const attributeList = await AttributeProduct.find({
-    deleted: false,
-  });
-
   // Danh sách sản phẩm
   const productList = await Product.find({
     deleted: false,
@@ -352,7 +347,6 @@ export const create = async (req: Request, res: Response) => {
   res.render("admin/pages/product-create", {
     pageTitle: "Tạo sản phẩm",
     categoryList: categoryTree,
-    attributeList: attributeList,
     productList: productList,
   });
 };
@@ -440,272 +434,6 @@ export const createPost = async (req: Request, res: Response) => {
   }
 };
 
-export const attribute = async (req: Request, res: Response) => {
-  const find: {
-    deleted: boolean;
-    search?: RegExp;
-  } = {
-    deleted: false,
-  };
-
-  if (req.query.keyword) {
-    const keyword = slugify(`${req.query.keyword}`, {
-      replacement: " ",
-      lower: true,
-    });
-
-    const keywordExp = new RegExp(keyword, "i");
-    find.search = keywordExp;
-  }
-
-  let page = 1;
-  const limitItems = 10;
-  if (req.query.page && parseInt(`${req.query.page}`) > 0) {
-    page = parseInt(`${req.query.page}`);
-  }
-  const totalRecord = await AttributeProduct.countDocuments(find);
-  const totalPage = Math.ceil(totalRecord / limitItems);
-  const skip = (page - 1) * limitItems;
-  const pagination = {
-    totalRecord: totalRecord,
-    totalPage: totalPage,
-    skip: skip,
-  };
-
-  const attributeList: any = await AttributeProduct.find(find)
-    .limit(limitItems)
-    .skip(skip)
-    .sort({
-      createdAt: "desc",
-    });
-
-  res.render("admin/pages/product-attribute", {
-    pageTitle: "Quản lý thuộc tính sản phẩm",
-    pagination: pagination,
-    attributeList: attributeList,
-  });
-};
-
-export const createAttribute = async (req: Request, res: Response) => {
-  res.render("admin/pages/product-create-attribute", {
-    pageTitle: "Tạo thuộc tính sản phẩm",
-  });
-};
-
-export const createAttributePost = async (req: Request, res: Response) => {
-  try {
-    req.body.options = JSON.parse(req.body.options);
-
-    req.body.search = slugify(`${req.body.name}`, {
-      replacement: " ",
-      lower: true,
-    });
-
-    const newRecord = new AttributeProduct(req.body);
-    await newRecord.save();
-
-    res.json({
-      code: "success",
-      message: "Tạo thuộc tính thành công!",
-    });
-  } catch (error) {
-    console.log(error);
-    res.json({
-      code: "error",
-      message: "Dữ liệu không hợp lệ!",
-    });
-  }
-};
-
-export const editAttribute = async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-    const attributeDetail = await AttributeProduct.findOne({
-      _id: id,
-    });
-
-    if (!attributeDetail) {
-      res.redirect(`/${pathAdmin}/product/attribute`);
-      return;
-    }
-
-    res.render("admin/pages/product-edit-attribute", {
-      pageTitle: "Chỉnh sửa thuộc tính sản phẩm",
-      attributeDetail: attributeDetail,
-    });
-  } catch (error) {
-    console.log(error);
-    res.redirect(`/${pathAdmin}/product/attribute`);
-  }
-};
-
-export const editAttributePatch = async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-
-    const attributeDetail = await AttributeProduct.findOne({
-      _id: id,
-    });
-
-    if (!attributeDetail) {
-      res.json({
-        code: "error",
-        message: "Dữ liệu không hợp lệ!",
-      });
-      return;
-    }
-
-    req.body.options = JSON.parse(req.body.options);
-
-    req.body.search = slugify(`${req.body.name}`, {
-      replacement: " ",
-      lower: true,
-    });
-
-    await AttributeProduct.updateOne(
-      {
-        _id: id,
-      },
-      req.body,
-    );
-
-    res.json({
-      code: "success",
-      message: "Cập nhập thuộc tính thành công!",
-    });
-  } catch (error) {
-    console.log(error);
-    res.json({
-      code: "error",
-      message: "Dữ liệu không hợp lệ!",
-    });
-  }
-};
-
-export const deleteAttributePatch = async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-
-    const attributeDetail = await AttributeProduct.findOne({
-      _id: id,
-    });
-
-    if (!attributeDetail) {
-      res.json({
-        code: "error",
-        message: "Bản ghi không tồn tại!",
-      });
-      return;
-    }
-
-    await AttributeProduct.updateOne(
-      {
-        _id: id,
-      },
-      {
-        deleted: true,
-        deletedAt: Date.now(),
-      },
-    );
-
-    res.json({
-      code: "success",
-      message: "Xóa thuộc tính thành công!",
-    });
-    return;
-  } catch (error) {
-    console.log(error);
-    res.json({
-      code: "error",
-      message: "Bản ghi không hợp lệ!",
-    });
-  }
-};
-
-export const trashAttribute = async (req: Request, res: Response) => {
-  const attributeList: any = await AttributeProduct.find({
-    deleted: true,
-  });
-
-  res.render("admin/pages/product-trash-attribute", {
-    pageTitle: "Thùng rác thuộc tính sản phẩm",
-    attributeList: attributeList,
-  });
-};
-
-export const undoAttributePatch = async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-
-    const attributeDetail = await AttributeProduct.findOne({
-      _id: id,
-    });
-
-    if (!attributeDetail) {
-      res.json({
-        code: "error",
-        message: "Bản ghi không tồn tại!",
-      });
-      return;
-    }
-
-    await AttributeProduct.updateOne(
-      {
-        _id: id,
-      },
-      {
-        deleted: false,
-      },
-    );
-
-    res.json({
-      code: "success",
-      message: "Khôi phục thuộc tính thành công!",
-    });
-    return;
-  } catch (error) {
-    console.log(error);
-    res.json({
-      code: "error",
-      message: "Bản ghi không hợp lệ!",
-    });
-  }
-};
-
-export const destroyAttributeDelete = async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-
-    const attributeDetail = await AttributeProduct.findOne({
-      _id: id,
-    });
-
-    if (!attributeDetail) {
-      res.json({
-        code: "error",
-        message: "Bản ghi không tồn tại!",
-      });
-      return;
-    }
-
-    await AttributeProduct.deleteOne({
-      _id: id,
-    });
-
-    res.json({
-      code: "success",
-      message: "Đã xóa vĩnh viễn thuộc tính sản phẩm!",
-    });
-    return;
-  } catch (error) {
-    console.log(error);
-    res.json({
-      code: "error",
-      message: "Bản ghi không hợp lệ!",
-    });
-  }
-};
-
 export const list = async (req: Request, res: Response) => {
   const find: {
     deleted: boolean;
@@ -764,17 +492,7 @@ export const edit = async (req: Request, res: Response) => {
     });
     const categoryTree = buildCategoryTree(categoryList);
 
-    const attributeList = await AttributeProduct.find({
-      deleted: false,
-    });
-
     const attributeNameList: string[] = [];
-    productDetail.attributes.forEach((attrId) => {
-      const attributeInfo = attributeList.find((item) => item.id === attrId);
-      if (attributeInfo) {
-        attributeNameList.push(`${attributeInfo.name}`);
-      }
-    });
 
     // Danh sách sản phẩm
     const productList = await Product.find({
@@ -793,7 +511,6 @@ export const edit = async (req: Request, res: Response) => {
       pageTitle: "Chỉnh sửa sản phẩm",
       productDetail: productDetail,
       categoryList: categoryTree,
-      attributeList: attributeList,
       attributeNameList: attributeNameList,
       productList: productList,
     });

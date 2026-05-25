@@ -15,7 +15,6 @@ export const createCategoryPost = (
     }),
     parent: Joi.string().allow(""),
     status: Joi.string().allow(""),
-    avatar: Joi.string().allow(""),
     description: Joi.string().allow(""),
   });
 

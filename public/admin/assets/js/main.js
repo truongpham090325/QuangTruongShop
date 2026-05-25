@@ -1196,7 +1196,6 @@ if (productCreateCategoryForm) {
       const slug = event.target.slug.value;
       const parent = event.target.parent.value;
       const status = event.target.status.value;
-      const avatar = event.target.avatar.value;
       const description = tinymce.get("description").getContent();
 
       // Tạo formData
@@ -1205,7 +1204,6 @@ if (productCreateCategoryForm) {
       formData.append("slug", slug);
       formData.append("parent", parent);
       formData.append("status", status);
-      formData.append("avatar", avatar);
       formData.append("description", description);
 
       fetch(`/${pathAdmin}/product/category/create`, {

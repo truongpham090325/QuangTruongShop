@@ -44,37 +44,6 @@ router.post(
   productController.createPost,
 );
 
-router.get("/attribute", productController.attribute);
-
-router.get("/attribute/create", productController.createAttribute);
-
-router.post(
-  "/attribute/create",
-  upload.none(),
-  productValidate.createAttributePost,
-  productController.createAttributePost,
-);
-
-router.get("/attribute/edit/:id", productController.editAttribute);
-
-router.patch(
-  "/attribute/edit/:id",
-  upload.none(),
-  productValidate.createAttributePost,
-  productController.editAttributePatch,
-);
-
-router.patch("/attribute/delete/:id", productController.deleteAttributePatch);
-
-router.get("/attribute/trash", productController.trashAttribute);
-
-router.patch("/attribute/undo/:id", productController.undoAttributePatch);
-
-router.delete(
-  "/attribute/destroy/:id",
-  productController.destroyAttributeDelete,
-);
-
 router.get("/list", productController.list);
 
 router.get("/edit/:id", productController.edit);
