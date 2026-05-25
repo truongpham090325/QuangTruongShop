@@ -15,7 +15,7 @@ import { configureFacebookPassport } from "./configs/facebookOauth.config";
 dotenv.config();
 
 const app = express();
-const port = 4000;
+const port = 3333;
 
 // Kết nối cơ sở dữ liệu
 connectDB();

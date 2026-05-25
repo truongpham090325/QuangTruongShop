@@ -74,33 +74,6 @@
                 // end nav-item
           li.nav-item
             a.nav-link(
-              aria-controls="sidebarBlog" 
-              aria-expanded="false" 
-              role="button" 
-              data-bs-toggle="collapse" 
-              href="#sidebarBlog"
-              )
-              i.iconoir-page-edit.menu-icon
-              span Bài viết
-            #sidebarBlog.collapse
-              ul.nav.flex-column
-                if (permissions.includes("blog-create"))
-                  li.nav-item
-                    a.nav-link(
-                      href=`/${pathAdmin}/blog/create`
-                      ) Tạo bài viết
-                li.nav-item
-                  a.nav-link(
-                    href=`/${pathAdmin}/blog/list`
-                    ) Danh sách bài viết
-                li.nav-item
-                  a.nav-link(
-                    href=`/${pathAdmin}/blog/category`
-                    ) Danh mục bài viết
-              // end nav
-            // end startbarBlog
-          li.nav-item
-            a.nav-link(
               aria-controls="sidebarRole" 
               aria-expanded="false" 
               role="button" 
