@@ -403,16 +403,6 @@ export const createPost = async (req: Request, res: Response) => {
 
     req.body.images = JSON.parse(req.body.images);
 
-    req.body.attributes = JSON.parse(req.body.attributes);
-
-    req.body.variants = JSON.parse(req.body.variants);
-
-    req.body.tags = JSON.parse(req.body.tags);
-
-    req.body.boughtTogether = JSON.parse(req.body.boughtTogether);
-
-    req.body.sku = generateRandomString(10).toUpperCase();
-
     req.body.search = slugify(`${req.body.name}`, {
       replacement: " ",
       lower: true,

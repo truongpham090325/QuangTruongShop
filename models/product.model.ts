@@ -15,16 +15,12 @@ const schema = new mongoose.Schema(
       default: 0,
     },
     stock: Number,
-    attributes: Array,
-    variants: Array,
     description: String,
     content: String,
-    tags: [String],
-    boughtTogether: [String],
     status: {
       type: String,
-      enum: ["draft", "active", "inactive"], // draft – Bản nháp, active – Hoạt động, inactive – Tạm dừng
-      default: "draft",
+      enum: ["active", "inactive"], // active – Hoạt động, inactive – Tạm dừng
+      default: "inactive",
     },
     view: {
       type: Number,

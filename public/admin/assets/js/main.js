@@ -1311,59 +1311,6 @@ if (productCreateForm) {
       const description = tinymce.get("description").getContent();
       const content = tinymce.get("content").getContent();
       const images = getMultiFile("images");
-      const attributes = getCheckBoxList("attributes");
-
-      // variants
-      const variants = [];
-      const listTr = document.querySelectorAll("[variant-table] tbody tr");
-      listTr.forEach((tr) => {
-        const status = tr.querySelector("input.form-check-input").checked;
-        const attributeValue = JSON.parse(
-          tr.querySelector("[attribute-value]").value,
-        );
-        let priceOld = tr.querySelector("[price-old]").value;
-        if (priceOld) {
-          priceOld = parseInt(priceOld);
-        }
-        let priceNew = tr.querySelector("[price-new]").value;
-        if (priceNew) {
-          priceNew = parseInt(priceNew);
-        } else {
-          priceNew = priceOld;
-        }
-        let stock = tr.querySelector("[stock]").value;
-        if (stock) {
-          stock = parseInt(stock);
-        } else {
-          stock = 0;
-        }
-        variants.push({
-          status: status,
-          attributeValue: attributeValue,
-          priceOld: priceOld,
-          priceNew: priceNew,
-          stock: stock,
-        });
-      });
-      // End variants
-
-      // tags
-      const selectTag = document.querySelector(`select[name="tags"]`);
-      const tags = Array.from(selectTag.selectedOptions).map((option) => {
-        return option.value;
-      });
-      // End tags
-
-      // boughtTogether
-      const selectBoughtTogether = document.querySelector(
-        `select[name="bought-together"]`,
-      );
-      const boughtTogether = Array.from(
-        selectBoughtTogether.selectedOptions,
-      ).map((option) => {
-        return option.value;
-      });
-      // End boughtTogether
 
       // Tạo formData
       const formData = new FormData();
@@ -1378,10 +1325,6 @@ if (productCreateForm) {
       formData.append("description", description);
       formData.append("content", content);
       formData.append("images", JSON.stringify(images));
-      formData.append("attributes", JSON.stringify(attributes));
-      formData.append("variants", JSON.stringify(variants));
-      formData.append("tags", JSON.stringify(tags));
-      formData.append("boughtTogether", JSON.stringify(boughtTogether));
 
       fetch(`/${pathAdmin}/product/create`, {
         method: "POST",

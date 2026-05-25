@@ -33,7 +33,6 @@ block main
             .mb-3
               label.form-label(for="status") Trạng thái
               select.form-select(id="status" name="status")
-                option(value="draft") Bản nháp
                 option(value="active") Hoạt động
                 option(value="inactive") Tạm dừng
           .col-md-12.col-lg-12
@@ -53,39 +52,6 @@ block main
             .mb-3
               label.form-label(for="stock") Còn lại
               input.form-control(id="stock" type="number" name="stock")
-          .col-md-12.col-lg-12
-            .mb-3
-              label.form-label Danh sách thuộc tính
-              div(class="checkbox-list" checkbox-list="attributes")
-                +checkbox-list(attributeList)
-              span.btn.btn-outline-info.mt-1(
-                button-render-variant="attributes"
-              ) Tạo biến thể
-              script.
-                const attributeList = !{JSON.stringify(attributeList)}
-          .col-md-12.col-lg-12
-            .mb-3
-              label.form-label Danh sách biến thể
-              .table-responsive-sm
-                table.table.mb-0(variant-table)
-                  thead.table-light
-                    tr
-                    //-   th(scope="col") Trạng thái
-                    //-   th(scope="col") Kích cỡ
-                    //-   th(scope="col") Màu sắc
-                    //-   th(scope="col") Giá cũ
-                    //-   th(scope="col") Giá mới
-                  tbody
-                    //- tr
-                    //-   td
-                    //-     .form-check.form-switch.form-switch-success
-                    //-       input.form-check-input(type="checkbox" checked)
-                    //-   td Size S
-                    //-   td Đỏ
-                    //-   td
-                    //-     input.form-control(type="number")
-                    //-   td
-                    //-     input.form-control(type="number")
           .col-md-12.col-lg-12
             .mb-3
               label.form-label Danh sách ảnh
@@ -113,17 +79,5 @@ block main
             .mb-3
               label.form-label(for="content") Nội dung chi tiết
               textarea(id="content" name="content" textarea-mce)      
-          .col-md-6.col-lg-6
-            .mb-3
-              label.form-label Tags
-              select(select-tag name="tags")
-          .col-md-6.col-lg-6
-            .mb-3
-              label.form-label Sản phẩm mua kèm
-              select(select-tag name="bought-together" multiple taggable="false")
-                each item in productList
-                  option(
-                    value=item._id
-                    ) #{item.name}
         button.btn.btn-primary(type="submit") Tạo mới
         a.btn.btn-danger.ms-1(href=`/${pathAdmin}/product/list`) Hủy
