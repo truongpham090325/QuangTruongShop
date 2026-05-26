@@ -1,4 +1,5 @@
 extends ../layouts/default.pug
+include ../mixins/product-item.pug
 
 block main
   // Single Page Header start
@@ -109,127 +110,10 @@ block main
             //-             i.fa.fa-star
             //-             i.fa.fa-star
             //-         a.btn.border.border-secondary.text-primary.rounded-pill.px-4.py-3(href="#") Post Comment
-          h1.fw-bold.mb-0 Related products
+          h1.fw-bold.mb-0 Sản phẩm liên quan
       .vesitable
         .owl-carousel.vegetable-carousel.justify-content-center
-          .border.border-primary.rounded.position-relative.vesitable-item
-            .vesitable-img
-              img.img-fluid.w-100.rounded-top(
-                alt="" 
-                src="/client/assets/img/vegetable-item-6.jpg"
-                )
-            .text-white.bg-primary.px-3.py-1.rounded.position-absolute(style="top: 10px; right: 10px;") Vegetable
-            .p-4.pb-0.rounded-bottom
-              h4 Parsely
-              p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
-              .d-flex.justify-content-between.flex-lg-wrap
-                p.text-dark.fs-5.fw-bold $4.99 / kg
-                a.btn.border.border-secondary.rounded-pill.px-3.py-1.mb-4.text-primary(href="#")
-                  i.fa.fa-shopping-bag.me-2.text-primary
-                  | Add to cart
-          .border.border-primary.rounded.position-relative.vesitable-item
-            .vesitable-img
-              img.img-fluid.w-100.rounded-top(
-                alt="" 
-                src="/client/assets/img/vegetable-item-1.jpg"
-                )
-            .text-white.bg-primary.px-3.py-1.rounded.position-absolute(style="top: 10px; right: 10px;") Vegetable
-            .p-4.pb-0.rounded-bottom
-              h4 Parsely
-              p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
-              .d-flex.justify-content-between.flex-lg-wrap
-                p.text-dark.fs-5.fw-bold $4.99 / kg
-                a.btn.border.border-secondary.rounded-pill.px-3.py-1.mb-4.text-primary(href="#")
-                  i.fa.fa-shopping-bag.me-2.text-primary
-                  | Add to cart
-          .border.border-primary.rounded.position-relative.vesitable-item
-            .vesitable-img
-              img.img-fluid.w-100.rounded-top.bg-light(
-                alt="" 
-                src="/client/assets/img/vegetable-item-3.png"
-                )
-            .text-white.bg-primary.px-3.py-1.rounded.position-absolute(style="top: 10px; right: 10px;") Vegetable
-            .p-4.pb-0.rounded-bottom
-              h4 Banana
-              p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
-              .d-flex.justify-content-between.flex-lg-wrap
-                p.text-dark.fs-5.fw-bold $7.99 / kg
-                a.btn.border.border-secondary.rounded-pill.px-3.py-1.mb-4.text-primary(href="#")
-                  i.fa.fa-shopping-bag.me-2.text-primary
-                  | Add to cart
-          .border.border-primary.rounded.position-relative.vesitable-item
-            .vesitable-img
-              img.img-fluid.w-100.rounded-top(
-                alt="" 
-                src="/client/assets/img/vegetable-item-4.jpg"
-                )
-            .text-white.bg-primary.px-3.py-1.rounded.position-absolute(style="top: 10px; right: 10px;") Vegetable
-            .p-4.pb-0.rounded-bottom
-              h4 Bell Papper
-              p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
-              .d-flex.justify-content-between.flex-lg-wrap
-                p.text-dark.fs-5.fw-bold $7.99 / kg
-                a.btn.border.border-secondary.rounded-pill.px-3.py-1.mb-4.text-primary(href="#")
-                  i.fa.fa-shopping-bag.me-2.text-primary
-                  | Add to cart
-          .border.border-primary.rounded.position-relative.vesitable-item
-            .vesitable-img
-              img.img-fluid.w-100.rounded-top(
-                alt="" 
-                src="/client/assets/img/vegetable-item-5.jpg"
-                )
-            .text-white.bg-primary.px-3.py-1.rounded.position-absolute(style="top: 10px; right: 10px;") Vegetable
-            .p-4.pb-0.rounded-bottom
-              h4 Potatoes
-              p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
-              .d-flex.justify-content-between.flex-lg-wrap
-                p.text-dark.fs-5.fw-bold $7.99 / kg
-                a.btn.border.border-secondary.rounded-pill.px-3.py-1.mb-4.text-primary(href="#")
-                  i.fa.fa-shopping-bag.me-2.text-primary
-                  | Add to cart
-          .border.border-primary.rounded.position-relative.vesitable-item
-            .vesitable-img
-              img.img-fluid.w-100.rounded-top(
-                alt="" 
-                src="/client/assets/img/vegetable-item-6.jpg"
-                )
-            .text-white.bg-primary.px-3.py-1.rounded.position-absolute(style="top: 10px; right: 10px;") Vegetable
-            .p-4.pb-0.rounded-bottom
-              h4 Parsely
-              p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
-              .d-flex.justify-content-between.flex-lg-wrap
-                p.text-dark.fs-5.fw-bold $7.99 / kg
-                a.btn.border.border-secondary.rounded-pill.px-3.py-1.mb-4.text-primary(href="#")
-                  i.fa.fa-shopping-bag.me-2.text-primary
-                  | Add to cart
-          .border.border-primary.rounded.position-relative.vesitable-item
-            .vesitable-img
-              img.img-fluid.w-100.rounded-top(
-                alt="" 
-                src="/client/assets/img/vegetable-item-5.jpg"
-                )
-            .text-white.bg-primary.px-3.py-1.rounded.position-absolute(style="top: 10px; right: 10px;") Vegetable
-            .p-4.pb-0.rounded-bottom
-              h4 Potatoes
-              p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
-              .d-flex.justify-content-between.flex-lg-wrap
-                p.text-dark.fs-5.fw-bold $7.99 / kg
-                a.btn.border.border-secondary.rounded-pill.px-3.py-1.mb-4.text-primary(href="#")
-                  i.fa.fa-shopping-bag.me-2.text-primary
-                  | Add to cart
-          .border.border-primary.rounded.position-relative.vesitable-item
-            .vesitable-img
-              img.img-fluid.w-100.rounded-top(
-                alt="" 
-                src="/client/assets/img/vegetable-item-6.jpg"
-                )
-            .text-white.bg-primary.px-3.py-1.rounded.position-absolute(style="top: 10px; right: 10px;") Vegetable
-            .p-4.pb-0.rounded-bottom
-              h4 Parsely
-              p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
-              .d-flex.justify-content-between.flex-lg-wrap
-                p.text-dark.fs-5.fw-bold $7.99 / kg
-                a.btn.border.border-secondary.rounded-pill.px-3.py-1.mb-4.text-primary(href="#")
-                  i.fa.fa-shopping-bag.me-2.text-primary
-                  | Add to cart
+          if relatedProduct && relatedProduct.length > 0
+            each item in relatedProduct
+              +product-item(item, "")
   // Single Product End

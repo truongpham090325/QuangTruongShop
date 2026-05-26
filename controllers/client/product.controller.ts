@@ -145,9 +145,18 @@ export const detail = async (req: Request, res: Response) => {
       res.redirect("/");
       return;
     }
+
+    const relatedProduct = await Product.find({
+      category: productDetail.category,
+      deleted: false,
+      status: "active",
+      _id: { $ne: productDetail.id },
+    }).limit(4);
+
     res.render("client/pages/product-detail", {
       pageTitle: productDetail.name,
       product: productDetail,
+      relatedProduct: relatedProduct,
     });
   } catch (error) {
     console.log(error);
