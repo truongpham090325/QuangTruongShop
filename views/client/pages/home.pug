@@ -1,4 +1,5 @@
 extends ../layouts/default.pug
+include ../mixins/product-item.pug
 
 block main
   // Hero Start
@@ -80,7 +81,7 @@ block main
       .tab-class.text-center
         .row.g-4
           .col-lg-4.text-start
-            h1 Our Organic Products
+            h1 Sản phẩm
           .col-lg-8.text-end
             ul.nav.nav-pills.d-inline-flex.text-center.mb-5
               li.nav-item
@@ -88,236 +89,38 @@ block main
                   href="#tab-1" 
                   data-bs-toggle="pill"
                   )
-                  span.text-dark(style="width: 130px;") All Products
+                  span.text-dark(style="width: 180px;") Hoa quả sạch 3 miền
               li.nav-item
                 a.d-flex.py-2.m-2.bg-light.rounded-pill(
                   href="#tab-2" 
                   data-bs-toggle="pill"
                   )
-                  span.text-dark(style="width: 130px;") Vegetables
+                  span.text-dark(style="width: 180px;") Hoa quả nhập khẩu
               li.nav-item
                 a.d-flex.m-2.py-2.bg-light.rounded-pill(
                   href="#tab-3" 
                   data-bs-toggle="pill"
                   )
-                  span.text-dark(style="width: 130px;") Fruits
-              li.nav-item
-                a.d-flex.m-2.py-2.bg-light.rounded-pill(
-                  href="#tab-4" 
-                  data-bs-toggle="pill"
-                  )
-                  span.text-dark(style="width: 130px;") Bread
-              li.nav-item
-                a.d-flex.m-2.py-2.bg-light.rounded-pill(
-                  href="#tab-5" 
-                  data-bs-toggle="pill"
-                  )
-                  span.text-dark(style="width: 130px;") Meat
+                  span.text-dark(style="width: 180px;") Muối gia vị
         .tab-content
           #tab-1.tab-pane.fade.show.p-0.active
             .row.g-4
               .col-lg-12
                 .row.g-4
-                  .col-md-6.col-lg-4.col-xl-3
-                    .rounded.position-relative.fruite-item
-                      .fruite-img
-                        img.img-fluid.w-100.rounded-top(
-                          alt="" 
-                          src="/client/assets/img/fruite-item-5.jpg"
-                          )
-                      .text-white.bg-secondary.px-3.py-1.rounded.position-absolute(style="top: 10px; left: 10px;") Fruits
-                      .p-4.border.border-secondary.border-top-0.rounded-bottom
-                        h4 Grapes
-                        p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
-                        .d-flex.justify-content-between.flex-lg-wrap
-                          p.text-dark.fs-5.fw-bold.mb-0 $4.99 / kg
-                          a.btn.border.border-secondary.rounded-pill.px-3.text-primary(href="#")
-                            i.fa.fa-shopping-bag.me-2.text-primary
-                            | Add to cart
-                  .col-md-6.col-lg-4.col-xl-3
-                    .rounded.position-relative.fruite-item
-                      .fruite-img
-                        img.img-fluid.w-100.rounded-top(
-                          alt="" 
-                          src="/client/assets/img/fruite-item-5.jpg"
-                          )
-                      .text-white.bg-secondary.px-3.py-1.rounded.position-absolute(style="top: 10px; left: 10px;") Fruits
-                      .p-4.border.border-secondary.border-top-0.rounded-bottom
-                        h4 Grapes
-                        p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
-                        .d-flex.justify-content-between.flex-lg-wrap
-                          p.text-dark.fs-5.fw-bold.mb-0 $4.99 / kg
-                          a.btn.border.border-secondary.rounded-pill.px-3.text-primary(href="#")
-                            i.fa.fa-shopping-bag.me-2.text-primary
-                            | Add to cart
-                  .col-md-6.col-lg-4.col-xl-3
-                    .rounded.position-relative.fruite-item
-                      .fruite-img
-                        img.img-fluid.w-100.rounded-top(
-                          alt="" 
-                          src="/client/assets/img/fruite-item-2.jpg"
-                          )
-                      .text-white.bg-secondary.px-3.py-1.rounded.position-absolute(style="top: 10px; left: 10px;") Fruits
-                      .p-4.border.border-secondary.border-top-0.rounded-bottom
-                        h4 Raspberries
-                        p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
-                        .d-flex.justify-content-between.flex-lg-wrap
-                          p.text-dark.fs-5.fw-bold.mb-0 $4.99 / kg
-                          a.btn.border.border-secondary.rounded-pill.px-3.text-primary(href="#")
-                            i.fa.fa-shopping-bag.me-2.text-primary
-                            | Add to cart
-                  .col-md-6.col-lg-4.col-xl-3
-                    .rounded.position-relative.fruite-item
-                      .fruite-img
-                        img.img-fluid.w-100.rounded-top(
-                          alt="" 
-                          src="/client/assets/img/fruite-item-4.jpg"
-                          )
-                      .text-white.bg-secondary.px-3.py-1.rounded.position-absolute(style="top: 10px; left: 10px;") Fruits
-                      .p-4.border.border-secondary.border-top-0.rounded-bottom
-                        h4 Apricots
-                        p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
-                        .d-flex.justify-content-between.flex-lg-wrap
-                          p.text-dark.fs-5.fw-bold.mb-0 $4.99 / kg
-                          a.btn.border.border-secondary.rounded-pill.px-3.text-primary(href="#")
-                            i.fa.fa-shopping-bag.me-2.text-primary
-                            | Add to cart
-                  .col-md-6.col-lg-4.col-xl-3
-                    .rounded.position-relative.fruite-item
-                      .fruite-img
-                        img.img-fluid.w-100.rounded-top(
-                          alt="" 
-                          src="/client/assets/img/fruite-item-3.jpg"
-                          )
-                      .text-white.bg-secondary.px-3.py-1.rounded.position-absolute(style="top: 10px; left: 10px;") Fruits
-                      .p-4.border.border-secondary.border-top-0.rounded-bottom
-                        h4 Banana
-                        p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
-                        .d-flex.justify-content-between.flex-lg-wrap
-                          p.text-dark.fs-5.fw-bold.mb-0 $4.99 / kg
-                          a.btn.border.border-secondary.rounded-pill.px-3.text-primary(href="#")
-                            i.fa.fa-shopping-bag.me-2.text-primary
-                            | Add to cart
-                  .col-md-6.col-lg-4.col-xl-3
-                    .rounded.position-relative.fruite-item
-                      .fruite-img
-                        img.img-fluid.w-100.rounded-top(
-                          alt="" 
-                          src="/client/assets/img/fruite-item-1.jpg"
-                          )
-                      .text-white.bg-secondary.px-3.py-1.rounded.position-absolute(style="top: 10px; left: 10px;") Fruits
-                      .p-4.border.border-secondary.border-top-0.rounded-bottom
-                        h4 Oranges
-                        p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
-                        .d-flex.justify-content-between.flex-lg-wrap
-                          p.text-dark.fs-5.fw-bold.mb-0 $4.99 / kg
-                          a.btn.border.border-secondary.rounded-pill.px-3.text-primary(href="#")
-                            i.fa.fa-shopping-bag.me-2.text-primary
-                            | Add to cart
-                  .col-md-6.col-lg-4.col-xl-3
-                    .rounded.position-relative.fruite-item
-                      .fruite-img
-                        img.img-fluid.w-100.rounded-top(
-                          alt="" 
-                          src="/client/assets/img/fruite-item-2.jpg"
-                          )
-                      .text-white.bg-secondary.px-3.py-1.rounded.position-absolute(style="top: 10px; left: 10px;") Fruits
-                      .p-4.border.border-secondary.border-top-0.rounded-bottom
-                        h4 Raspberries
-                        p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
-                        .d-flex.justify-content-between.flex-lg-wrap
-                          p.text-dark.fs-5.fw-bold.mb-0 $4.99 / kg
-                          a.btn.border.border-secondary.rounded-pill.px-3.text-primary(href="#")
-                            i.fa.fa-shopping-bag.me-2.text-primary
-                            | Add to cart
-                  .col-md-6.col-lg-4.col-xl-3
-                    .rounded.position-relative.fruite-item
-                      .fruite-img
-                        img.img-fluid.w-100.rounded-top(
-                          alt="" 
-                          src="/client/assets/img/fruite-item-5.jpg"
-                          )
-                      .text-white.bg-secondary.px-3.py-1.rounded.position-absolute(style="top: 10px; left: 10px;") Fruits
-                      .p-4.border.border-secondary.border-top-0.rounded-bottom
-                        h4 Grapes
-                        p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
-                        .d-flex.justify-content-between.flex-lg-wrap
-                          p.text-dark.fs-5.fw-bold.mb-0 $4.99 / kg
-                          a.btn.border.border-secondary.rounded-pill.px-3.text-primary(href="#")
-                            i.fa.fa-shopping-bag.me-2.text-primary
-                            | Add to cart
+                  each item in products3Mien
+                    +product-item(item)
           #tab-2.tab-pane.fade.show.p-0
             .row.g-4
               .col-lg-12
                 .row.g-4
-                  .col-md-6.col-lg-4.col-xl-3
-                    .rounded.position-relative.fruite-item
-                      .fruite-img
-                        img.img-fluid.w-100.rounded-top(
-                          alt="" 
-                          src="/client/assets/img/fruite-item-5.jpg"
-                          )
-                      .text-white.bg-secondary.px-3.py-1.rounded.position-absolute(style="top: 10px; left: 10px;") Fruits
-                      .p-4.border.border-secondary.border-top-0.rounded-bottom
-                        h4 Grapes
-                        p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
-                        .d-flex.justify-content-between.flex-lg-wrap
-                          p.text-dark.fs-5.fw-bold.mb-0 $4.99 / kg
-                          a.btn.border.border-secondary.rounded-pill.px-3.text-primary(href="#")
-                            i.fa.fa-shopping-bag.me-2.text-primary
-                            | Add to cart
-                  .col-md-6.col-lg-4.col-xl-3
-                    .rounded.position-relative.fruite-item
-                      .fruite-img
-                        img.img-fluid.w-100.rounded-top(
-                          alt="" 
-                          src="/client/assets/img/fruite-item-2.jpg"
-                          )
-                      .text-white.bg-secondary.px-3.py-1.rounded.position-absolute(style="top: 10px; left: 10px;") Fruits
-                      .p-4.border.border-secondary.border-top-0.rounded-bottom
-                        h4 Raspberries
-                        p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
-                        .d-flex.justify-content-between.flex-lg-wrap
-                          p.text-dark.fs-5.fw-bold.mb-0 $4.99 / kg
-                          a.btn.border.border-secondary.rounded-pill.px-3.text-primary(href="#")
-                            i.fa.fa-shopping-bag.me-2.text-primary
-                            | Add to cart
+                  each item in productsNhapKhau
+                    +product-item(item)
           #tab-3.tab-pane.fade.show.p-0
             .row.g-4
               .col-lg-12
                 .row.g-4
-                  .col-md-6.col-lg-4.col-xl-3
-                    .rounded.position-relative.fruite-item
-                      .fruite-img
-                        img.img-fluid.w-100.rounded-top(
-                          alt="" 
-                          src="/client/assets/img/fruite-item-1.jpg"
-                          )
-                      .text-white.bg-secondary.px-3.py-1.rounded.position-absolute(style="top: 10px; left: 10px;") Fruits
-                      .p-4.border.border-secondary.border-top-0.rounded-bottom
-                        h4 Oranges
-                        p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
-                        .d-flex.justify-content-between.flex-lg-wrap
-                          p.text-dark.fs-5.fw-bold.mb-0 $4.99 / kg
-                          a.btn.border.border-secondary.rounded-pill.px-3.text-primary(href="#")
-                            i.fa.fa-shopping-bag.me-2.text-primary
-                            | Add to cart
-                  .col-md-6.col-lg-4.col-xl-3
-                    .rounded.position-relative.fruite-item
-                      .fruite-img
-                        img.img-fluid.w-100.rounded-top(
-                          alt="" 
-                          src="/client/assets/img/fruite-item-6.jpg"
-                          )
-                      .text-white.bg-secondary.px-3.py-1.rounded.position-absolute(style="top: 10px; left: 10px;") Fruits
-                      .p-4.border.border-secondary.border-top-0.rounded-bottom
-                        h4 Apple
-                        p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
-                        .d-flex.justify-content-between.flex-lg-wrap
-                          p.text-dark.fs-5.fw-bold.mb-0 $4.99 / kg
-                          a.btn.border.border-secondary.rounded-pill.px-3.text-primary(href="#")
-                            i.fa.fa-shopping-bag.me-2.text-primary
-                            | Add to cart
+                  each item in productsMuoiCham
+                    +product-item(item)
           #tab-4.tab-pane.fade.show.p-0
             .row.g-4
               .col-lg-12
@@ -443,7 +246,7 @@ block main
               .px-4.rounded-bottom
                 .service-content.bg-secondary.text-center.p-4.rounded
                   h5.text-white Rau củ lạ
-                  h3.mb-0 Giảm giá 30$
+                  h3.mb-0 Giảm giá 30%
   // Featurs End
   // Vesitable Shop Start
   .container-fluid.vesitable.py-5
