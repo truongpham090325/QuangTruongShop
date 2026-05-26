@@ -147,5 +147,59 @@
         button.parent().parent().find('input').val(newVal);
     });
 
+    // Client Product Search List Page
+    const formSearchClient = document.querySelector("[form-search]");
+    if (formSearchClient) {
+        const url = new URL(window.location.href);
+
+        formSearchClient.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const value = event.target.keyword.value.trim();
+            if (value) {
+                url.searchParams.set("keyword", value);
+            } else {
+                url.searchParams.delete("keyword");
+            }
+            window.location.href = url.href;
+        });
+
+        // Pre-populate keyword
+        const currentKeyword = url.searchParams.get("keyword");
+        if (currentKeyword) {
+            const inputField = formSearchClient.querySelector("input[name='keyword']");
+            if (inputField) {
+                inputField.value = currentKeyword;
+            }
+        }
+    }
+
+    // Client Price Range Filter
+    const rangeInput = document.querySelector("#rangeInput");
+    const amountOutput = document.querySelector("#amount");
+    if (rangeInput) {
+        const url = new URL(window.location.href);
+
+        rangeInput.addEventListener("change", () => {
+            const value = rangeInput.value;
+            // Nếu value là 1000000 (mức giá tối đa), xóa bộ lọc
+            if (value && value !== "1000000") {
+                url.searchParams.set("priceMax", value);
+            } else {
+                url.searchParams.delete("priceMax");
+            }
+            window.location.href = url.href;
+        });
+
+        // Pre-populate price range filter
+        const priceMaxCurrent = url.searchParams.get("priceMax");
+        if (priceMaxCurrent) {
+            rangeInput.value = priceMaxCurrent;
+            if (amountOutput) {
+                amountOutput.value = Number(priceMaxCurrent).toLocaleString("vi-VN") + " đ";
+            }
+        }
+    }
+
 })(jQuery);
+
 

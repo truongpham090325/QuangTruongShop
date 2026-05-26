@@ -1,5 +1,5 @@
-mixin product-item(item)
-  .col-md-6.col-lg-4.col-xl-3
+mixin product-item(item, colClass = "col-md-6 col-lg-4 col-xl-3")
+  div(class=colClass)
     .rounded.position-relative.fruite-item
       a(href=`/product/detail/${item.slug}`)
         .fruite-img
