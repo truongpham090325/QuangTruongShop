@@ -1,5 +1,6 @@
 extends ../layouts/default.pug
 include ../mixins/product-item.pug
+include ../mixins/pagination.pug
 
 block main
   // Single Page Header start
@@ -32,15 +33,12 @@ block main
             .col-6
             .col-xl-3
               .bg-light.ps-3.py-3.rounded.d-flex.justify-content-between.mb-4
-                label(for="fruits") Sắp xếp mặc định:
-                select#fruits.border-0.form-select-sm.bg-light.me-3(
-                  form="fruitform" 
-                  name="fruitlist"
-                  )
-                  option(value="volvo") Nothing
-                  option(value="saab") Popularity
-                  option(value="opel") Organic
-                  option(value="audi") Fantastic
+                label(for="fruits") Sắp xếp:
+                select#fruits.border-0.form-select-sm.bg-light.me-3(sort-select)
+                  option(value="position-desc" selected=(sort=="position-desc")) Mặc định
+                  option(value="priceNew-asc" selected=(sort=="priceNew-asc")) Giá từ thấp đến cao
+                  option(value="priceNew-desc" selected=(sort=="priceNew-desc")) Giá từ cao xuống thấp
+                  option(value="discount-desc" selected=(sort=="discount-desc")) Giảm giá nhiều
           .row.g-4
             .col-lg-3
               .row.g-4
@@ -94,13 +92,5 @@ block main
                   .col-12.text-center
                     p Không có sản phẩm nào trong danh mục này.
                 .col-12
-                  .pagination.d-flex.justify-content-center.mt-5
-                    a.rounded(href="#") «
-                    a.active.rounded(href="#") 1
-                    a.rounded(href="#") 2
-                    a.rounded(href="#") 3
-                    a.rounded(href="#") 4
-                    a.rounded(href="#") 5
-                    a.rounded(href="#") 6
-                    a.rounded(href="#") »
+                  +pagination(pagination)
   // Fruits Shop End

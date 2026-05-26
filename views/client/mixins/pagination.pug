@@ -1,0 +1,15 @@
+mixin pagination(pagination)
+  if pagination.totalPage > 1
+    .pagination.d-flex.justify-content-center.mt-5
+      if pagination.currentPage > 1
+        a.rounded(href="javascript:;" button-page=pagination.currentPage - 1) &laquo;
+      
+      - for (var i = 1; i <= pagination.totalPage; i++)
+        a.rounded(
+          href="javascript:;"
+          button-page=i
+          class=(pagination.currentPage == i ? "active" : "")
+        ) #{i}
+      
+      if pagination.currentPage < pagination.totalPage
+        a.rounded(href="javascript:;" button-page=pagination.currentPage + 1) &raquo;

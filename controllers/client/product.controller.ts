@@ -61,7 +61,41 @@ export const productByCategory = async (req: Request, res: Response) => {
       }
     }
 
-    const products = await Product.find(find).sort({ position: "desc" });
+    // Sắp xếp
+    const sort: any = {};
+    if (req.query.sort) {
+      const [sortKey, sortValue] = `${req.query.sort}`.split("-");
+      if (sortKey && (sortValue === "asc" || sortValue === "desc")) {
+        sort[sortKey] = sortValue;
+      } else {
+        sort.position = "desc";
+      }
+    } else {
+      sort.position = "desc";
+    }
+
+    // Phân trang
+    let page = 1;
+    const limitItems = 9;
+    if (req.query.page && parseInt(`${req.query.page}`) > 0) {
+      page = parseInt(`${req.query.page}`);
+    }
+    const totalRecord = await Product.countDocuments(find);
+    const totalPage = Math.ceil(totalRecord / limitItems);
+    const skip = (page - 1) * limitItems;
+
+    const pagination = {
+      currentPage: page,
+      totalRecord: totalRecord,
+      totalPage: totalPage,
+      limitItems: limitItems,
+      skip: skip,
+    };
+
+    const products = await Product.find(find)
+      .sort(sort)
+      .limit(limitItems)
+      .skip(skip);
 
     // Lấy 3 danh mục chính (parent: "") để hiển thị ở sidebar
     const mainCategories = await CategoryProduct.find({
@@ -94,6 +128,8 @@ export const productByCategory = async (req: Request, res: Response) => {
       categoriesWithCount: categoriesWithCount,
       keyword: req.query.keyword || "",
       priceMax: req.query.priceMax || "",
+      sort: req.query.sort || "position-desc",
+      pagination: pagination,
     });
   } catch (error) {
     console.log(error);

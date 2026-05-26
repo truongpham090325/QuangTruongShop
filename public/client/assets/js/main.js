@@ -160,6 +160,7 @@
             } else {
                 url.searchParams.delete("keyword");
             }
+            url.searchParams.delete("page");
             window.location.href = url.href;
         });
 
@@ -187,6 +188,7 @@
             } else {
                 url.searchParams.delete("priceMax");
             }
+            url.searchParams.delete("page");
             window.location.href = url.href;
         });
 
@@ -198,6 +200,47 @@
                 amountOutput.value = Number(priceMaxCurrent).toLocaleString("vi-VN") + " đ";
             }
         }
+    }
+
+    // Client Sort Select
+    const sortSelect = document.querySelector("[sort-select]");
+    if (sortSelect) {
+        const url = new URL(window.location.href);
+
+        sortSelect.addEventListener("change", () => {
+            const value = sortSelect.value;
+            if (value && value !== "position-desc") {
+                url.searchParams.set("sort", value);
+            } else {
+                url.searchParams.delete("sort");
+            }
+            url.searchParams.delete("page");
+            window.location.href = url.href;
+        });
+
+        // Pre-populate sort selection
+        const sortCurrent = url.searchParams.get("sort");
+        if (sortCurrent) {
+            sortSelect.value = sortCurrent;
+        }
+    }
+
+    // Client Pagination
+    const listButtonPage = document.querySelectorAll("[button-page]");
+    if (listButtonPage.length > 0) {
+        const url = new URL(window.location.href);
+        listButtonPage.forEach(button => {
+            button.addEventListener("click", (event) => {
+                event.preventDefault();
+                const page = button.getAttribute("button-page");
+                if (page) {
+                    url.searchParams.set("page", page);
+                } else {
+                    url.searchParams.delete("page");
+                }
+                window.location.href = url.href;
+            });
+        });
     }
 
 })(jQuery);
