@@ -3,19 +3,17 @@ extends ../layouts/default.pug
 block main
   // Single Page Header start
   .container-fluid.page-header.py-5
-    h1.text-center.text-white.display-6 Shop Detail
+    h1.text-center.text-white.display-6 Chi tiết sản phẩm
     ol.breadcrumb.justify-content-center.mb-0
       li.breadcrumb-item
-        a(href="#") Home
-      li.breadcrumb-item
-        a(href="#") Pages
-      li.breadcrumb-item.active.text-white Shop Detail
+        a(href="/") Trang chủ
+      li.breadcrumb-item.active.text-white Chi tiết sản phẩm
   // Single Page Header End
   // Single Product Start
   .container-fluid.py-5.mt-5
     .container.py-5
       .row.g-4.mb-5
-        .col-lg-8.col-xl-9
+        .col-lg-8.col-xl-12
           .row.g-4
             .col-lg-6
               .border.rounded
@@ -26,7 +24,6 @@ block main
                     )
             .col-lg-6
               h4.fw-bold.mb-3 #{product.name}
-              p.mb-3 Category: #{product.category && product.category.length > 0 ? product.category.join(', ') : 'Chưa phân loại'}
               .d-flex.align-items-center.mb-3
                 if product.priceNew
                   h5.fw-bold.text-primary.mb-0.me-2 #{product.priceNew.toLocaleString("vi-VN")} đ
@@ -54,7 +51,7 @@ block main
                     i.fa.fa-plus
               a.btn.border.border-secondary.rounded-pill.px-4.py-2.mb-4.text-primary(href="#")
                 i.fa.fa-shopping-bag.me-2.text-primary
-                | Add to cart
+                | Thêm vào giỏ
             .col-lg-12
               nav
                 .nav.nav-tabs.mb-3
@@ -65,15 +62,7 @@ block main
                     data-bs-toggle="tab" 
                     role="tab" 
                     type="button"
-                    ) Description
-                  button#nav-mission-tab.nav-link.border-white.border-bottom-0(
-                    aria-selected="false" 
-                    aria-controls="nav-mission" 
-                    data-bs-target="#nav-mission" 
-                    data-bs-toggle="tab" 
-                    role="tab" 
-                    type="button"
-                    ) Reviews
+                    ) Mô tả
               .tab-content.mb-5
                 #nav-about.tab-pane.active(
                   aria-labelledby="nav-about-tab" 
@@ -85,118 +74,41 @@ block main
                     p #{product.description}
                   else
                     p Đang cập nhật thông tin chi tiết...
-                  .px-2
-                    .row.g-4
-                      .col-6
-                        .row.bg-light.align-items-center.text-center.justify-content-center.py-2
-                          .col-6
-                            p.mb-0 Weight
-                          .col-6
-                            p.mb-0 1 kg
-                        .row.text-center.align-items-center.justify-content-center.py-2
-                          .col-6
-                            p.mb-0 Country of Origin
-                          .col-6
-                            p.mb-0 Agro Farm
-                        .row.bg-light.text-center.align-items-center.justify-content-center.py-2
-                          .col-6
-                            p.mb-0 Quality
-                          .col-6
-                            p.mb-0 Organic
-                        .row.text-center.align-items-center.justify-content-center.py-2
-                          .col-6
-                            p.mb-0 Сheck
-                          .col-6
-                            p.mb-0 Healthy
-                        .row.bg-light.text-center.align-items-center.justify-content-center.py-2
-                          .col-6
-                            p.mb-0 Min Weight
-                          .col-6
-                            p.mb-0 250 Kg
-                #nav-mission.tab-pane(
-                  aria-labelledby="nav-mission-tab" 
-                  role="tabpanel"
-                  )
-                  .d-flex
-                    img.img-fluid.rounded-circle.p-3(
-                      alt="" 
-                      style="width: 100px; height: 100px;" 
-                      src="/client/assets/img/avatar.jpg"
-                      )
-                    div
-                      p.mb-2(style="font-size: 14px;") April 12, 2024
-                      .d-flex.justify-content-between
-                        h5 Jason Smith
-                        .d-flex.mb-3
-                          i.fa.fa-star.text-secondary
-                          i.fa.fa-star.text-secondary
-                          i.fa.fa-star.text-secondary
-                          i.fa.fa-star.text-secondary
-                          i.fa.fa-star
-                      p
-                        | The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic 
-                        |   words etc. Susp endisse ultricies nisi vel quam suscipit
-                  .d-flex
-                    img.img-fluid.rounded-circle.p-3(
-                      alt="" 
-                      style="width: 100px; height: 100px;" 
-                      src="/client/assets/img/avatar.jpg"
-                      )
-                    div
-                      p.mb-2(style="font-size: 14px;") April 12, 2024
-                      .d-flex.justify-content-between
-                        h5 Sam Peters
-                        .d-flex.mb-3
-                          i.fa.fa-star.text-secondary
-                          i.fa.fa-star.text-secondary
-                          i.fa.fa-star.text-secondary
-                          i.fa.fa-star
-                          i.fa.fa-star
-                      p.text-dark
-                        | The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic 
-                        |   words etc. Susp endisse ultricies nisi vel quam suscipit
-                #nav-vision.tab-pane(role="tabpanel")
-                  p.text-dark
-                    | Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor sit. Aliqu diam
-                    |   amet diam et eos labore. 3
-                  p.mb-0
-                    | Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore.
-                    |   Clita erat ipsum et lorem et sit
-            form(action="#")
-              h4.mb-5.fw-bold Leave a Reply
-              .row.g-4
-                .col-lg-6
-                  .border-bottom.rounded
-                    input.form-control.border-0.me-4(
-                      placeholder="Yur Name *" 
-                      type="text"
-                      )
-                .col-lg-6
-                  .border-bottom.rounded
-                    input.form-control.border-0(
-                      placeholder="Your Email *" 
-                      type="email"
-                      )
-                .col-lg-12
-                  .border-bottom.rounded.my-4
-                    textarea.form-control.border-0(
-                      spellcheck="false" 
-                      placeholder="Your Review *" 
-                      rows="8" 
-                      cols="30" 
-                      name=""
-                      )
-                .col-lg-12
-                  .d-flex.justify-content-between.py-3.mb-5
-                    .d-flex.align-items-center
-                      p.mb-0.me-3 Please rate:
-                      .d-flex.align-items-center(style="font-size: 12px;")
-                        i.fa.fa-star.text-muted
-                        i.fa.fa-star
-                        i.fa.fa-star
-                        i.fa.fa-star
-                        i.fa.fa-star
-                    a.btn.border.border-secondary.text-primary.rounded-pill.px-4.py-3(href="#") Post Comment
+            //- form(action="#")
+            //-   h4.mb-5.fw-bold Leave a Reply
+            //-   .row.g-4
+            //-     .col-lg-6
+            //-       .border-bottom.rounded
+            //-         input.form-control.border-0.me-4(
+            //-           placeholder="Yur Name *" 
+            //-           type="text"
+            //-           )
+            //-     .col-lg-6
+            //-       .border-bottom.rounded
+            //-         input.form-control.border-0(
+            //-           placeholder="Your Email *" 
+            //-           type="email"
+            //-           )
+            //-     .col-lg-12
+            //-       .border-bottom.rounded.my-4
+            //-         textarea.form-control.border-0(
+            //-           spellcheck="false" 
+            //-           placeholder="Your Review *" 
+            //-           rows="8" 
+            //-           cols="30" 
+            //-           name=""
+            //-           )
+            //-     .col-lg-12
+            //-       .d-flex.justify-content-between.py-3.mb-5
+            //-         .d-flex.align-items-center
+            //-           p.mb-0.me-3 Please rate:
+            //-           .d-flex.align-items-center(style="font-size: 12px;")
+            //-             i.fa.fa-star.text-muted
+            //-             i.fa.fa-star
+            //-             i.fa.fa-star
+            //-             i.fa.fa-star
+            //-             i.fa.fa-star
+            //-         a.btn.border.border-secondary.text-primary.rounded-pill.px-4.py-3(href="#") Post Comment
           h1.fw-bold.mb-0 Related products
       .vesitable
         .owl-carousel.vegetable-carousel.justify-content-center
