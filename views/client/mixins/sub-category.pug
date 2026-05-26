@@ -1,0 +1,9 @@
+mixin sub-category(list, level = 0)
+  each item in list
+    - const paddingLeft = `${level * 15}px`
+    a.dropdown-item(
+      href=`/product/category/${item.slug}`
+      style=`padding-left: calc(1.25rem + ${paddingLeft});`
+    ) #{item.name}
+    if item.children && item.children.length > 0
+      +sub-category(item.children, level + 1)

@@ -1,3 +1,5 @@
+include ../mixins/sub-category.pug
+
 // Spinner Start
 #spinner.show.w-100.vh-100.bg-white.position-fixed.translate-middle.top-50.start-50.d-flex.align-items-center.justify-content-center
   .spinner-grow.text-primary(role="status")
@@ -41,9 +43,8 @@
               href="#"
               ) Sản phẩm
             .dropdown-menu.m-0.bg-secondary.rounded-0
-              a.dropdown-item(href=`product/category/hoa-qua-sach-3-mien`) Hoa quả sạch 3 miền
-              a.dropdown-item(href=`product/category/hoa-qua-nhap-khau`) Hoa quả nhập khẩu
-              a.dropdown-item(href=`product/category/muoi-gia-vi`) Muối gia vị
+              if layoutCategoryProducts
+                +sub-category(layoutCategoryProducts)
         .d-flex.m-3.me-0
           button.btn-search.btn.border.border-secondary.btn-md-square.rounded-circle.bg-white.me-4(
             data-bs-target="#searchModal" 
