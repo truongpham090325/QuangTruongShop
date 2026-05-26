@@ -137,3 +137,20 @@ export const productByCategory = async (req: Request, res: Response) => {
   }
 };
 
+export const detail = async (req: Request, res: Response) => {
+  try {
+    const slug = req.params.slug;
+    const productDetail = await Product.findOne({ slug: slug, deleted: false });
+    if (!productDetail) {
+      res.redirect("/");
+      return;
+    }
+    res.render("client/pages/product-detail", {
+      pageTitle: productDetail.name,
+      product: productDetail,
+    });
+  } catch (error) {
+    console.log(error);
+    res.redirect("/");
+  }
+};

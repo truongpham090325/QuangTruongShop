@@ -5,4 +5,6 @@ const router = Router();
 
 router.get("/category/:slug", productController.productByCategory);
 
+router.get("/detail/:slug", productController.detail);
+
 export default router;

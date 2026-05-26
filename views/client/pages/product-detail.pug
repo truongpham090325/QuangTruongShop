@@ -1,0 +1,486 @@
+extends ../layouts/default.pug
+
+block main
+  // Single Page Header start
+  .container-fluid.page-header.py-5
+    h1.text-center.text-white.display-6 Shop Detail
+    ol.breadcrumb.justify-content-center.mb-0
+      li.breadcrumb-item
+        a(href="#") Home
+      li.breadcrumb-item
+        a(href="#") Pages
+      li.breadcrumb-item.active.text-white Shop Detail
+  // Single Page Header End
+  // Single Product Start
+  .container-fluid.py-5.mt-5
+    .container.py-5
+      .row.g-4.mb-5
+        .col-lg-8.col-xl-9
+          .row.g-4
+            .col-lg-6
+              .border.rounded
+                a(href="#")
+                  img.img-fluid.rounded(
+                    alt=product.name 
+                    src=(product.images && product.images.length > 0 ? `${domainCDN}${product.images[0]}` : "/client/assets/img/single-item.jpg")
+                    )
+            .col-lg-6
+              h4.fw-bold.mb-3 #{product.name}
+              p.mb-3 Category: #{product.category && product.category.length > 0 ? product.category.join(', ') : 'Chưa phân loại'}
+              .d-flex.align-items-center.mb-3
+                if product.priceNew
+                  h5.fw-bold.text-primary.mb-0.me-2 #{product.priceNew.toLocaleString("vi-VN")} đ
+                if product.priceOld
+                  del.text-muted.me-2 #{product.priceOld.toLocaleString("vi-VN")} đ
+                if product.discount > 0
+                  span.badge.bg-danger -#{product.discount}%
+              .d-flex.mb-4
+                i.fa.fa-star.text-secondary
+                i.fa.fa-star.text-secondary
+                i.fa.fa-star.text-secondary
+                i.fa.fa-star.text-secondary
+                i.fa.fa-star
+              p.mb-4 !{product.description}
+              .input-group.quantity.mb-5(style="width: 100px;")
+                .input-group-btn
+                  button.btn.btn-sm.btn-minus.rounded-circle.bg-light.border
+                    i.fa.fa-minus
+                input.form-control.form-control-sm.text-center.border-0(
+                  value="1" 
+                  type="text"
+                  )
+                .input-group-btn
+                  button.btn.btn-sm.btn-plus.rounded-circle.bg-light.border
+                    i.fa.fa-plus
+              a.btn.border.border-secondary.rounded-pill.px-4.py-2.mb-4.text-primary(href="#")
+                i.fa.fa-shopping-bag.me-2.text-primary
+                | Add to cart
+            .col-lg-12
+              nav
+                .nav.nav-tabs.mb-3
+                  button#nav-about-tab.nav-link.active.border-white.border-bottom-0(
+                    aria-selected="true" 
+                    aria-controls="nav-about" 
+                    data-bs-target="#nav-about" 
+                    data-bs-toggle="tab" 
+                    role="tab" 
+                    type="button"
+                    ) Description
+                  button#nav-mission-tab.nav-link.border-white.border-bottom-0(
+                    aria-selected="false" 
+                    aria-controls="nav-mission" 
+                    data-bs-target="#nav-mission" 
+                    data-bs-toggle="tab" 
+                    role="tab" 
+                    type="button"
+                    ) Reviews
+              .tab-content.mb-5
+                #nav-about.tab-pane.active(
+                  aria-labelledby="nav-about-tab" 
+                  role="tabpanel"
+                  )
+                  if product.content
+                    div !{product.content}
+                  else if product.description
+                    p #{product.description}
+                  else
+                    p Đang cập nhật thông tin chi tiết...
+                  .px-2
+                    .row.g-4
+                      .col-6
+                        .row.bg-light.align-items-center.text-center.justify-content-center.py-2
+                          .col-6
+                            p.mb-0 Weight
+                          .col-6
+                            p.mb-0 1 kg
+                        .row.text-center.align-items-center.justify-content-center.py-2
+                          .col-6
+                            p.mb-0 Country of Origin
+                          .col-6
+                            p.mb-0 Agro Farm
+                        .row.bg-light.text-center.align-items-center.justify-content-center.py-2
+                          .col-6
+                            p.mb-0 Quality
+                          .col-6
+                            p.mb-0 Organic
+                        .row.text-center.align-items-center.justify-content-center.py-2
+                          .col-6
+                            p.mb-0 Сheck
+                          .col-6
+                            p.mb-0 Healthy
+                        .row.bg-light.text-center.align-items-center.justify-content-center.py-2
+                          .col-6
+                            p.mb-0 Min Weight
+                          .col-6
+                            p.mb-0 250 Kg
+                #nav-mission.tab-pane(
+                  aria-labelledby="nav-mission-tab" 
+                  role="tabpanel"
+                  )
+                  .d-flex
+                    img.img-fluid.rounded-circle.p-3(
+                      alt="" 
+                      style="width: 100px; height: 100px;" 
+                      src="/client/assets/img/avatar.jpg"
+                      )
+                    div
+                      p.mb-2(style="font-size: 14px;") April 12, 2024
+                      .d-flex.justify-content-between
+                        h5 Jason Smith
+                        .d-flex.mb-3
+                          i.fa.fa-star.text-secondary
+                          i.fa.fa-star.text-secondary
+                          i.fa.fa-star.text-secondary
+                          i.fa.fa-star.text-secondary
+                          i.fa.fa-star
+                      p
+                        | The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic 
+                        |   words etc. Susp endisse ultricies nisi vel quam suscipit
+                  .d-flex
+                    img.img-fluid.rounded-circle.p-3(
+                      alt="" 
+                      style="width: 100px; height: 100px;" 
+                      src="/client/assets/img/avatar.jpg"
+                      )
+                    div
+                      p.mb-2(style="font-size: 14px;") April 12, 2024
+                      .d-flex.justify-content-between
+                        h5 Sam Peters
+                        .d-flex.mb-3
+                          i.fa.fa-star.text-secondary
+                          i.fa.fa-star.text-secondary
+                          i.fa.fa-star.text-secondary
+                          i.fa.fa-star
+                          i.fa.fa-star
+                      p.text-dark
+                        | The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic 
+                        |   words etc. Susp endisse ultricies nisi vel quam suscipit
+                #nav-vision.tab-pane(role="tabpanel")
+                  p.text-dark
+                    | Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor sit. Aliqu diam
+                    |   amet diam et eos labore. 3
+                  p.mb-0
+                    | Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore.
+                    |   Clita erat ipsum et lorem et sit
+            form(action="#")
+              h4.mb-5.fw-bold Leave a Reply
+              .row.g-4
+                .col-lg-6
+                  .border-bottom.rounded
+                    input.form-control.border-0.me-4(
+                      placeholder="Yur Name *" 
+                      type="text"
+                      )
+                .col-lg-6
+                  .border-bottom.rounded
+                    input.form-control.border-0(
+                      placeholder="Your Email *" 
+                      type="email"
+                      )
+                .col-lg-12
+                  .border-bottom.rounded.my-4
+                    textarea.form-control.border-0(
+                      spellcheck="false" 
+                      placeholder="Your Review *" 
+                      rows="8" 
+                      cols="30" 
+                      name=""
+                      )
+                .col-lg-12
+                  .d-flex.justify-content-between.py-3.mb-5
+                    .d-flex.align-items-center
+                      p.mb-0.me-3 Please rate:
+                      .d-flex.align-items-center(style="font-size: 12px;")
+                        i.fa.fa-star.text-muted
+                        i.fa.fa-star
+                        i.fa.fa-star
+                        i.fa.fa-star
+                        i.fa.fa-star
+                    a.btn.border.border-secondary.text-primary.rounded-pill.px-4.py-3(href="#") Post Comment
+        .col-lg-4.col-xl-3
+          .row.g-4.fruite
+            .col-lg-12
+              .input-group.w-100.mx-auto.d-flex.mb-4
+                input.form-control.p-3(
+                  aria-describedby="search-icon-1" 
+                  placeholder="keywords" 
+                  type="search"
+                  )
+                span#search-icon-1.input-group-text.p-3
+                  i.fa.fa-search
+              .mb-4
+                h4 Categories
+                ul.list-unstyled.fruite-categorie
+                  li
+                    .d-flex.justify-content-between.fruite-name
+                      a(href="#")
+                        i.fas.fa-apple-alt.me-2
+                        | Apples
+                      span (3)
+                  li
+                    .d-flex.justify-content-between.fruite-name
+                      a(href="#")
+                        i.fas.fa-apple-alt.me-2
+                        | Oranges
+                      span (5)
+                  li
+                    .d-flex.justify-content-between.fruite-name
+                      a(href="#")
+                        i.fas.fa-apple-alt.me-2
+                        | Strawbery
+                      span (2)
+                  li
+                    .d-flex.justify-content-between.fruite-name
+                      a(href="#")
+                        i.fas.fa-apple-alt.me-2
+                        | Banana
+                      span (8)
+                  li
+                    .d-flex.justify-content-between.fruite-name
+                      a(href="#")
+                        i.fas.fa-apple-alt.me-2
+                        | Pumpkin
+                      span (5)
+            .col-lg-12
+              h4.mb-4 Featured products
+              .d-flex.align-items-center.justify-content-start
+                .rounded(style="width: 100px; height: 100px;")
+                  img.img-fluid.rounded(
+                    alt="Image" 
+                    src="/client/assets/img/featur-1.jpg"
+                    )
+                div
+                  h6.mb-2 Big Banana
+                  .d-flex.mb-2
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star
+                  .d-flex.mb-2
+                    h5.fw-bold.me-2 2.99 $
+                    h5.text-danger.text-decoration-line-through 4.11 $
+              .d-flex.align-items-center.justify-content-start
+                .rounded(style="width: 100px; height: 100px;")
+                  img.img-fluid.rounded(
+                    alt="" 
+                    src="/client/assets/img/featur-2.jpg"
+                    )
+                div
+                  h6.mb-2 Big Banana
+                  .d-flex.mb-2
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star
+                  .d-flex.mb-2
+                    h5.fw-bold.me-2 2.99 $
+                    h5.text-danger.text-decoration-line-through 4.11 $
+              .d-flex.align-items-center.justify-content-start
+                .rounded(style="width: 100px; height: 100px;")
+                  img.img-fluid.rounded(
+                    alt="" 
+                    src="/client/assets/img/featur-3.jpg"
+                    )
+                div
+                  h6.mb-2 Big Banana
+                  .d-flex.mb-2
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star
+                  .d-flex.mb-2
+                    h5.fw-bold.me-2 2.99 $
+                    h5.text-danger.text-decoration-line-through 4.11 $
+              .d-flex.align-items-center.justify-content-start
+                .rounded.me-4(style="width: 100px; height: 100px;")
+                  img.img-fluid.rounded(
+                    alt="" 
+                    src="/client/assets/img/vegetable-item-4.jpg"
+                    )
+                div
+                  h6.mb-2 Big Banana
+                  .d-flex.mb-2
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star
+                  .d-flex.mb-2
+                    h5.fw-bold.me-2 2.99 $
+                    h5.text-danger.text-decoration-line-through 4.11 $
+              .d-flex.align-items-center.justify-content-start
+                .rounded.me-4(style="width: 100px; height: 100px;")
+                  img.img-fluid.rounded(
+                    alt="" 
+                    src="/client/assets/img/vegetable-item-5.jpg"
+                    )
+                div
+                  h6.mb-2 Big Banana
+                  .d-flex.mb-2
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star
+                  .d-flex.mb-2
+                    h5.fw-bold.me-2 2.99 $
+                    h5.text-danger.text-decoration-line-through 4.11 $
+              .d-flex.align-items-center.justify-content-start
+                .rounded.me-4(style="width: 100px; height: 100px;")
+                  img.img-fluid.rounded(
+                    alt="" 
+                    src="/client/assets/img/vegetable-item-6.jpg"
+                    )
+                div
+                  h6.mb-2 Big Banana
+                  .d-flex.mb-2
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star.text-secondary
+                    i.fa.fa-star
+                  .d-flex.mb-2
+                    h5.fw-bold.me-2 2.99 $
+                    h5.text-danger.text-decoration-line-through 4.11 $
+              .d-flex.justify-content-center.my-4
+                a.btn.border.border-secondary.px-4.py-3.rounded-pill.text-primary.w-100(href="#") Vew More
+            .col-lg-12
+              .position-relative
+                img.img-fluid.w-100.rounded(
+                  alt="" 
+                  src="/client/assets/img/banner-fruits.jpg"
+                  )
+                .position-absolute(style="top: 50%; right: 10px; transform: translateY(-50%);")
+                  h3.text-secondary.fw-bold
+                    | Fresh
+                    br
+                    | Fruits
+                    br
+                    | Banner
+      h1.fw-bold.mb-0 Related products
+      .vesitable
+        .owl-carousel.vegetable-carousel.justify-content-center
+          .border.border-primary.rounded.position-relative.vesitable-item
+            .vesitable-img
+              img.img-fluid.w-100.rounded-top(
+                alt="" 
+                src="/client/assets/img/vegetable-item-6.jpg"
+                )
+            .text-white.bg-primary.px-3.py-1.rounded.position-absolute(style="top: 10px; right: 10px;") Vegetable
+            .p-4.pb-0.rounded-bottom
+              h4 Parsely
+              p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
+              .d-flex.justify-content-between.flex-lg-wrap
+                p.text-dark.fs-5.fw-bold $4.99 / kg
+                a.btn.border.border-secondary.rounded-pill.px-3.py-1.mb-4.text-primary(href="#")
+                  i.fa.fa-shopping-bag.me-2.text-primary
+                  | Add to cart
+          .border.border-primary.rounded.position-relative.vesitable-item
+            .vesitable-img
+              img.img-fluid.w-100.rounded-top(
+                alt="" 
+                src="/client/assets/img/vegetable-item-1.jpg"
+                )
+            .text-white.bg-primary.px-3.py-1.rounded.position-absolute(style="top: 10px; right: 10px;") Vegetable
+            .p-4.pb-0.rounded-bottom
+              h4 Parsely
+              p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
+              .d-flex.justify-content-between.flex-lg-wrap
+                p.text-dark.fs-5.fw-bold $4.99 / kg
+                a.btn.border.border-secondary.rounded-pill.px-3.py-1.mb-4.text-primary(href="#")
+                  i.fa.fa-shopping-bag.me-2.text-primary
+                  | Add to cart
+          .border.border-primary.rounded.position-relative.vesitable-item
+            .vesitable-img
+              img.img-fluid.w-100.rounded-top.bg-light(
+                alt="" 
+                src="/client/assets/img/vegetable-item-3.png"
+                )
+            .text-white.bg-primary.px-3.py-1.rounded.position-absolute(style="top: 10px; right: 10px;") Vegetable
+            .p-4.pb-0.rounded-bottom
+              h4 Banana
+              p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
+              .d-flex.justify-content-between.flex-lg-wrap
+                p.text-dark.fs-5.fw-bold $7.99 / kg
+                a.btn.border.border-secondary.rounded-pill.px-3.py-1.mb-4.text-primary(href="#")
+                  i.fa.fa-shopping-bag.me-2.text-primary
+                  | Add to cart
+          .border.border-primary.rounded.position-relative.vesitable-item
+            .vesitable-img
+              img.img-fluid.w-100.rounded-top(
+                alt="" 
+                src="/client/assets/img/vegetable-item-4.jpg"
+                )
+            .text-white.bg-primary.px-3.py-1.rounded.position-absolute(style="top: 10px; right: 10px;") Vegetable
+            .p-4.pb-0.rounded-bottom
+              h4 Bell Papper
+              p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
+              .d-flex.justify-content-between.flex-lg-wrap
+                p.text-dark.fs-5.fw-bold $7.99 / kg
+                a.btn.border.border-secondary.rounded-pill.px-3.py-1.mb-4.text-primary(href="#")
+                  i.fa.fa-shopping-bag.me-2.text-primary
+                  | Add to cart
+          .border.border-primary.rounded.position-relative.vesitable-item
+            .vesitable-img
+              img.img-fluid.w-100.rounded-top(
+                alt="" 
+                src="/client/assets/img/vegetable-item-5.jpg"
+                )
+            .text-white.bg-primary.px-3.py-1.rounded.position-absolute(style="top: 10px; right: 10px;") Vegetable
+            .p-4.pb-0.rounded-bottom
+              h4 Potatoes
+              p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
+              .d-flex.justify-content-between.flex-lg-wrap
+                p.text-dark.fs-5.fw-bold $7.99 / kg
+                a.btn.border.border-secondary.rounded-pill.px-3.py-1.mb-4.text-primary(href="#")
+                  i.fa.fa-shopping-bag.me-2.text-primary
+                  | Add to cart
+          .border.border-primary.rounded.position-relative.vesitable-item
+            .vesitable-img
+              img.img-fluid.w-100.rounded-top(
+                alt="" 
+                src="/client/assets/img/vegetable-item-6.jpg"
+                )
+            .text-white.bg-primary.px-3.py-1.rounded.position-absolute(style="top: 10px; right: 10px;") Vegetable
+            .p-4.pb-0.rounded-bottom
+              h4 Parsely
+              p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
+              .d-flex.justify-content-between.flex-lg-wrap
+                p.text-dark.fs-5.fw-bold $7.99 / kg
+                a.btn.border.border-secondary.rounded-pill.px-3.py-1.mb-4.text-primary(href="#")
+                  i.fa.fa-shopping-bag.me-2.text-primary
+                  | Add to cart
+          .border.border-primary.rounded.position-relative.vesitable-item
+            .vesitable-img
+              img.img-fluid.w-100.rounded-top(
+                alt="" 
+                src="/client/assets/img/vegetable-item-5.jpg"
+                )
+            .text-white.bg-primary.px-3.py-1.rounded.position-absolute(style="top: 10px; right: 10px;") Vegetable
+            .p-4.pb-0.rounded-bottom
+              h4 Potatoes
+              p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
+              .d-flex.justify-content-between.flex-lg-wrap
+                p.text-dark.fs-5.fw-bold $7.99 / kg
+                a.btn.border.border-secondary.rounded-pill.px-3.py-1.mb-4.text-primary(href="#")
+                  i.fa.fa-shopping-bag.me-2.text-primary
+                  | Add to cart
+          .border.border-primary.rounded.position-relative.vesitable-item
+            .vesitable-img
+              img.img-fluid.w-100.rounded-top(
+                alt="" 
+                src="/client/assets/img/vegetable-item-6.jpg"
+                )
+            .text-white.bg-primary.px-3.py-1.rounded.position-absolute(style="top: 10px; right: 10px;") Vegetable
+            .p-4.pb-0.rounded-bottom
+              h4 Parsely
+              p Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt
+              .d-flex.justify-content-between.flex-lg-wrap
+                p.text-dark.fs-5.fw-bold $7.99 / kg
+                a.btn.border.border-secondary.rounded-pill.px-3.py-1.mb-4.text-primary(href="#")
+                  i.fa.fa-shopping-bag.me-2.text-primary
+                  | Add to cart
+  // Single Product End
