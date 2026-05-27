@@ -73,12 +73,14 @@ include ../mixins/sub-category.pug
           type="button"
           )
       .modal-body.d-flex.align-items-center
-        .input-group.w-75.mx-auto.d-flex
-          input.form-control.p-3(
-            aria-describedby="search-icon-1" 
-            placeholder="Nhập từ khóa..." 
-            type="search"
-            )
-          span#search-icon-1.input-group-text.p-3
-            i.fa.fa-search
+        form.w-75.mx-auto(action="/search" method="GET")
+          .input-group.d-flex
+            input.form-control.p-3(
+              aria-describedby="search-icon-1" 
+              placeholder="Nhập từ khóa..." 
+              type="search"
+              name="keyword"
+              )
+            button#search-icon-1.input-group-text.p-3(type="submit")
+              i.fa.fa-search
 // Modal Search End

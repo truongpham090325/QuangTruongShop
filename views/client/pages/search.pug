@@ -1,0 +1,97 @@
+extends ../layouts/default.pug
+include ../mixins/product-item.pug
+include ../mixins/pagination.pug
+
+block main
+  // Single Page Header start
+  .container-fluid.page-header.py-5
+    h1.text-center.text-white.display-6 Kết quả tìm kiếm
+    ol.breadcrumb.justify-content-center.mb-0
+      li.breadcrumb-item
+        a(href="/") Trang chủ
+      li.breadcrumb-item.active.text-white Tìm kiếm
+  // Single Page Header End
+
+  // Fruits Shop Start
+  .container-fluid.fruite.py-5
+    .container.py-5
+      h1.mb-4 Kết quả tìm kiếm cho: "#{keyword}"
+      .row.g-4
+        .col-lg-12
+          .row.g-4
+            .col-xl-3
+              form(form-search)
+                .input-group.w-100.mx-auto.d-flex
+                  input.form-control.p-3(
+                    aria-describedby="search-icon-1" 
+                    placeholder="Tìm kiếm..." 
+                    type="search"
+                    name="keyword"
+                    value=keyword
+                    )
+                  button.input-group-text.p-3(type="submit")
+                    i.fa.fa-search
+            .col-6
+            .col-xl-3
+              .bg-light.ps-3.py-3.rounded.d-flex.justify-content-between.mb-4
+                label(for="fruits") Sắp xếp:
+                select#fruits.border-0.form-select-sm.bg-light.me-3(sort-select)
+                  option(value="position-desc" selected=(sort=="position-desc")) Mặc định
+                  option(value="priceNew-asc" selected=(sort=="priceNew-asc")) Giá từ thấp đến cao
+                  option(value="priceNew-desc" selected=(sort=="priceNew-desc")) Giá từ cao xuống thấp
+                  option(value="discount-desc" selected=(sort=="discount-desc")) Giảm giá nhiều
+          .row.g-4
+            .col-lg-3
+              .row.g-4
+                .col-lg-12
+                  .mb-3
+                    h4 Danh mục
+                    ul.list-unstyled.fruite-categorie
+                      if categoriesWithCount && categoriesWithCount.length > 0
+                        each cat in categoriesWithCount
+                          li
+                            .d-flex.justify-content-between.fruite-name
+                              a(href=`/product/category/${cat.slug}`)
+                                i.fas.fa-apple-alt.me-2
+                                | #{cat.name}
+                              span (#{cat.count})
+                .col-lg-12
+                  .mb-3
+                    h4.mb-2 Mức giá
+                    input#rangeInput.form-range.w-100(
+                      oninput="amount.value = Number(rangeInput.value).toLocaleString('vi-VN') + ' đ'" 
+                      value=(priceMax ? priceMax : "1000000") 
+                      max="1000000" 
+                      min="0" 
+                      name="rangeInput" 
+                      type="range"
+                      )
+                    div Mức giá tối đa: 
+                      output#amount.fw-bold.text-primary(
+                        for="rangeInput" 
+                        name="amount"
+                        ) #{priceMax ? Number(priceMax).toLocaleString('vi-VN') + ' đ' : '1.000.000 đ'}
+                .col-lg-12
+                  .position-relative
+                    img.img-fluid.w-100.rounded(
+                      alt="" 
+                      src="/client/assets/img/banner-fruits.jpg"
+                      )
+                    .position-absolute(style="top: 50%; right: 10px; transform: translateY(-50%);")
+                      h3.text-secondary.fw-bold
+                        | Hoa
+                        br
+                        | quả
+                        br
+                        | sạch
+            .col-lg-9
+              .row.g-4.justify-content-center
+                if products && products.length > 0
+                  each item in products
+                    +product-item(item, 'col-md-6 col-lg-6 col-xl-4')
+                else
+                  .col-12.text-center
+                    p Không tìm thấy sản phẩm nào phù hợp với từ khóa của bạn.
+                .col-12
+                  +pagination(pagination)
+  // Fruits Shop End
