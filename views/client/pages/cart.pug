@@ -6,10 +6,8 @@ block main
     h1.text-center.text-white.display-6 Cart
     ol.breadcrumb.justify-content-center.mb-0
       li.breadcrumb-item
-        a(href="#") Home
-      li.breadcrumb-item
-        a(href="#") Pages
-      li.breadcrumb-item.active.text-white Cart
+        a(href="#") Trang chủ
+      li.breadcrumb-item.active.text-white Giỏ hàng
   // Single Page Header End
   // Cart Page Start
   .container-fluid.py-5
@@ -18,12 +16,12 @@ block main
         table.table
           thead
             tr
-              th(scope="col") Products
-              th(scope="col") Name
-              th(scope="col") Price
-              th(scope="col") Quantity
-              th(scope="col") Total
-              th(scope="col") Handle
+              th(scope="col") Ảnh
+              th(scope="col") Tên
+              th(scope="col") Giá 
+              th(scope="col") Số lượng
+              th(scope="col") Tạm tính
+              th(scope="col") Hành động
           tbody
             tr
               th(scope="row")
@@ -54,88 +52,22 @@ block main
               td
                 button.btn.btn-md.rounded-circle.bg-light.border.mt-4
                   i.fa.fa-times.text-danger
-            tr
-              th(scope="row")
-                .d-flex.align-items-center
-                  img.img-fluid.me-5.rounded-circle(
-                    alt="" 
-                    style="width: 80px; height: 80px;" 
-                    src="img/vegetable-item-5.jpg"
-                    )
-              td
-                p.mb-0.mt-4 Potatoes
-              td
-                p.mb-0.mt-4 2.99 $
-              td
-                .input-group.quantity.mt-4(style="width: 100px;")
-                  .input-group-btn
-                    button.btn.btn-sm.btn-minus.rounded-circle.bg-light.border
-                      i.fa.fa-minus
-                  input.form-control.form-control-sm.text-center.border-0(
-                    value="1" 
-                    type="text"
-                    )
-                  .input-group-btn
-                    button.btn.btn-sm.btn-plus.rounded-circle.bg-light.border
-                      i.fa.fa-plus
-              td
-                p.mb-0.mt-4 2.99 $
-              td
-                button.btn.btn-md.rounded-circle.bg-light.border.mt-4
-                  i.fa.fa-times.text-danger
-            tr
-              th(scope="row")
-                .d-flex.align-items-center
-                  img.img-fluid.me-5.rounded-circle(
-                    alt="" 
-                    style="width: 80px; height: 80px;" 
-                    src="img/vegetable-item-2.jpg"
-                    )
-              td
-                p.mb-0.mt-4 Awesome Brocoli
-              td
-                p.mb-0.mt-4 2.99 $
-              td
-                .input-group.quantity.mt-4(style="width: 100px;")
-                  .input-group-btn
-                    button.btn.btn-sm.btn-minus.rounded-circle.bg-light.border
-                      i.fa.fa-minus
-                  input.form-control.form-control-sm.text-center.border-0(
-                    value="1" 
-                    type="text"
-                    )
-                  .input-group-btn
-                    button.btn.btn-sm.btn-plus.rounded-circle.bg-light.border
-                      i.fa.fa-plus
-              td
-                p.mb-0.mt-4 2.99 $
-              td
-                button.btn.btn-md.rounded-circle.bg-light.border.mt-4
-                  i.fa.fa-times.text-danger
-      .mt-5
-        input.border-0.border-bottom.rounded.me-5.py-3.mb-4(
-          placeholder="Coupon Code" 
-          type="text"
-          )
-        button.btn.border-secondary.rounded-pill.px-4.py-3.text-primary(type="button") Apply Coupon
       .row.g-4.justify-content-end
         .col-8
         .col-sm-8.col-md-7.col-lg-6.col-xl-4
           .bg-light.rounded
             .p-4
               h1.display-6.mb-4
-                | Cart
-                span.fw-normal Total
+                | Tổng giỏ hàng
               .d-flex.justify-content-between.mb-4
-                h5.mb-0.me-4 Subtotal:
-                p.mb-0 $96.00
+                h5.mb-0.me-4 Tạm tính:
+                p.mb-0 0đ
               .d-flex.justify-content-between
-                h5.mb-0.me-4 Shipping
+                h5.mb-0.me-4 Giảm giá
                 div
-                  p.mb-0 Flat rate: $3.00
-              p.mb-0.text-end Shipping to Ukraine.
+                  p.mb-0 -0đ
             .py-4.mb-4.border-top.border-bottom.d-flex.justify-content-between
-              h5.mb-0.ps-4.me-4 Total
-              p.mb-0.pe-4 $99.00
-            button.btn.border-secondary.rounded-pill.px-4.py-3.text-primary.text-uppercase.mb-4.ms-4(type="button") Proceed Checkout
+              h5.mb-0.ps-4.me-4 Tổng tiền
+              p.mb-0.pe-4 100.000đ
+            button.btn.border-secondary.rounded-pill.px-4.py-3.text-primary.text-uppercase.mb-4.ms-4(type="button") Tiến hành thanh toán
   // Cart Page End
