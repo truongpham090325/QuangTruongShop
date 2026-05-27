@@ -33,6 +33,8 @@ export const list = async (req: Request, res: Response) => {
               priceNew: productDetail.priceNew,
               priceOld: productDetail.priceOld,
               stock: productDetail.stock,
+              description: productDetail.description,
+              unit: productDetail.unit || "Kg",
             },
           };
 

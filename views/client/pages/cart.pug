@@ -3,7 +3,7 @@ extends ../layouts/default.pug
 block main
   // Single Page Header start
   .container-fluid.page-header.py-5
-    h1.text-center.text-white.display-6 Cart
+    h1.text-center.text-white.display-6 Giỏ hàng
     ol.breadcrumb.justify-content-center.mb-0
       li.breadcrumb-item
         a(href="#") Trang chủ
@@ -20,8 +20,8 @@ block main
               th(scope="col") Tên
               th(scope="col") Giá 
               th(scope="col") Số lượng
-              th(scope="col") Đơn vị
               th(scope="col") Tạm tính
+              th(scope="col") Đơn vị tính
               th(scope="col") Hành động
           tbody(cart-table)
       .row.g-4.justify-content-end
@@ -41,5 +41,5 @@ block main
             .py-4.mb-4.border-top.border-bottom.d-flex.justify-content-between
               h5.mb-0.ps-4.me-4 Tổng tiền
               p.mb-0.pe-4(total) 0đ
-            button.btn.border-secondary.rounded-pill.px-4.py-3.text-primary.text-uppercase.mb-4.ms-4(type="button") Tiến hành thanh toán
+            a.btn.border-secondary.rounded-pill.px-4.py-3.text-primary.text-uppercase.mb-4.ms-4(href=`/checkout`) Tiến hành thanh toán
   // Cart Page End
