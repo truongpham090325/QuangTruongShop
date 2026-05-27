@@ -318,6 +318,74 @@
         }
     }
 
+    // Tìm kiếm bằng giọng nói
+    const listButtonVoice = document.querySelectorAll("[button-voice]");
+    if (listButtonVoice.length > 0) {
+        const SpeechRecognition =
+            window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        if (SpeechRecognition) {
+            listButtonVoice.forEach((buttonVoice) => {
+                const form = buttonVoice.closest("form");
+                if (!form) return;
+
+                const input = form.querySelector("input[name='keyword']");
+                if (!input) return;
+
+                const voice = new SpeechRecognition();
+                voice.lang = "vi-VN";
+                voice.interimResults = false;
+                voice.maxAlternatives = 1;
+
+                buttonVoice.addEventListener("click", () => {
+                    if (buttonVoice.classList.contains("listening")) {
+                        voice.stop();
+                    } else {
+                        // Dừng các tiến trình lắng nghe khác nếu có
+                        document.querySelectorAll("[button-voice].listening").forEach(btn => {
+                            btn.click();
+                        });
+                        voice.start();
+                    }
+                });
+
+                voice.onstart = () => {
+                    buttonVoice.classList.add("listening");
+                    input.placeholder = "Đang lắng nghe, hãy nói...";
+                    input.value = "";
+                };
+
+                voice.onspeechend = () => {
+                    voice.stop();
+                };
+
+                voice.onend = () => {
+                    buttonVoice.classList.remove("listening");
+                    input.placeholder = form.hasAttribute("form-search") ? "Tìm kiếm..." : "Nhập từ khóa...";
+                };
+
+                voice.onerror = (event) => {
+                    console.error("Speech recognition error:", event.error);
+                    buttonVoice.classList.remove("listening");
+                    input.placeholder = form.hasAttribute("form-search") ? "Tìm kiếm..." : "Nhập từ khóa...";
+                };
+
+                voice.onresult = (event) => {
+                    const value = event.results[0][0].transcript;
+                    if (value) {
+                        input.value = value;
+                        form.requestSubmit();
+                    }
+                };
+            });
+        } else {
+            // Ẩn nút giọng nói nếu trình duyệt không hỗ trợ
+            listButtonVoice.forEach((btn) => {
+                btn.style.display = "none";
+            });
+        }
+    }
+
 })(jQuery);
 
 

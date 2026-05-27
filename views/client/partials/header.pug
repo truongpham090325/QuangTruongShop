@@ -74,14 +74,16 @@ include ../mixins/sub-category.pug
           )
       .modal-body.d-flex.align-items-center
         form.w-75.mx-auto.position-relative(action="/search" method="GET")
-          .input-group.d-flex
-            input.form-control.p-3(
+          .input-group.d-flex.align-items-center.position-relative
+            input.form-control.p-3.pe-5(
               aria-describedby="search-icon-1" 
               placeholder="Nhập từ khóa..." 
               type="search"
               name="keyword"
               autocomplete="off"
               )
+            span.inner-voice(button-voice title="Tìm kiếm bằng giọng nói" style="position: absolute; right: 60px; top: 50%; transform: translateY(-50%); z-index: 10; cursor: pointer;")
+              i.fas.fa-microphone
             button#search-icon-1.input-group-text.p-3(type="submit")
               i.fa.fa-search
           .inner-suggest(style="display: none")

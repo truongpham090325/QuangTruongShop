@@ -20,14 +20,16 @@ block main
           .row.g-4
             .col-xl-3
               form(form-search)
-                .input-group.w-100.mx-auto.d-flex
-                  input.form-control.p-3(
+                .input-group.w-100.mx-auto.d-flex.align-items-center.position-relative
+                  input.form-control.p-3.pe-5(
                     aria-describedby="search-icon-1" 
                     placeholder="Tìm kiếm..." 
                     type="search"
                     name="keyword"
                     value=keyword
                     )
+                  span.inner-voice(button-voice title="Tìm kiếm bằng giọng nói" style="position: absolute; right: 55px; top: 50%; transform: translateY(-50%); z-index: 10; cursor: pointer;")
+                    i.fas.fa-microphone
                   button.input-group-text.p-3(type="submit")
                     i.fa.fa-search
             .col-6

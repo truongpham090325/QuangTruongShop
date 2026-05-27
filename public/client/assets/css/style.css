@@ -597,3 +597,45 @@
   text-decoration: line-through;
 }
 /*** Suggest Search End ***/
+
+/*** Voice Search Start ***/
+.inner-voice {
+  color: #6c757d;
+  cursor: pointer;
+  padding: 8px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  position: relative;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+}
+
+.inner-voice:hover {
+  color: #81c408;
+  background-color: rgba(129, 196, 8, 0.1);
+}
+
+/* Listening State with Ripple Animation */
+.inner-voice.listening {
+  color: #dc3545 !important;
+  background-color: rgba(220, 53, 69, 0.15) !important;
+  animation: pulse-microphone 1.5s infinite;
+}
+
+@keyframes pulse-microphone {
+  0% {
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+  }
+}
+/*** Voice Search End ***/
+
