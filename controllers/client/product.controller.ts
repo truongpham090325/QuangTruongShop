@@ -151,7 +151,7 @@ export const detail = async (req: Request, res: Response) => {
       deleted: false,
       status: "active",
       _id: { $ne: productDetail.id },
-    }).limit(4);
+    }).limit(3);
 
     res.render("client/pages/product-detail", {
       pageTitle: productDetail.name,
@@ -161,5 +161,42 @@ export const detail = async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error);
     res.redirect("/");
+  }
+};
+
+export const suggest = async (req: Request, res: Response) => {
+  try {
+    const find: any = {
+      deleted: false,
+      status: "active",
+    };
+
+    if (req.query.keyword) {
+      const keyword = slugify(`${req.query.keyword}`, {
+        replacement: " ",
+        lower: true,
+      });
+      const keywordRegex = new RegExp(keyword, "i");
+      find.search = keywordRegex;
+    }
+
+    const productList = await Product.find(find)
+      .sort({
+        position: "desc",
+      })
+      .select("images name slug priceNew priceOld")
+      .limit(5);
+
+    res.json({
+      code: "success",
+      message: "Thành công!",
+      list: productList,
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({
+      code: "error",
+      message: "Lỗi khi lấy dữ liệu!",
+    });
   }
 };

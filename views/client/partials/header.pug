@@ -73,14 +73,18 @@ include ../mixins/sub-category.pug
           type="button"
           )
       .modal-body.d-flex.align-items-center
-        form.w-75.mx-auto(action="/search" method="GET")
+        form.w-75.mx-auto.position-relative(action="/search" method="GET")
           .input-group.d-flex
             input.form-control.p-3(
               aria-describedby="search-icon-1" 
               placeholder="Nhập từ khóa..." 
               type="search"
               name="keyword"
+              autocomplete="off"
               )
             button#search-icon-1.input-group-text.p-3(type="submit")
               i.fa.fa-search
+          .inner-suggest(style="display: none")
+            .inner-title Sản phẩm gợi ý
+            .inner-list
 // Modal Search End

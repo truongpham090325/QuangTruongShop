@@ -243,6 +243,81 @@
         });
     }
 
+    // Suggest search products in Header
+    const formSearchProduct = document.querySelector("#searchModal form");
+    if (formSearchProduct) {
+        const input = formSearchProduct.querySelector("input[name='keyword']");
+        const boxSuggest = formSearchProduct.querySelector(".inner-suggest");
+        const boxSuggestList = formSearchProduct.querySelector(".inner-list");
+        let timeout;
+
+        if (input && boxSuggest && boxSuggestList) {
+            input.addEventListener("input", () => {
+                clearTimeout(timeout);
+
+                timeout = setTimeout(() => {
+                    const keyword = input.value.trim();
+                    if (keyword) {
+                        fetch(`/product/suggest?keyword=${keyword}`)
+                            .then((res) => res.json())
+                            .then((data) => {
+                                if (data.code == "success") {
+                                    const htmls = data.list.map((item) => {
+                                        const imgPath = (item.images && item.images.length > 0) ? (domainCDN + item.images[0]) : '';
+                                        const priceNewHtml = item.priceNew ? `<div class="inner-price-new">${item.priceNew.toLocaleString("vi-VN")}đ</div>` : '';
+                                        const priceOldHtml = item.priceOld ? `<div class="inner-price-old">${item.priceOld.toLocaleString("vi-VN")}đ</div>` : '';
+                                        
+                                        return `
+                                            <a class="inner-item" href="/product/detail/${item.slug}">
+                                                <img class="inner-image" src="${imgPath}">
+                                                <div class="inner-info">
+                                                    <div class="inner-name">
+                                                        ${item.name}
+                                                    </div>
+                                                    <div class="inner-prices">
+                                                        ${priceNewHtml}
+                                                        ${priceOldHtml}
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        `;
+                                    });
+
+                                    boxSuggestList.innerHTML = htmls.join("");
+                                    if (data.list.length > 0) {
+                                        boxSuggest.style.display = "block";
+                                    } else {
+                                        boxSuggest.style.display = "none";
+                                    }
+                                }
+                            })
+                            .catch((err) => {
+                                console.error(err);
+                                boxSuggest.style.display = "none";
+                            });
+                    } else {
+                        boxSuggest.style.display = "none";
+                    }
+                }, 500);
+            });
+
+            // Close suggestion box when clicking outside the form
+            document.addEventListener("click", (event) => {
+                if (!formSearchProduct.contains(event.target)) {
+                    boxSuggest.style.display = "none";
+                }
+            });
+
+            // Show suggestion box again on focus if search term is present and we have suggestions
+            input.addEventListener("focus", () => {
+                const keyword = input.value.trim();
+                if (keyword && boxSuggestList.children.length > 0) {
+                    boxSuggest.style.display = "block";
+                }
+            });
+        }
+    }
+
 })(jQuery);
 
 
