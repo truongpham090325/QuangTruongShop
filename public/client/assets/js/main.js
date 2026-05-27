@@ -679,6 +679,106 @@
     });
   };
 
+  // Vẽ trang đặt hàng
+  const drawCheckout = () => {
+    const checkoutTable = document.querySelector("[checkout-table]");
+    if (!checkoutTable) return;
+
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    if (cart.length > 0) {
+      fetch(`/cart/list`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cart: cart,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.code == "error") {
+            checkoutTable.innerHTML = `
+              <tr>
+                <td colspan="6" class="text-center py-5">
+                  Không lấy được thông tin đặt hàng.
+                </td>
+              </tr>
+            `;
+          }
+
+          if (data.code == "success") {
+            let total = 0;
+            let htmlCheckoutTable = "";
+
+            data.cart.forEach((item) => {
+              const { detail } = item;
+              const priceNew = detail.priceNew;
+
+              // Tách đơn vị tính từ detail.description (ví dụ: Bưởi da xanh: 30.000đ/quả -> quả)
+              let unit = "Kg";
+              if (detail.description) {
+                const tempDiv = document.createElement("div");
+                tempDiv.innerHTML = detail.description;
+                const text = tempDiv.textContent || tempDiv.innerText || "";
+                const slashIndex = text.lastIndexOf("/");
+                if (slashIndex !== -1) {
+                  unit = text.substring(slashIndex + 1).trim();
+                }
+              }
+
+              total += priceNew * item.quantity;
+
+              htmlCheckoutTable += `
+                <tr>
+                  <th scope="row">
+                    <div class="d-flex align-items-center mt-2">
+                      <img class="img-fluid rounded-circle" alt="${detail.name}" style="width: 90px; height: 90px;" src="${domainCDN}${detail.images[0]}">
+                    </div>
+                  </th>
+                  <td class="py-5">
+                    <a href="/product/detail/${detail.slug}">${detail.name}</a>
+                  </td>
+                  <td class="py-5">${priceNew.toLocaleString("vi-VN")}đ</td>
+                  <td class="py-5">${item.quantity}</td>
+                  <td class="py-5">${unit}</td>
+                  <td class="py-5">${(priceNew * item.quantity).toLocaleString("vi-VN")}đ</td>
+                </tr>
+              `;
+            });
+
+            checkoutTable.innerHTML = htmlCheckoutTable;
+
+            const elementDiscount = document.querySelector("[discount]");
+            if (elementDiscount) {
+              elementDiscount.innerHTML = "0đ";
+            }
+
+            const elementTotal = document.querySelector("[total]");
+            if (elementTotal) {
+              elementTotal.innerHTML = total.toLocaleString("vi-VN") + "đ";
+            }
+          }
+        });
+    } else {
+      checkoutTable.innerHTML = `
+        <tr>
+          <td colspan="6" class="text-center py-5">
+            Không có sản phẩm nào trong giỏ hàng để đặt hàng.
+          </td>
+        </tr>
+      `;
+      const elementTotal = document.querySelector("[total]");
+      if (elementTotal) {
+        elementTotal.innerHTML = "0đ";
+      }
+    }
+  };
+
   // Draw cart on page load
   drawCart();
+  // Draw checkout on page load
+  drawCheckout();
 })(jQuery);
+

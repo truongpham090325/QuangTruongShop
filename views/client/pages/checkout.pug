@@ -45,24 +45,13 @@ block main
                     th(scope="col") Số lượng
                     th(scope="col") Đơn vị tính
                     th(scope="col") Tạm tính
-                tbody
-                  tr
-                    th(scope="row")
-                      .d-flex.align-items-center.mt-2
-                        img.img-fluid.rounded-circle(
-                          alt="" 
-                          style="width: 90px; height: 90px;" 
-                          src="/client/assets/img/vegetable-item-2.jpg"
-                          )
-                    td.py-5 Dưa hấu
-                    td.py-5 200.000đ
-                    td.py-5 2
-                    td.py-5 kg
-                    td.py-5 400.000đ
+                tbody(checkout-table)
               .inner-discount(style="text-align: right;")
-                span Giảm giá: 0đ
+                span Giảm giá: 
+                span(discount) 0đ
               .inner-total(style="text-align: right;")
-                span Tổng tiền: <b>360.000đ<b> 
+                span Tổng tiền: 
+                b(total) 0đ
             .row.g-4.text-center.align-items-center.justify-content-center.border-bottom.py-3
               .col-12
                 .form-check.text-start.my-3
