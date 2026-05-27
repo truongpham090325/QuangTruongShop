@@ -44,13 +44,17 @@ block main
                   button.btn.btn-sm.btn-minus.rounded-circle.bg-light.border
                     i.fa.fa-minus
                 input.form-control.form-control-sm.text-center.border-0(
-                  value="1" 
+                  value=(product.stock > 0 ? 1 : 0)
                   type="text"
+                  readonly
+                  min="0"
+                  max=product.stock
+                  class="input-quantity"
                   )
                 .input-group-btn
                   button.btn.btn-sm.btn-plus.rounded-circle.bg-light.border
                     i.fa.fa-plus
-              a.btn.border.border-secondary.rounded-pill.px-4.py-2.mb-4.text-primary(href="#")
+              a.btn.border.border-secondary.rounded-pill.px-4.py-2.mb-4.text-primary(href="javascript:;" button-add-cart product-id=product.id)
                 i.fa.fa-shopping-bag.me-2.text-primary
                 | Thêm vào giỏ
             .col-lg-12

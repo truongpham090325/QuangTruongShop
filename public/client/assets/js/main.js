@@ -386,6 +386,68 @@
         }
     }
 
+    // Khởi tạo thư viện Notyf
+    var notyf = new Notyf({
+        duration: 3000,
+        position: { x: "right", y: "top" },
+        dismissible: true,
+    });
+
+    // Khởi tạo giỏ hàng
+    const existCart = JSON.parse(localStorage.getItem("cart"));
+    if (!existCart) {
+        localStorage.setItem("cart", JSON.stringify([]));
+    }
+    // Hết Khởi tạo giỏ hàng
+
+    // mini-cart-quantity
+    const miniCartQuantity = () => {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const listElementMiniCartQuantity = document.querySelectorAll(
+            "[mini-cart-quantity]",
+        );
+        listElementMiniCartQuantity.forEach((item) => {
+            item.innerHTML = cart.length;
+        });
+    };
+    miniCartQuantity();
+    // End mini-cart-quantity
+
+    // Thêm vào giỏ hàng
+    const buttonAddCart = document.querySelector("[button-add-cart]");
+    if (buttonAddCart) {
+        buttonAddCart.addEventListener("click", () => {
+            const inputQuantity = document.querySelector(".input-quantity");
+            const productId = buttonAddCart.getAttribute("product-id");
+            const quantity = inputQuantity ? parseInt(inputQuantity.value) : 1;
+
+            if (productId && quantity > 0) {
+                const dataItem = {
+                    productId: productId,
+                    quantity: quantity,
+                    checked: true,
+                };
+                const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+                // Tìm xem có sản phẩm trùng productId hay không
+                const existItem = cart.find(
+                    (item) => item.productId === dataItem.productId,
+                );
+
+                if (existItem) {
+                    existItem.quantity += dataItem.quantity;
+                    notyf.success("Đã cập nhật số lượng trong giỏ hàng!");
+                } else {
+                    cart.unshift(dataItem);
+                    notyf.success("Đã thêm vào giỏ hàng!");
+                }
+
+                localStorage.setItem("cart", JSON.stringify(cart));
+                miniCartQuantity();
+            }
+        });
+    }
+
 })(jQuery);
 
 
