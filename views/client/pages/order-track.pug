@@ -1,0 +1,166 @@
+extends ../layouts/default.pug
+
+block main
+  // Single Page Header start
+  .container-fluid.page-header.py-5
+    h1.text-center.text-white.display-6 Tra cứu đơn hàng
+    ol.breadcrumb.justify-content-center.mb-0
+      li.breadcrumb-item
+        a(href="/") Trang chủ
+      li.breadcrumb-item.active.text-white Tra cứu đơn hàng
+  // Single Page Header End
+
+  // Order Tracking Start
+  .container-fluid.py-5.bg-light
+    .container.py-5
+      .row.justify-content-center
+        .col-lg-8.col-md-10
+          // Search Form Card
+          .card.border-0.shadow-sm.rounded-3.mb-4
+            .card-body.p-4.p-sm-5
+              h3.mb-4.text-center.text-dark Tra cứu thông tin đơn hàng
+              p.text-muted.text-center.mb-4 Vui lòng nhập mã đơn hàng của bạn để kiểm tra trạng thái và thông tin chi tiết của đơn hàng.
+              
+              form(action="/order/track" method="GET")
+                .input-group
+                  input.form-control.p-3(
+                    type="text" 
+                    name="orderCode" 
+                    placeholder="Nhập mã đơn hàng của bạn (Ví dụ: DT000001)..." 
+                    value=orderCode
+                    required
+                    autocomplete="off"
+                    style="border-radius: 50px 0 0 50px; border-color: #ced4da;"
+                  )
+                  button.btn.btn-primary.px-4(
+                    type="submit"
+                    style="border-radius: 0 50px 50px 0; font-weight: 600;"
+                  ) 
+                    i.fas.fa-search.me-1
+                    | Tra cứu
+
+          // Error Message Alert
+          if errorMessage
+            .alert.alert-danger.alert-dismissible.fade.show.rounded-3.mb-4.d-flex.align-items-center(role="alert")
+              i.fas.fa-exclamation-circle.fs-5.me-2
+              div #{errorMessage}
+              button.btn-close(type="button" data-bs-dismiss="alert" aria-label="Close")
+
+          // Order Details Display
+          if orderDetail
+            .card.border-0.shadow-sm.rounded-3.overflow-hidden
+              .card-header.bg-white.py-3.border-bottom
+                .d-flex.flex-wrap.justify-content-between.align-items-center.gap-2
+                  div
+                    h4.mb-0.text-dark 
+                      | Chi tiết đơn hàng: 
+                      span.text-primary.fw-bold ##{orderDetail.code}
+                    small.text-muted.d-block.mt-1 Ngày đặt: #{orderDetail.formattedCreatedAt}
+                  .d-flex.gap-2.align-items-center
+                    span(class=`px-3 py-2 rounded-pill fs-7 ${orderStatusMap[orderDetail.orderStatus].class}`) #{orderStatusMap[orderDetail.orderStatus].text}
+                    span(class=`px-3 py-2 rounded-pill fs-7 ${paymentStatusMap[orderDetail.paymentStatus].class}`) #{paymentStatusMap[orderDetail.paymentStatus].text}
+
+              .card-body.p-4
+                .row.mb-4.g-4
+                  // Recipient Info
+                  .col-md-6
+                    .p-3.bg-light.rounded-3.h-100
+                      h5.text-dark.border-bottom.pb-2.mb-3
+                        i.fas.fa-user.text-primary.me-2
+                        | Thông tin người nhận
+                      p.mb-2 
+                        strong Họ tên: 
+                        | #{orderDetail.fullName}
+                      p.mb-2 
+                        strong Số điện thoại: 
+                        | #{orderDetail.phone}
+                      p.mb-2 
+                        strong Email: 
+                        | #{orderDetail.email || 'N/A'}
+                      p.mb-0 
+                        strong Địa chỉ nhận hàng: 
+                        | #{orderDetail.address}
+                  
+                  // Payment Info
+                  .col-md-6
+                    .p-3.bg-light.rounded-3.h-100
+                      h5.text-dark.border-bottom.pb-2.mb-3
+                        i.fas.fa-credit-card.text-primary.me-2
+                        | Thông tin thanh toán
+                      p.mb-2 
+                        strong Phương thức thanh toán: 
+                        | #{paymentMethodMap[orderDetail.paymentMethod] || orderDetail.paymentMethod}
+                      p.mb-2 
+                        strong Trạng thái thanh toán: 
+                        span(class=`fw-bold text-${orderDetail.paymentStatus === 'paid' ? 'success' : orderDetail.paymentStatus === 'refunded' ? 'danger' : 'warning'}`) #{paymentStatusMap[orderDetail.paymentStatus].text}
+                      
+                      if orderDetail.paymentMethod === "zalopay" && orderDetail.paymentStatus === "unpaid"
+                        .mt-3
+                          a.btn.btn-sm.btn-warning.rounded-pill.w-100.py-2.fw-bold(href=`/order/payment-zalopay?orderCode=${orderDetail.code}&phone=${orderDetail.phone}`) 
+                            i.fas.fa-credit-card.me-1
+                            | Thanh toán lại qua ZaloPay
+                            
+                      if orderDetail.paymentMethod === "vnpay" && orderDetail.paymentStatus === "unpaid"
+                        .mt-3
+                          a.btn.btn-sm.btn-warning.rounded-pill.w-100.py-2.fw-bold(href=`/order/payment-vnpay?orderCode=${orderDetail.code}&phone=${orderDetail.phone}`) 
+                            i.fas.fa-credit-card.me-1
+                            | Thanh toán lại qua VNPay
+
+                // Order Items Table
+                h5.text-dark.pb-2.mb-3.mt-4
+                  i.fas.fa-shopping-basket.text-primary.me-2
+                  | Danh sách sản phẩm đã đặt
+                
+                .table-responsive
+                  table.table.table-hover.align-middle
+                    thead.table-light
+                      tr
+                        th(scope="col" style="width: 80px;") Ảnh
+                        th(scope="col") Tên sản phẩm
+                        th(scope="col" style="width: 130px; text-align: right;") Đơn giá
+                        th(scope="col" style="width: 100px; text-align: center;") Số lượng
+                        th(scope="col" style="width: 120px; text-align: center;") Đơn vị tính
+                        th(scope="col" style="width: 140px; text-align: right;") Thành tiền
+                    tbody
+                      each item in orderDetail.items
+                        tr
+                          td
+                            if item.image
+                              img.img-fluid.rounded-3(
+                                src=`${domainCDN}${item.image}` 
+                                alt=item.name 
+                                style="width: 60px; height: 60px; object-fit: cover;"
+                              )
+                            else
+                              .bg-light.rounded-3.d-flex.align-items-center.justify-content-center(style="width: 60px; height: 60px;")
+                                i.fas.fa-image.text-muted
+                          td
+                            div.fw-bold
+                              if item.slug
+                                a.text-dark.text-decoration-none(href=`/product/detail/${item.slug}`) #{item.name}
+                              else
+                                | #{item.name}
+                            if item.variant && item.variant.length > 0
+                              div.mt-1
+                                each v in item.variant
+                                  span.badge.bg-secondary.text-dark.me-1.fw-normal #{v}
+                          td.text-end #{item.price.toLocaleString("vi-VN")}đ
+                          td.text-center #{item.quantity}
+                          td.text-center #{item.unit || 'Kg'}
+                          td.text-end.fw-bold.text-dark #{((item.price) * item.quantity).toLocaleString("vi-VN")}đ
+
+                // Pricing Summary
+                .border-top.pt-3.mt-4
+                  .row.justify-content-end
+                    .col-md-5.col-lg-4
+                      .d-flex.justify-content-between.mb-2
+                        span.text-muted Tạm tính:
+                        span.fw-bold.text-dark #{orderDetail.subTotal.toLocaleString("vi-VN")}đ
+                      if orderDetail.discount > 0
+                        .d-flex.justify-content-between.mb-2
+                          span.text-muted Giảm giá:
+                          span.text-danger -#{orderDetail.discount.toLocaleString("vi-VN")}đ
+                      .d-flex.justify-content-between.align-items-center.border-top.pt-2.mt-2
+                        span.fs-5.fw-bold.text-dark Tổng cộng:
+                        span.fs-4.fw-bold.text-primary #{orderDetail.total.toLocaleString("vi-VN")}đ
+  // Order Tracking End

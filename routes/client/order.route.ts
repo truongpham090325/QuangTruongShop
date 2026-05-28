@@ -12,4 +12,6 @@ router.get("/payment-zalopay", orderController.paymentZaloPay);
 
 router.post("/payment-zalopay-result", orderController.paymentZalopayResult);
 
+router.get("/track", orderController.track);
+
 export default router;
