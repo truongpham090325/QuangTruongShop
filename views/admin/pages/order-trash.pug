@@ -3,91 +3,94 @@ include ../mixins/pagination.pug
 include ../mixins/form-search.pug
 
 block main
-  .row
-    .col-12
-      .card
-        .card-header
-          .row.align-items-center
-            .col
-              h4.card-title #{pageTitle}
-            .col-auto
-              a.btn.btn-info(
-                href=`/${pathAdmin}/order/list`
-                )
-                i.fas.fa-arrow-left.me-1
-                | Quay lại danh sách
-          // end row
-        // end card-header
-        .card-body.pt-0
-          .row.mb-3
-            .col-lg-6
-              +form-search()
-          .table-responsive
-            table.table.table-striped.mb-0
-              thead.table-light
-                tr
-                  th STT
-                  th Mã đơn hàng
-                  th Khách hàng
-                  th Điện thoại
-                  th Tổng tiền (đ)
-                  th Thanh toán
-                  th Trạng thái thanh toán
-                  th Trạng thái đơn hàng
-                  th Ngày xóa
-                  th.text-end Hành động
-              tbody
-                if (orderList && orderList.length > 0)
-                  each item, index in orderList
-                    tr
-                      td #{pagination.skip + index + 1}
-                      td 
-                        span.fw-bold.text-primary #{item.code}
-                      td #{item.fullName}
-                      td #{item.phone}
-                      td.fw-bold.text-success #{item.total ? item.total.toLocaleString("vi-VN") : 0}
-                      td #{paymentMethodMap[item.paymentMethod] || item.paymentMethod}
-                      td
-                        if (item.paymentStatus == "unpaid")
-                          span.badge.bg-danger #{paymentStatusMap[item.paymentStatus]}
-                        else if (item.paymentStatus == "paid")
-                          span.badge.bg-success #{paymentStatusMap[item.paymentStatus]}
-                        else if (item.paymentStatus == "refunded")
-                          span.badge.bg-warning.text-dark #{paymentStatusMap[item.paymentStatus]}
-                      td
-                        if (item.orderStatus == "pending")
-                          span.badge.bg-info.text-dark #{orderStatusMap[item.orderStatus]}
-                        else if (item.orderStatus == "confirmed")
-                          span.badge.bg-primary #{orderStatusMap[item.orderStatus]}
-                        else if (item.orderStatus == "shipping")
-                          span.badge.bg-warning.text-dark #{orderStatusMap[item.orderStatus]}
-                        else if (item.orderStatus == "completed")
-                          span.badge.bg-success #{orderStatusMap[item.orderStatus]}
-                        else if (item.orderStatus == "cancelled")
-                          span.badge.bg-danger #{orderStatusMap[item.orderStatus]}
-                        else if (item.orderStatus == "returned")
-                          span.badge.bg-secondary #{orderStatusMap[item.orderStatus]}
-                      td #{item.deletedAt ? new Date(item.deletedAt).toLocaleString("vi-VN") : ""}
-                      td.text-end
-                        a(
-                          href="javascript:;"
-                          button-api
-                          data-method="PATCH"
-                          data-api=`/${pathAdmin}/order/undo/${item.id}`
-                          class="me-2"
-                          title="Khôi phục đơn hàng"
-                        )
-                          i.fas.fa-undo-alt.text-secondary.font-16.fs-20
-                        a(
-                          href="javascript:;"
-                          button-api
-                          data-method="DELETE"
-                          data-api=`/${pathAdmin}/order/destroy/${item.id}`
-                          title="Xóa vĩnh viễn"
-                        )
-                          i.las.la-trash-alt.text-secondary.font-16.fs-20
-                else
+  if (permissions.includes("order-trash"))
+    .row
+      .col-12
+        .card
+          .card-header
+            .row.align-items-center
+              .col
+                h4.card-title #{pageTitle}
+              .col-auto
+                a.btn.btn-info(
+                  href=`/${pathAdmin}/order/list`
+                  )
+                  i.fas.fa-arrow-left.me-1
+                  | Quay lại danh sách
+            // end row
+          // end card-header
+          .card-body.pt-0
+            .row.mb-3
+              .col-lg-6
+                +form-search()
+            .table-responsive
+              table.table.table-striped.mb-0
+                thead.table-light
                   tr
-                    td(colspan="10" class="text-center text-muted py-4") Thùng rác trống.
-          +pagination()
-    // end col
+                    th STT
+                    th Mã đơn hàng
+                    th Khách hàng
+                    th Điện thoại
+                    th Tổng tiền (đ)
+                    th Thanh toán
+                    th Trạng thái thanh toán
+                    th Trạng thái đơn hàng
+                    th Ngày xóa
+                    th.text-end Hành động
+                tbody
+                  if (orderList && orderList.length > 0)
+                    each item, index in orderList
+                      tr
+                        td #{pagination.skip + index + 1}
+                        td 
+                          span.fw-bold.text-primary #{item.code}
+                        td #{item.fullName}
+                        td #{item.phone}
+                        td.fw-bold.text-success #{item.total ? item.total.toLocaleString("vi-VN") : 0}
+                        td #{paymentMethodMap[item.paymentMethod] || item.paymentMethod}
+                        td
+                          if (item.paymentStatus == "unpaid")
+                            span.badge.bg-danger #{paymentStatusMap[item.paymentStatus]}
+                          else if (item.paymentStatus == "paid")
+                            span.badge.bg-success #{paymentStatusMap[item.paymentStatus]}
+                          else if (item.paymentStatus == "refunded")
+                            span.badge.bg-warning.text-dark #{paymentStatusMap[item.paymentStatus]}
+                        td
+                          if (item.orderStatus == "pending")
+                            span.badge.bg-info.text-dark #{orderStatusMap[item.orderStatus]}
+                          else if (item.orderStatus == "confirmed")
+                            span.badge.bg-primary #{orderStatusMap[item.orderStatus]}
+                          else if (item.orderStatus == "shipping")
+                            span.badge.bg-warning.text-dark #{orderStatusMap[item.orderStatus]}
+                          else if (item.orderStatus == "completed")
+                            span.badge.bg-success #{orderStatusMap[item.orderStatus]}
+                          else if (item.orderStatus == "cancelled")
+                            span.badge.bg-danger #{orderStatusMap[item.orderStatus]}
+                          else if (item.orderStatus == "returned")
+                            span.badge.bg-secondary #{orderStatusMap[item.orderStatus]}
+                        td #{item.deletedAt ? new Date(item.deletedAt).toLocaleString("vi-VN") : ""}
+                        td.text-end
+                          if (permissions.includes("order-edit"))
+                            a(
+                              href="javascript:;"
+                              button-api
+                              data-method="PATCH"
+                              data-api=`/${pathAdmin}/order/undo/${item.id}`
+                              class="me-2"
+                              title="Khôi phục đơn hàng"
+                            )
+                              i.fas.fa-undo-alt.text-secondary.font-16.fs-20
+                          if (permissions.includes("order-delete"))
+                            a(
+                              href="javascript:;"
+                              button-api
+                              data-method="DELETE"
+                              data-api=`/${pathAdmin}/order/destroy/${item.id}`
+                              title="Xóa vĩnh viễn"
+                            )
+                              i.las.la-trash-alt.text-secondary.font-16.fs-20
+                  else
+                    tr
+                      td(colspan="10" class="text-center text-muted py-4") Thùng rác trống.
+            +pagination()
+      // end col

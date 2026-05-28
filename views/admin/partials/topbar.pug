@@ -263,71 +263,72 @@
         //-     a.dropdown-item.text-center.text-dark.fs-13.py-2(href="pages-notifications.html")
         //-       | View All
         //-       i.fi-arrow-right
-        li.dropdown.topbar-item.me-2
-          a.nav-link.dropdown-toggle.arrow-none.nav-icon(
-            aria-expanded="false" 
-            aria-haspopup="false" 
-            role="button" 
-            href="#" 
-            data-bs-toggle="dropdown"
-            id="orderNotificationDropdown"
-            )
-            i.iconoir-bell.fs-22
-            span.alert-badge.bg-danger#orderNotificationBadge(style="display: none;")
-          .dropdown-menu.dropdown-menu-end.py-0.dropdown-lg(aria-labelledby="orderNotificationDropdown" style="width: 320px; max-height: 400px; overflow-y: auto;")
-            h5.dropdown-item-text.m-0.py-3.border-bottom.d-flex.justify-content-between.align-items-center
-              | Thông báo đơn hàng mới
-              span.badge.bg-danger-subtle.text-danger#orderNotificationCount 0
-            #orderNotificationList
-              .p-3.text-center.text-muted Không có thông báo mới
-        script.
-          document.addEventListener("DOMContentLoaded", () => {
-            const fetchNotifications = () => {
-              fetch(`/${pathAdmin}/order/notification-new-count`)
-                .then(res => res.json())
-                .then(data => {
-                  if (data.code === "success") {
-                    const badge = document.getElementById("orderNotificationBadge");
-                    const countEl = document.getElementById("orderNotificationCount");
-                    const listEl = document.getElementById("orderNotificationList");
-                    
-                    if (badge && countEl && listEl) {
-                      if (data.count > 0) {
-                        badge.style.display = "inline-block";
-                        badge.innerText = data.count;
-                        countEl.innerText = data.count;
-                        
-                        let html = "";
-                        data.orders.forEach(order => {
-                          html += `
-                            <a href="/${pathAdmin}/order/list?keyword=${order.code}" class="dropdown-item py-3 border-bottom d-block">
-                              <div class="d-flex align-items-center">
-                                <div class="flex-shrink-0 bg-primary-subtle text-primary thumb-md rounded-circle d-flex align-items-center justify-content-center">
-                                  <i class="las la-shopping-cart fs-18"></i>
+        if (permissions.includes("order-list"))
+          li.dropdown.topbar-item.me-2
+            a.nav-link.dropdown-toggle.arrow-none.nav-icon(
+              aria-expanded="false" 
+              aria-haspopup="false" 
+              role="button" 
+              href="#" 
+              data-bs-toggle="dropdown"
+              id="orderNotificationDropdown"
+              )
+              i.iconoir-bell.fs-22
+              span.alert-badge.bg-danger#orderNotificationBadge(style="display: none;")
+            .dropdown-menu.dropdown-menu-end.py-0.dropdown-lg(aria-labelledby="orderNotificationDropdown" style="width: 320px; max-height: 400px; overflow-y: auto;")
+              h5.dropdown-item-text.m-0.py-3.border-bottom.d-flex.justify-content-between.align-items-center
+                | Thông báo đơn hàng mới
+                span.badge.bg-danger-subtle.text-danger#orderNotificationCount 0
+              #orderNotificationList
+                .p-3.text-center.text-muted Không có thông báo mới
+          script.
+            document.addEventListener("DOMContentLoaded", () => {
+              const fetchNotifications = () => {
+                fetch(`/${pathAdmin}/order/notification-new-count`)
+                  .then(res => res.json())
+                  .then(data => {
+                    if (data.code === "success") {
+                      const badge = document.getElementById("orderNotificationBadge");
+                      const countEl = document.getElementById("orderNotificationCount");
+                      const listEl = document.getElementById("orderNotificationList");
+                      
+                      if (badge && countEl && listEl) {
+                        if (data.count > 0) {
+                          badge.style.display = "inline-block";
+                          badge.innerText = data.count;
+                          countEl.innerText = data.count;
+                          
+                          let html = "";
+                          data.orders.forEach(order => {
+                            html += `
+                              <a href="/${pathAdmin}/order/list?keyword=${order.code}" class="dropdown-item py-3 border-bottom d-block">
+                                <div class="d-flex align-items-center">
+                                  <div class="flex-shrink-0 bg-primary-subtle text-primary thumb-md rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="las la-shopping-cart fs-18"></i>
+                                  </div>
+                                  <div class="flex-grow-1 ms-2 text-truncate" style="white-space: normal;">
+                                    <h6 class="my-0 fw-semibold text-dark fs-13">Đơn hàng mới từ ${order.fullName}</h6>
+                                    <small class="text-muted mb-0">Mã: <strong>${order.code}</strong> - ${new Date(order.createdAt).toLocaleString('vi-VN')}</small>
+                                  </div>
                                 </div>
-                                <div class="flex-grow-1 ms-2 text-truncate" style="white-space: normal;">
-                                  <h6 class="my-0 fw-semibold text-dark fs-13">Đơn hàng mới từ ${order.fullName}</h6>
-                                  <small class="text-muted mb-0">Mã: <strong>${order.code}</strong> - ${new Date(order.createdAt).toLocaleString('vi-VN')}</small>
-                                </div>
-                              </div>
-                            </a>
-                          `;
-                        });
-                        listEl.innerHTML = html;
-                      } else {
-                        badge.style.display = "none";
-                        countEl.innerText = "0";
-                        listEl.innerHTML = '<div class="p-3 text-center text-muted">Không có thông báo mới</div>';
+                              </a>
+                            `;
+                          });
+                          listEl.innerHTML = html;
+                        } else {
+                          badge.style.display = "none";
+                          countEl.innerText = "0";
+                          listEl.innerHTML = '<div class="p-3 text-center text-muted">Không có thông báo mới</div>';
+                        }
                       }
                     }
-                  }
-                })
-                .catch(err => console.error("Lỗi lấy thông báo:", err));
-            };
-            
-            fetchNotifications();
-            setInterval(fetchNotifications, 30000);
-          });
+                  })
+                  .catch(err => console.error("Lỗi lấy thông báo:", err));
+              };
+              
+              fetchNotifications();
+              setInterval(fetchNotifications, 30000);
+            });
         li.dropdown.topbar-item
           a.nav-link.dropdown-toggle.arrow-none.nav-icon(
             aria-expanded="false" 

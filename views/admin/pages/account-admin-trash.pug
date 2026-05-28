@@ -3,70 +3,73 @@ include ../mixins/pagination.pug
 include ../mixins/form-search.pug
 
 block main
-  .row
-    .col-12
-      .card
-        .card-header
-          .row.align-items-center
-            .col
-              h4.card-title #{pageTitle}
-            // end col
-            .col-auto
-              a.btn.btn-info(
-                href=`/${pathAdmin}/account-admin/list`
-                )
-                i.fas.fa-arrow-left.me-1
-                | Quay lại danh sách
-            // end col
-          // end row
-        // end card-header
-        .card-body.pt-0
-          //- Table
-          .table-responsive
-            table.table.table-striped.mb-0
-              thead.table-light
-                tr
-                  th STT
-                  th Ảnh đại diện
-                  th Họ tên
-                  th Email
-                  th Nhóm quyền
-                  th Trạng thái
-                  th.text-end Hành động
-              tbody
-                each item, index in accountAdminList
+  if (permissions.includes("account-admin-trash"))
+    .row
+      .col-12
+        .card
+          .card-header
+            .row.align-items-center
+              .col
+                h4.card-title #{pageTitle}
+              // end col
+              .col-auto
+                a.btn.btn-info(
+                  href=`/${pathAdmin}/account-admin/list`
+                  )
+                  i.fas.fa-arrow-left.me-1
+                  | Quay lại danh sách
+              // end col
+            // end row
+          // end card-header
+          .card-body.pt-0
+            //- Table
+            .table-responsive
+              table.table.table-striped.mb-0
+                thead.table-light
                   tr
-                    td #{index+1}
-                    td
-                      img(
-                        src=`${domainCDN}${item.avatar}`
-                        class="rounded thumb-lg me-1 d-inline"
-                      )
-                    td #{item.fullName}
-                    td #{item.email}
-                    td(style="max-width: 200px;")
-                      each roleName in item.rolesName
-                        span(class="badge bg-dark me-1") #{roleName}
-                    td
-                      if (item.status == "initial")
-                        span(class="badge bg-warning") Khởi tạo
-                      else if (item.status == "active")
-                        span(class="badge bg-primary") Hoạt động
-                      else if (item.status == "inactive")
-                        span(class="badge bg-danger") Tạm dừng
-                    td.text-end
-                      a(
-                        href="javascript:;"
-                        button-api
-                        data-method="PATCH"
-                        data-api=`/${pathAdmin}/account-admin/undo/${item.id}`
+                    th STT
+                    th Ảnh đại diện
+                    th Họ tên
+                    th Email
+                    th Nhóm quyền
+                    th Trạng thái
+                    th.text-end Hành động
+                tbody
+                  each item, index in accountAdminList
+                    tr
+                      td #{index+1}
+                      td
+                        img(
+                          src=`${domainCDN}${item.avatar}`
+                          class="rounded thumb-lg me-1 d-inline"
                         )
-                        i.fas.fa-undo-alt.text-secondary.font-16.fs-20
-                      a(
-                        href="javascript:;"
-                        button-api
-                        data-method="DELETE"
-                        data-api=`/${pathAdmin}/account-admin/destroy/${item.id}`
-                        )
-                        i.las.la-trash-alt.text-secondary.font-16.fs-20
+                      td #{item.fullName}
+                      td #{item.email}
+                      td(style="max-width: 200px;")
+                        each roleName in item.rolesName
+                          span(class="badge bg-dark me-1") #{roleName}
+                      td
+                        if (item.status == "initial")
+                          span(class="badge bg-warning") Khởi tạo
+                        else if (item.status == "active")
+                          span(class="badge bg-primary") Hoạt động
+                        else if (item.status == "inactive")
+                          span(class="badge bg-danger") Tạm dừng
+                      td.text-end
+                        if (permissions.includes("account-admin-edit"))
+                          a(
+                            href="javascript:;"
+                            button-api
+                            data-method="PATCH"
+                            data-api=`/${pathAdmin}/account-admin/undo/${item.id}`
+                            )
+                            i.fas.fa-undo-alt.text-secondary.font-16.fs-20
+                        if (permissions.includes("account-admin-delete"))
+                          a(
+                            href="javascript:;"
+                            button-api
+                            data-method="DELETE"
+                            data-api=`/${pathAdmin}/account-admin/destroy/${item.id}`
+                            )
+                            i.las.la-trash-alt.text-secondary.font-16.fs-20
     // end col
