@@ -40,13 +40,14 @@ block main
               label.form-label Danh mục
               div(class="checkbox-list" checkbox-list="category")
                 +checkbox-list(categoryList)
+          if (permissions.includes("view-price-old"))
+            .col-md-6.col-lg-6
+              .mb-3
+                label.form-label(for="priceOld") Giá nhập
+                input.form-control(id="priceOld" type="number" name="priceOld")
           .col-md-6.col-lg-6
             .mb-3
-              label.form-label(for="priceOld") Giá cũ
-              input.form-control(id="priceOld" type="number" name="priceOld")
-          .col-md-6.col-lg-6
-            .mb-3
-              label.form-label(for="priceNew") Giá mới
+              label.form-label(for="priceNew") Giá bán
               input.form-control(id="priceNew" type="number" name="priceNew")
           .col-md-6.col-lg-6
             .mb-3

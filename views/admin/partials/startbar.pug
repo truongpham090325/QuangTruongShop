@@ -53,22 +53,22 @@
                 // end nav-item
           li.nav-item
             a.nav-link(
-              aria-controls="sidebarCoupon" 
+              aria-controls="sidebarOrder" 
               aria-expanded="false" 
               role="button" 
               data-bs-toggle="collapse" 
-              href="#sidebarCoupon"
+              href="#sidebarOrder"
               )
-              i.iconoir-percentage-circle.menu-icon
-              span Mã giảm giá
-            #sidebarCoupon.collapse
+              i.iconoir-cart-alt.menu-icon
+              span Quản lý đơn hàng
+            #sidebarOrder.collapse
               ul.nav.flex-column
                 li.nav-item
-                  a.nav-link(href=`/${pathAdmin}/coupon/create`) Tạo mã giảm giá
-                // end nav-item
-                li.nav-item
-                  a.nav-link(href=`/${pathAdmin}/coupon/list`) Danh sách mã giảm giá
-                // end nav-item
+                  a.nav-link(
+                    href=`/${pathAdmin}/order/list`
+                    ) Danh sách đơn hàng
+              // end nav
+            // end sidebarOrder
           li.nav-item
             a.nav-link(
               aria-controls="sidebarRole" 
@@ -110,24 +110,6 @@
                 li.nav-item
                   a.nav-link(
                     href=`/${pathAdmin}/account-admin/list`
-                    ) Danh sách tài khoản
-              // end nav
-            // end sidebarAccountAdmin
-          li.nav-item
-            a.nav-link(
-              aria-controls="sidebarAccountUser" 
-              aria-expanded="false" 
-              role="button" 
-              data-bs-toggle="collapse" 
-              href="#sidebarAccountUser"
-              )
-              i.iconoir-user-circle.menu-icon
-              span Tài khoản người dùng
-            #sidebarAccountUser.collapse
-              ul.nav.flex-column
-                li.nav-item
-                  a.nav-link(
-                    href=`/${pathAdmin}/account-user/list`
                     ) Danh sách tài khoản
               // end nav
             // end sidebarAccountAdmin

@@ -28,6 +28,10 @@ export const permissionList = [
     name: "Thùng rác nhóm quyền",
   },
   {
+    id: "view-price-old",
+    name: "Xem giá nhập",
+  },
+  {
     id: "file-manager",
     name: "Quản lý file",
   },
