@@ -215,123 +215,127 @@ block main
                     tr
                       td(colspan="4" class="text-center text-muted py-4") Chưa bán được sản phẩm nào hoặc chưa khớp giá nhập.
 
-    block script
-      script(src="/admin/assets/libs/apexcharts/apexcharts.min.js")
-      script.
-        document.addEventListener("DOMContentLoaded", function() {
-          // Safe injection of data from controller
-          const dailyData = !{last30DaysList};
-          const monthlyData = !{last12MonthsList};
-          const statusCounts = !{JSON.stringify(statusCounts)};
-          const topProducts = !{topProducts};
+block script
+  script(src="/admin/assets/libs/apexcharts/apexcharts.min.js")
+  script.
+    document.addEventListener("DOMContentLoaded", function() {
+      const dailyEl = document.querySelector("#dailyChart");
+      const monthlyEl = document.querySelector("#monthlyChart");
+      if (!dailyEl || !monthlyEl) return;
 
-          // Common Chart options
-          const fontOptions = {
-            fontFamily: 'Be Vietnam Pro, sans-serif',
-            colors: '#888'
-          };
+      // Safe injection of data from controller
+      const dailyData = !{last30DaysList};
+      const monthlyData = !{last12MonthsList};
+      const statusCounts = !{JSON.stringify(statusCounts)};
+      const topProducts = !{topProducts};
 
-          // 1. Daily Chart (Area representation)
-          const dailyCategories = dailyData.map(d => d.date);
-          const dailyRevenue = dailyData.map(d => d.revenue);
-          const dailyProfit = dailyData.map(d => d.profit);
+      // Common Chart options
+      const fontOptions = {
+        fontFamily: 'Be Vietnam Pro, sans-serif',
+        colors: '#888'
+      };
 
-          const dailyOptions = {
-            series: [
-              { name: "Doanh thu", data: dailyRevenue },
-              { name: "Lợi nhuận thực tế", data: dailyProfit }
-            ],
-            chart: {
-              type: 'area',
-              height: 350,
-              toolbar: { show: false },
-              dropShadow: { enabled: true, top: 4, left: 0, bottom: 0, right: 0, blur: 3, opacity: 0.05 }
-            },
-            colors: ['#22c55e', '#0ea5e9'],
-            dataLabels: { enabled: false },
-            stroke: { curve: 'smooth', width: 2.5 },
-            xaxis: { 
-              categories: dailyCategories,
-              labels: { style: fontOptions }
-            },
-            yaxis: {
-              labels: {
-                style: fontOptions,
-                formatter: function(val) {
-                  if (val >= 1000000) return (val / 1000000).toFixed(1) + 'M';
-                  if (val >= 1000) return (val / 1000).toFixed(0) + 'k';
-                  return val;
-                }
-              }
-            },
-            tooltip: {
-              theme: 'light',
-              y: {
-                formatter: function(val) {
-                  return val.toLocaleString('vi-VN') + ' đ';
-                }
-              }
-            },
-            fill: {
-              type: 'gradient',
-              gradient: {
-                shadeIntensity: 1,
-                opacityFrom: 0.4,
-                opacityTo: 0.02,
-                stops: [0, 100]
-              }
-            },
-            grid: { borderColor: '#f1f1f1' }
-          };
-          new ApexCharts(document.querySelector("#dailyChart"), dailyOptions).render();
+      // 1. Daily Chart (Area representation)
+      const dailyCategories = dailyData.map(d => d.date);
+      const dailyRevenue = dailyData.map(d => d.revenue);
+      const dailyProfit = dailyData.map(d => d.profit);
 
-
-
-          // 3. Monthly Chart (Double Bar representation)
-          const monthlyCategories = monthlyData.map(m => m.month);
-          const monthlyRevenue = monthlyData.map(m => m.revenue);
-          const monthlyProfit = monthlyData.map(m => m.profit);
-
-          const monthlyOptions = {
-            series: [
-              { name: "Doanh thu", data: monthlyRevenue },
-              { name: "Lợi nhuận", data: monthlyProfit }
-            ],
-            chart: { type: 'bar', height: 350, toolbar: { show: false } },
-            colors: ['#22c55e', '#0ea5e9'],
-            plotOptions: {
-              bar: {
-                horizontal: false,
-                columnWidth: '45%',
-                borderRadius: 6,
-                borderRadiusApplication: 'around'
-              }
-            },
-            dataLabels: { enabled: false },
-            xaxis: { 
-              categories: monthlyCategories,
-              labels: { style: fontOptions }
-            },
-            yaxis: {
-              labels: {
-                style: fontOptions,
-                formatter: function(val) {
-                  if (val >= 1000000) return (val / 1000000).toFixed(1) + 'M';
-                  if (val >= 1000) return (val / 1000).toFixed(0) + 'k';
-                  return val;
-                }
-              }
-            },
-            tooltip: {
-              y: {
-                formatter: function(val) {
-                  return val.toLocaleString('vi-VN') + ' đ';
-                }
-              }
-            },
-            grid: { borderColor: '#f1f1f1' }
-          };
-          new ApexCharts(document.querySelector("#monthlyChart"), monthlyOptions).render();
+      const dailyOptions = {
+        series: [
+          { name: "Doanh thu", data: dailyRevenue },
+          { name: "Lợi nhuận thực tế", data: dailyProfit }
+        ],
+        chart: {
+          type: 'area',
+          height: 350,
+          toolbar: { show: false },
+          dropShadow: { enabled: true, top: 4, left: 0, bottom: 0, right: 0, blur: 3, opacity: 0.05 }
+        },
+        colors: ['#22c55e', '#0ea5e9'],
+        dataLabels: { enabled: false },
+        stroke: { curve: 'smooth', width: 2.5 },
+        xaxis: { 
+          categories: dailyCategories,
+          labels: { style: fontOptions }
+        },
+        yaxis: {
+          labels: {
+            style: fontOptions,
+            formatter: function(val) {
+              if (val >= 1000000) return (val / 1000000).toFixed(1) + 'M';
+              if (val >= 1000) return (val / 1000).toFixed(0) + 'k';
+              return val;
+            }
+          }
+        },
+        tooltip: {
+          theme: 'light',
+          y: {
+            formatter: function(val) {
+              return val.toLocaleString('vi-VN') + ' đ';
+            }
+          }
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.4,
+            opacityTo: 0.02,
+            stops: [0, 100]
+          }
+        },
+        grid: { borderColor: '#f1f1f1' }
+      };
+      new ApexCharts(dailyEl, dailyOptions).render();
 
 
-        });
+
+      // 3. Monthly Chart (Double Bar representation)
+      const monthlyCategories = monthlyData.map(m => m.month);
+      const monthlyRevenue = monthlyData.map(m => m.revenue);
+      const monthlyProfit = monthlyData.map(m => m.profit);
+
+      const monthlyOptions = {
+        series: [
+          { name: "Doanh thu", data: monthlyRevenue },
+          { name: "Lợi nhuận", data: monthlyProfit }
+        ],
+        chart: { type: 'bar', height: 350, toolbar: { show: false } },
+        colors: ['#22c55e', '#0ea5e9'],
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: '45%',
+            borderRadius: 6,
+            borderRadiusApplication: 'around'
+          }
+        },
+        dataLabels: { enabled: false },
+        xaxis: { 
+          categories: monthlyCategories,
+          labels: { style: fontOptions }
+        },
+        yaxis: {
+          labels: {
+            style: fontOptions,
+            formatter: function(val) {
+              if (val >= 1000000) return (val / 1000000).toFixed(1) + 'M';
+              if (val >= 1000) return (val / 1000).toFixed(0) + 'k';
+              return val;
+            }
+          }
+        },
+        tooltip: {
+          y: {
+            formatter: function(val) {
+              return val.toLocaleString('vi-VN') + ' đ';
+            }
+          }
+        },
+        grid: { borderColor: '#f1f1f1' }
+      };
+      new ApexCharts(monthlyEl, monthlyOptions).render();
+
+
+    });
