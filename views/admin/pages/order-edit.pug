@@ -1,0 +1,158 @@
+extends ../layouts/default.pug
+
+block main
+  .row
+    .col-12
+      .card
+        .card-header
+          .row.align-items-center
+            .col
+              h4.card-title #{pageTitle} - Mã đơn hàng: 
+                span.text-primary.fw-bold #{orderDetail.code}
+            .col-auto
+              a.btn.btn-info(href=`/${pathAdmin}/order/list`)
+                i.fas.fa-arrow-left.me-1
+                | Quay lại danh sách
+        .card-body
+          .row
+            // Thông tin khách hàng
+            .col-md-6
+              .card.border.shadow-none.mb-3
+                .card-header.bg-light
+                  h5.card-title.mb-0 Thông tin khách hàng
+                .card-body
+                  table.table.table-sm.table-borderless.mb-0
+                    tr
+                      td.fw-bold(style="width: 150px;") Họ và tên:
+                      td #{orderDetail.fullName}
+                    tr
+                      td.fw-bold Số điện thoại:
+                      td #{orderDetail.phone}
+                    tr
+                      td.fw-bold Email:
+                      td #{orderDetail.email || 'N/A'}
+                    tr
+                      td.fw-bold Địa chỉ:
+                      td #{orderDetail.address}
+                    tr
+                      td.fw-bold Ngày đặt hàng:
+                      td #{orderDetail.createdAt ? new Date(orderDetail.createdAt).toLocaleString("vi-VN") : ""}
+
+            // Thông tin thanh toán & cập nhật trạng thái
+            .col-md-6
+              .card.border.shadow-none.mb-3
+                .card-header.bg-light
+                  h5.card-title.mb-0 Trạng thái & Thanh toán
+                .card-body
+                  form(id="orderEditForm")
+                    input(type="hidden" name="id" value=orderDetail.id)
+                    .mb-3
+                      label.form-label.fw-bold Phương thức thanh toán:
+                      p.form-control-plaintext #{paymentMethodMap[orderDetail.paymentMethod] || orderDetail.paymentMethod}
+                    
+                    .mb-3
+                      label.form-label.fw-bold(for="paymentStatus") Trạng thái thanh toán:
+                      select.form-select(id="paymentStatus" name="paymentStatus")
+                        each name, status in paymentStatusMap
+                          option(
+                            value=status 
+                            selected=(orderDetail.paymentStatus == status)
+                          ) #{name}
+                    
+                    .mb-3
+                      label.form-label.fw-bold(for="orderStatus") Trạng thái đơn hàng:
+                      select.form-select(id="orderStatus" name="orderStatus")
+                        each name, status in orderStatusMap
+                          option(
+                            value=status 
+                            selected=(orderDetail.orderStatus == status)
+                          ) #{name}
+                    
+                    .text-end
+                      button.btn.btn-primary.me-1(type="submit") Cập nhật trạng thái
+                      a.btn.btn-outline-danger(href=`/${pathAdmin}/order/list`) Hủy
+
+          // Danh sách sản phẩm trong đơn hàng
+          .card.border.shadow-none.mt-3
+            .card-header.bg-light
+              h5.card-title.mb-0 Chi tiết sản phẩm
+            .card-body.p-0
+              .table-responsive
+                table.table.table-striped.mb-0
+                  thead.table-light
+                    tr
+                      th(style="width: 80px;") Hình ảnh
+                      th Tên sản phẩm
+                      th.text-center(style="width: 120px;") Giá bán (đ)
+                      th.text-center(style="width: 100px;") Số lượng
+                      th.text-end(style="width: 150px;") Thành tiền (đ)
+                  tbody
+                    if (orderDetail.items && orderDetail.items.length > 0)
+                      each item in orderDetail.items
+                        tr
+                          td
+                            if (item.image)
+                              img(src=`${domainCDN}${item.image}` class="thumb-md rounded" style="object-fit: cover;")
+                          td
+                            div.fw-semibold #{item.name}
+                            if (item.variant && item.variant.length > 0)
+                              div.text-muted.small Biến thể: #{item.variant.join(", ")}
+                          td.text-center #{item.price ? item.price.toLocaleString("vi-VN") : 0}
+                          td.text-center #{item.quantity}
+                          td.text-end.fw-bold #{(item.price * item.quantity).toLocaleString("vi-VN")}
+                    else
+                      tr
+                        td(colspan="5" class="text-center py-3") Không có sản phẩm nào trong đơn hàng.
+                  tfoot
+                    tr
+                      td.text-end.fw-bold(colspan="4") Tạm tính:
+                      td.text-end.fw-bold #{(orderDetail.subTotal || 0).toLocaleString("vi-VN")} đ
+                    tr
+                      td.text-end.fw-bold(colspan="4") Tổng thanh toán:
+                      td.text-end.fw-bold.text-success.fs-16 #{(orderDetail.total || 0).toLocaleString("vi-VN")} đ
+
+block script
+  script.
+    const orderEditForm = document.getElementById("orderEditForm");
+    if (orderEditForm) {
+      orderEditForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const orderStatus = orderEditForm.orderStatus.value;
+        const paymentStatus = orderEditForm.paymentStatus.value;
+        const id = orderEditForm.id.value;
+        
+        fetch(`/${pathAdmin}/order/edit/${id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ orderStatus, paymentStatus })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.code === "success") {
+            // Hiển thị thông báo bằng Notyf (được khai báo toàn cục)
+            if (typeof notyf !== 'undefined') {
+              notyf.success(data.message);
+            } else {
+              alert(data.message);
+            }
+            setTimeout(() => {
+              window.location.href = `/${pathAdmin}/order/list`;
+            }, 1000);
+          } else {
+            if (typeof notyf !== 'undefined') {
+              notyf.error(data.message);
+            } else {
+              alert(data.message);
+            }
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          if (typeof notyf !== 'undefined') {
+            notyf.error("Có lỗi xảy ra, vui lòng thử lại!");
+          }
+        });
+      });
+    }
