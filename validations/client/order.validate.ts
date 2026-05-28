@@ -27,13 +27,15 @@ export const createPost = (req: Request, res: Response, next: NextFunction) => {
     address: Joi.string().required().messages({
       "string.empty": "Vui lòng nhập tên đường, tòa nhà, số nhà!",
     }),
-    longitude: Joi.number().required().messages({
-      "number.base": "Địa chỉ không hợp lệ!",
-      "any.required": "Vui lòng chọn vị trí trên bản đồ!",
+    email: Joi.string().email().required().messages({
+      "string.empty": "Vui lòng nhập email!",
+      "string.email": "Email không đúng định dạng!",
     }),
-    latitude: Joi.number().required().messages({
+    longitude: Joi.number().optional().allow(null, "").messages({
       "number.base": "Địa chỉ không hợp lệ!",
-      "any.required": "Vui lòng chọn vị trí trên bản đồ!",
+    }),
+    latitude: Joi.number().optional().allow(null, "").messages({
+      "number.base": "Địa chỉ không hợp lệ!",
     }),
     note: Joi.string().allow(""),
     items: Joi.array().min(1).required().messages({
@@ -48,7 +50,7 @@ export const createPost = (req: Request, res: Response, next: NextFunction) => {
         "any.only": "Phương thức thanh toán không hợp lệ!",
       }),
 
-    shippingMethod: Joi.string().required().messages({
+    shippingMethod: Joi.string().optional().allow(null, "").messages({
       "string.empty": "Vui lòng chọn phương thức vận chuyển!",
     }),
   });

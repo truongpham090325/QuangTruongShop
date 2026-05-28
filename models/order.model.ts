@@ -6,10 +6,8 @@ const schema = new mongoose.Schema(
     code: String, // Mã đơn hàng (VD: AB000001)
     fullName: String,
     phone: String,
+    email: String,
     address: String,
-    longitude: Number, // Kinh độ
-    latitude: Number, // Vĩ độ
-    note: String,
     items: [
       {
         productId: String,
@@ -21,8 +19,6 @@ const schema = new mongoose.Schema(
       },
     ],
     subTotal: Number, // Tạm tính
-    coupon: String, // Mã giảm giá
-    discount: Number, // Số tiền được giảm
     total: Number, // Tổng phải thanh toán sau tất cả
     paymentMethod: {
       // Phương thức thanh toán
@@ -56,13 +52,6 @@ const schema = new mongoose.Schema(
         "returned", // Trả hàng
       ],
       default: "pending",
-    },
-    shipping: {
-      goshipOrderId: String,
-      carrierName: String,
-      carrierCode: String,
-      fee: Number,
-      cod: Number,
     },
     deleted: {
       type: Boolean,

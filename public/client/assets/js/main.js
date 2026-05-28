@@ -780,5 +780,125 @@
   drawCart();
   // Draw checkout on page load
   drawCheckout();
-})(jQuery);
 
+  // Xử lý sự kiện click đặt hàng
+  const buttonOrder = document.querySelector("[button-order]");
+  if (buttonOrder) {
+    buttonOrder.addEventListener("click", () => {
+      const fullNameInput = document.querySelector('input[name="fullName"]');
+      const phoneInput = document.querySelector('input[name="phone"]');
+      const addressInput = document.querySelector('input[name="address"]');
+      const emailInput = document.querySelector('input[name="email"]');
+
+      const fullName = fullNameInput ? fullNameInput.value.trim() : "";
+      const phone = phoneInput ? phoneInput.value.trim() : "";
+      const address = addressInput ? addressInput.value.trim() : "";
+      const email = emailInput ? emailInput.value.trim() : "";
+
+      if (!fullName) {
+        notyf.error("Vui lòng nhập họ tên!");
+        return;
+      }
+      if (fullName.length < 5) {
+        notyf.error("Họ tên phải có ít nhất 5 ký tự!");
+        return;
+      }
+      if (!phone) {
+        notyf.error("Vui lòng nhập số điện thoại!");
+        return;
+      }
+      const phoneRegex =
+        /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/;
+      if (!phoneRegex.test(phone)) {
+        notyf.error("Số điện thoại không đúng định dạng!");
+        return;
+      }
+      if (!email) {
+        notyf.error("Vui lòng nhập email!");
+        return;
+      }
+      if (!address) {
+        notyf.error("Vui lòng nhập địa chỉ!");
+        return;
+      }
+
+      // Lấy phương thức thanh toán
+      const inputPaymentMethodChecked = document.querySelector(
+        'input[name="paymentMethod"]:checked',
+      );
+      const dataPaymentMethod = inputPaymentMethodChecked
+        ? inputPaymentMethodChecked.value
+        : "money";
+
+      // Lấy giỏ hàng từ localStorage
+      let dataCart = JSON.parse(localStorage.getItem("cart")) || [];
+      dataCart = dataCart.filter((item) => {
+        delete item.detail;
+        return item.checked !== false;
+      });
+
+      if (dataCart.length === 0) {
+        notyf.error("Giỏ hàng của bạn đang trống!");
+        return;
+      }
+
+      const dataFinal = {
+        fullName: fullName,
+        phone: phone,
+        email: email,
+        address: address,
+        items: dataCart,
+        paymentMethod: dataPaymentMethod,
+      };
+
+      buttonOrder.disabled = true;
+      buttonOrder.innerText = "Đang xử lý...";
+
+      fetch(`/order/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataFinal),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          buttonOrder.disabled = false;
+          buttonOrder.innerText = "Đặt hàng";
+
+          if (data.code === "error") {
+            notyf.error(data.message);
+          }
+
+          if (data.code === "success") {
+            // Xóa sản phẩm khỏi giỏ hàng
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart = cart.filter((item) => item.checked === false);
+            localStorage.setItem("cart", JSON.stringify(cart));
+
+            notyf.success(data.message);
+
+            setTimeout(() => {
+              switch (dataPaymentMethod) {
+                case "money":
+                  window.location.href = `/order/success?orderCode=${data.orderCode}&phone=${data.phone}`;
+                  break;
+                case "zalopay":
+                  window.location.href = `/order/payment-zalopay?orderCode=${data.orderCode}&phone=${data.phone}`;
+                  break;
+                default:
+                  window.location.href = "/";
+                  break;
+              }
+            }, 1000);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          buttonOrder.disabled = false;
+          buttonOrder.innerText = "Đặt hàng";
+          notyf.error("Có lỗi xảy ra khi gửi yêu cầu đặt hàng!");
+        });
+    });
+  }
+})(jQuery);

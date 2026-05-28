@@ -1,0 +1,33 @@
+extends ../layouts/default.pug
+
+block main
+  // Single Page Header start
+  .container-fluid.page-header.py-5
+    h1.text-center.text-white.display-6 Đặt hàng thành công
+    ol.breadcrumb.justify-content-center.mb-0
+      li.breadcrumb-item
+        a(href="/") Trang chủ
+      li.breadcrumb-item.active.text-white Đặt hàng thành công
+  // Single Page Header End
+
+  // Order Success Page Start
+  .container-fluid.py-5
+    .container.py-5.text-center
+      .row.justify-content-center
+        .col-xl-6.col-md-10.col-lg-8.col-xxl-5.wow.fadeInUp
+          .payment_success_text.p-5.border.rounded.bg-light.shadow-sm
+            .img.mb-4
+              i.bi.bi-check-circle-fill.text-primary(style="font-size: 6rem;")
+            h3.mb-3 Đặt hàng thành công!
+            p.lead.mb-4
+              | Cảm ơn bạn đã mua hàng! Mã đơn hàng của bạn là 
+              strong.text-primary #{orderDetail.code}
+            p.text-muted.mb-4
+              | Chúng tôi sẽ liên hệ với bạn qua số điện thoại 
+              strong #{phone} 
+              | để xác nhận và giao hàng trong thời gian sớm nhất.
+            .d-flex.flex-wrap.align-items-center.justify-content-center.gap-3.mt-4
+              a.btn.btn-primary.px-4.py-2.rounded-pill(href="/") Về trang chủ
+              a.btn.btn-outline-primary.px-4.py-2.rounded-pill(href="/order/track" style="display: none;") Theo dõi đơn hàng
+              a.btn.btn-primary.px-4.py-2.rounded-pill(href=`/order/export-pdf?orderCode=${orderCode}&phone=${phone}` target="_blank") Xuất hóa đơn
+  // Order Success Page End
