@@ -52,6 +52,10 @@ export const permissionList = [
     name: "Thùng rác sản phẩm",
   },
   {
+    id: "warehouse-list",
+    name: "Quản lý kho hàng",
+  },
+  {
     id: "order-list",
     name: "Danh sách đơn hàng",
   },

@@ -52,8 +52,18 @@ block main
                 input.form-control(id="priceNew" type="number" name="priceNew")
             .col-md-6.col-lg-6
               .mb-3
-                label.form-label(for="stock") Còn lại
-                input.form-control(id="stock" type="number" name="stock")
+                label.form-label(for="stock") Tổng số lượng
+                input.form-control(id="stock" type="number" name="stock" readonly value="0")
+            each w in warehouses
+              .col-md-4.col-lg-4
+                .mb-3
+                  label.form-label Tồn kho tại #{w.name}
+                  input.form-control.warehouse-stock-input(
+                    type="number"
+                    min="0"
+                    value="0"
+                    data-warehouse-id=w.id
+                  )
             .col-md-12.col-lg-12
               .mb-3
                 label.form-label Danh sách ảnh

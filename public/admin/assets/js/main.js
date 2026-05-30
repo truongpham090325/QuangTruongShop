@@ -1326,6 +1326,13 @@ if (productCreateForm) {
       formData.append("content", content);
       formData.append("images", JSON.stringify(images));
 
+      const warehouseStocks = {};
+      event.target.querySelectorAll(".warehouse-stock-input").forEach(input => {
+        const warehouseId = input.getAttribute("data-warehouse-id");
+        warehouseStocks[warehouseId] = parseInt(input.value) || 0;
+      });
+      formData.append("warehouseStocks", JSON.stringify(warehouseStocks));
+
       fetch(`/${pathAdmin}/product/create`, {
         method: "POST",
         body: formData,
@@ -1745,6 +1752,13 @@ if (productEditForm) {
       formData.append("content", content);
       formData.append("images", JSON.stringify(images));
 
+      const warehouseStocks = {};
+      event.target.querySelectorAll(".warehouse-stock-input").forEach(input => {
+        const warehouseId = input.getAttribute("data-warehouse-id");
+        warehouseStocks[warehouseId] = parseInt(input.value) || 0;
+      });
+      formData.append("warehouseStocks", JSON.stringify(warehouseStocks));
+
       fetch(`/${pathAdmin}/product/edit/${id}`, {
         method: "PATCH",
         body: formData,
@@ -2123,3 +2137,22 @@ if (resetPasswordForm) {
     });
 }
 // End Reset Password Form
+
+// Warehouse stock sum update for Product Create & Edit Forms
+const warehouseStockInputs = document.querySelectorAll(".warehouse-stock-input");
+if (warehouseStockInputs.length > 0) {
+  const totalStockInput = document.querySelector("#stock");
+  if (totalStockInput) {
+    const updateSum = () => {
+      let total = 0;
+      warehouseStockInputs.forEach(input => {
+        total += parseInt(input.value) || 0;
+      });
+      totalStockInput.value = total;
+    };
+    warehouseStockInputs.forEach(input => {
+      input.addEventListener("input", updateSum);
+    });
+    updateSum();
+  }
+}

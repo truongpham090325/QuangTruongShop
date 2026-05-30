@@ -1,0 +1,49 @@
+extends ../layouts/default.pug
+
+block main
+  .row
+    .col-12
+      .card
+        .card-header
+          .row.align-items-center
+            .col
+              h4.card-title #{pageTitle}
+            .col-auto
+              if (permissions.includes("warehouse-list"))
+                a.btn.btn-primary.mb-1(
+                  href=`/${pathAdmin}/warehouse/allocation`
+                )
+                  i.fa-solid.fa-arrows-split-up-and-left.me-1
+                  | Phân bổ kho hàng
+        .card-body.pt-0
+          .table-responsive
+            table.table.table-striped.mb-0
+              thead.table-light
+                tr
+                  th STT
+                  th Mã kho
+                  th Tên kho hàng
+                  th Địa chỉ
+                  th Số lượng mặt hàng
+                  th Tổng tồn kho
+                  th.text-end Hành động
+              tbody
+                if warehouseList.length > 0
+                  each item, index in warehouseList
+                    tr
+                      td #{index + 1}
+                      td
+                        span.badge.bg-secondary.fs-12 #{item.code}
+                      td.font-weight-bold #{item.name}
+                      td #{item.address}
+                      td #{item.uniqueProductsCount} sản phẩm
+                      td #{item.totalStock}
+                      td.text-end
+                        a.btn.btn-sm.btn-outline-info.me-1(
+                          href=`/${pathAdmin}/warehouse/detail/${item.id}`
+                        )
+                          i.las.la-eye.fs-16.me-1
+                          | Chi tiết
+                else
+                  tr
+                    td.text-center(colspan="7") Chưa có kho hàng nào được tạo!

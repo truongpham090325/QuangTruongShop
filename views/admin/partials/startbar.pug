@@ -30,7 +30,7 @@
                 )
                 i.iconoir-home-simple.menu-icon
                 span Tổng quan
-          if (permissions.includes("prodcut-create") || permissions.includes("product-list") || permissions.includes("product-category-list"))
+          if (permissions.includes("prodcut-create") || permissions.includes("product-list") || permissions.includes("product-category-list") || permissions.includes("warehouse-list"))
             li.nav-item
               a.nav-link(
                 aria-controls="sidebarProduct" 
@@ -43,7 +43,7 @@
                 span Sản phẩm
               #sidebarProduct.collapse
                 ul.nav.flex-column
-                  if (permissions.includes("prodcut-create"))
+                  if (permissions.includes("product-create"))
                     li.nav-item
                       a.nav-link(href=`/${pathAdmin}/product/create`) Tạo sản phẩm
                     // end nav-item
@@ -54,6 +54,10 @@
                   if (permissions.includes("product-category-list"))
                     li.nav-item
                       a.nav-link(href=`/${pathAdmin}/product/category`) Danh mục sản phẩm
+                    // end nav-item
+                  if (permissions.includes("warehouse-list"))
+                    li.nav-item
+                      a.nav-link(href=`/${pathAdmin}/warehouse/list`) Quản lý kho hàng
                     // end nav-item
           if (permissions.includes("order-list"))
             li.nav-item

@@ -1,0 +1,150 @@
+extends ../layouts/default.pug
+include ../mixins/pagination.pug
+include ../mixins/form-search.pug
+
+block main
+  .row
+    .col-12
+      .card
+        .card-header.bg-light-alt
+          .row.align-items-center
+            .col
+              h4.card-title #{pageTitle}
+              p.text-muted.mb-0 Điều chỉnh số lượng sản phẩm trong từng kho hàng. Hệ thống tự động đồng bộ tổng số lượng sản phẩm.
+            .col-auto
+              a.btn.btn-secondary(
+                href=`/${pathAdmin}/warehouse/list`
+              )
+                i.fa-solid.fa-arrow-left.me-1
+                | Quay lại
+        .card-body
+          .row.mb-3
+            .col-lg-6
+              +form-search()
+
+          form(id="allocationForm")
+            .table-responsive
+              table.table.table-bordered.align-middle.mb-0
+                thead.table-light
+                  tr
+                    th(style="width: 50px;") STT
+                    th(style="width: 80px;") Ảnh
+                    th Tên sản phẩm
+                    th(style="width: 120px;") SKU
+                    th(style="width: 120px; text-align: center;") Tổng tồn kho (DB)
+                    each w in warehouses
+                      th.text-center(style="width: 160px;") #{w.name}
+                tbody
+                  if productGrid.length > 0
+                    each prod, index in productGrid
+                      tr.product-row(data-product-id=prod.id)
+                        td #{pagination.skip + index + 1}
+                        td
+                          if(prod.images && prod.images.length > 0)
+                            img(
+                              src=`${domainCDN}${prod.images[0]}`
+                              class="rounded thumb-md me-1 d-inline"
+                            )
+                        td #{prod.name}
+                        td #{prod.sku}
+                        td.text-center
+                          span.badge.bg-primary.fs-13.total-stock-badge #{prod.totalStock}
+                        each w in warehouses
+                          td
+                            input.form-control.text-center.warehouse-stock-input(
+                              type="number"
+                              min="0"
+                              data-warehouse-id=w.id
+                              value=prod.warehouseStocks[w.id]
+                            )
+                  else
+                    tr
+                      td.text-center(colspan=(5 + warehouses.length)) Không tìm thấy sản phẩm nào!
+
+            if productGrid.length > 0
+              .row.mt-4
+                .col-12.text-end
+                  button.btn.btn-success(type="submit")
+                    i.fa-solid.fa-floppy-disk.me-1
+                    | Lưu phân bổ
+              +pagination()
+
+block script
+  script.
+    document.addEventListener("DOMContentLoaded", () => {
+      const rows = document.querySelectorAll(".product-row");
+
+      // Update total stock badge when a warehouse input changes
+      rows.forEach(row => {
+        const inputs = row.querySelectorAll(".warehouse-stock-input");
+        const badge = row.querySelector(".total-stock-badge");
+
+        inputs.forEach(input => {
+          input.addEventListener("input", () => {
+            let total = 0;
+            inputs.forEach(inp => {
+              total += parseInt(inp.value) || 0;
+            });
+            badge.textContent = total;
+          });
+        });
+      });
+
+      // Submit allocation form via fetch API
+      const form = document.getElementById("allocationForm");
+      if (form) {
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+
+          const allocations = [];
+          let hasNegative = false;
+
+          rows.forEach(row => {
+            const productId = row.getAttribute("data-product-id");
+            const stocks = {};
+            row.querySelectorAll(".warehouse-stock-input").forEach(input => {
+              const warehouseId = input.getAttribute("data-warehouse-id");
+              const stockVal = parseInt(input.value) || 0;
+              if (stockVal < 0) {
+                hasNegative = true;
+              }
+              stocks[warehouseId] = stockVal;
+            });
+
+            allocations.push({
+              productId,
+              stocks
+            });
+          });
+
+          if (hasNegative) {
+            notyf.error("Số lượng trong kho không được là số âm!");
+            return;
+          }
+
+          fetch(`/${pathAdmin}/warehouse/allocation`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ allocations })
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.code === "success") {
+              notyf.success(data.message);
+              // Wait a little before reloading so user can see notification
+              setTimeout(() => {
+                window.location.reload();
+              }, 1000);
+            } else {
+              notyf.error(data.message);
+            }
+          })
+          .catch(err => {
+            console.error(err);
+            notyf.error("Đã xảy ra lỗi khi lưu phân bổ kho!");
+          });
+        });
+      }
+    });

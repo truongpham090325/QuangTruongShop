@@ -4,6 +4,7 @@ import { buildCategoryTree } from "../../helpers/category.helper";
 import slugify from "slugify";
 import { pathAdmin } from "../../configs/variable.config";
 import Product from "../../models/product.model";
+import Warehouse from "../../models/warehouse.model";
 import { Parser } from "json2csv";
 import Papa from "papaparse";
 import { generateRandomString } from "../../helpers/generate.helper";
@@ -344,10 +345,14 @@ export const create = async (req: Request, res: Response) => {
     .lean();
   // Hết Danh sách sản phẩm
 
+  // Danh sách kho hàng
+  const warehouses = await Warehouse.find({ deleted: false }).select("id name code");
+
   res.render("admin/pages/product-create", {
     pageTitle: "Tạo sản phẩm",
     categoryList: categoryTree,
     productList: productList,
+    warehouses: warehouses,
   });
 };
 
@@ -393,7 +398,15 @@ export const createPost = async (req: Request, res: Response) => {
       req.body.discount = 0;
     }
 
-    if (req.body.stock) {
+    let totalStock = 0;
+    let warehouseStocksObj: any = {};
+    if (req.body.warehouseStocks) {
+      warehouseStocksObj = JSON.parse(req.body.warehouseStocks);
+      for (const key in warehouseStocksObj) {
+        totalStock += parseInt(warehouseStocksObj[key]) || 0;
+      }
+      req.body.stock = totalStock;
+    } else if (req.body.stock) {
       req.body.stock = parseInt(req.body.stock);
     } else {
       req.body.stock = 0;
@@ -410,6 +423,24 @@ export const createPost = async (req: Request, res: Response) => {
 
     const newRecord = new Product(req.body);
     await newRecord.save();
+
+    // Lưu kho hàng
+    if (req.body.warehouseStocks) {
+      const warehouses = await Warehouse.find({ deleted: false });
+      for (const w of warehouses) {
+        const stockVal = parseInt(warehouseStocksObj[w.id]) || 0;
+        const prodIdx = w.products.findIndex((p: any) => p.productId.toString() === newRecord.id.toString());
+        if (prodIdx > -1) {
+          w.products[prodIdx].stock = stockVal;
+        } else {
+          w.products.push({
+            productId: newRecord._id,
+            stock: stockVal,
+          });
+        }
+        await w.save();
+      }
+    }
 
     res.json({
       code: "success",
@@ -502,12 +533,22 @@ export const edit = async (req: Request, res: Response) => {
       .lean();
     // Hết Danh sách sản phẩm
 
+    // Danh sách kho hàng và số lượng tồn của sản phẩm này trong các kho
+    const warehouses = await Warehouse.find({ deleted: false }).select("id name code products");
+    const warehouseStocks: any = {};
+    for (const w of warehouses) {
+      const item = w.products.find((p: any) => p.productId.toString() === productDetail.id.toString());
+      warehouseStocks[w.id] = item ? (item.stock || 0) : 0;
+    }
+
     res.render("admin/pages/product-edit", {
       pageTitle: "Chỉnh sửa sản phẩm",
       productDetail: productDetail,
       categoryList: categoryTree,
       attributeNameList: attributeNameList,
       productList: productList,
+      warehouses: warehouses,
+      warehouseStocks: warehouseStocks,
     });
   } catch (error) {
     console.log(error);
@@ -573,7 +614,15 @@ export const editPatch = async (req: Request, res: Response) => {
       req.body.discount = 0;
     }
 
-    if (req.body.stock) {
+    let totalStock = 0;
+    let warehouseStocksObj: any = {};
+    if (req.body.warehouseStocks) {
+      warehouseStocksObj = JSON.parse(req.body.warehouseStocks);
+      for (const key in warehouseStocksObj) {
+        totalStock += parseInt(warehouseStocksObj[key]) || 0;
+      }
+      req.body.stock = totalStock;
+    } else if (req.body.stock) {
       req.body.stock = parseInt(req.body.stock);
     } else {
       req.body.stock = 0;
@@ -595,6 +644,24 @@ export const editPatch = async (req: Request, res: Response) => {
       },
       req.body,
     );
+
+    // Cập nhật kho hàng
+    if (req.body.warehouseStocks) {
+      const warehouses = await Warehouse.find({ deleted: false });
+      for (const w of warehouses) {
+        const stockVal = parseInt(warehouseStocksObj[w.id]) || 0;
+        const prodIdx = w.products.findIndex((p: any) => p.productId.toString() === id.toString());
+        if (prodIdx > -1) {
+          w.products[prodIdx].stock = stockVal;
+        } else {
+          w.products.push({
+            productId: id,
+            stock: stockVal,
+          });
+        }
+        await w.save();
+      }
+    }
 
     res.json({
       code: "success",

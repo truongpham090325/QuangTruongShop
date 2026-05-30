@@ -1,0 +1,68 @@
+extends ../layouts/default.pug
+include ../mixins/pagination.pug
+include ../mixins/form-search.pug
+
+block main
+  .row
+    .col-12
+      .card
+        .card-header.bg-light-alt
+          .row.align-items-center
+            .col
+              span.badge.bg-primary.mb-2 Mã kho: #{warehouse.code}
+              h4.card-title #{pageTitle}
+              p.text-muted.mb-0 Địa chỉ: #{warehouse.address}
+            .col-auto
+              a.btn.btn-secondary(
+                href=`/${pathAdmin}/warehouse/list`
+              )
+                i.fa-solid.fa-arrow-left.me-1
+                | Quay lại
+        .card-body
+          .row.mb-3
+            .col-lg-6
+              +form-search()
+          
+          .table-responsive
+            table.table.table-striped.mb-0
+              thead.table-light
+                tr
+                  th STT
+                  th Ảnh
+                  th Tên sản phẩm
+                  th SKU
+                  th Giá bán (đ)
+                  th Giá nhập (đ)
+                  th Tồn kho tại đây
+                  th Trạng thái
+              tbody
+                if productList.length > 0
+                  each item, index in productList
+                    tr
+                      td #{pagination.skip + index + 1}
+                      td
+                        if(item.images && item.images.length > 0)
+                          img(
+                            src=`${domainCDN}${item.images[0]}`
+                            class="rounded thumb-md me-1 d-inline"
+                          )
+                      td #{item.name}
+                      td #{item.sku}
+                      td
+                        if(item.priceNew)
+                          | #{item.priceNew.toLocaleString("vi-VN")}
+                      td
+                        if(item.priceOld)
+                          | #{item.priceOld.toLocaleString("vi-VN")}
+                      td
+                        span.font-weight-bold.text-primary #{item.stock}
+                      td
+                        if (item.status == "active")
+                          span(class="badge bg-primary") Hoạt động
+                        else if (item.status == "inactive")
+                          span(class="badge bg-danger") Tạm dừng
+                else
+                  tr
+                    td.text-center(colspan="8") Không tìm thấy sản phẩm nào trong kho hàng này!
+          
+          +pagination()
