@@ -36,7 +36,7 @@ export const permissionList = [
     name: "Danh sách sản phẩm",
   },
   {
-    id: "prodcut-create",
+    id: "product-create",
     name: "Tạo sản phẩm",
   },
   {
