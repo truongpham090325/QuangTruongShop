@@ -1,0 +1,32 @@
+.ai-chat-widget
+  // Nút bong bóng chat nổi
+  a#aiChatBtn.ai-chat-btn(href="javascript:;")
+    i.fa.fa-comments
+    span.badge-dot
+
+  // Cửa sổ Chatbox
+  #aiChatWindow.ai-chat-window
+    .ai-chat-header
+      .bot-info
+        .bot-avatar
+          i.fa.fa-robot
+        .bot-details
+          span.bot-name Trợ lý AI
+          span.bot-status Đang trực tuyến
+      button#aiChatClose.close-btn
+        i.fa.fa-times
+
+    #aiChatMessages.ai-chat-messages
+      // Tin nhắn sẽ tự động thêm ở đây
+
+    .ai-chat-suggestions
+      span.suggestion-chip(data-msg="Tư vấn hoa quả mùa này") 🍎 Trái cây mùa này
+      span.suggestion-chip(data-msg="Tư vấn hoa quả nhập khẩu") ✈️ Hàng nhập khẩu
+      span.suggestion-chip(data-msg="Có muối chấm gì ngon không?") 🌶️ Muối chấm hoa quả
+      span.suggestion-chip(data-msg="Shop có sầu riêng không?") 🍈 Sầu riêng thái
+
+    .ai-chat-input-area
+      form#aiChatForm(action="javascript:;")
+        input#aiChatInput(type="text" placeholder="Nhập tin nhắn tư vấn..." autocomplete="off")
+        button(type="submit")
+          i.fa.fa-paper-plane

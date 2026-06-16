@@ -9,12 +9,17 @@ import {
 import axios from "axios";
 import hmacSHA256 from "crypto-js/hmac-sha256";
 import moment from "moment";
+import {
+  getApiPayment,
+  getGeneral,
+} from "../../../E-commerce/configs/setting.config";
 
 export const createPost = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
   try {
+    const settingGeneral = await getGeneral();
     const dataFinal: any = {};
 
     // Thêm code
@@ -99,9 +104,13 @@ export const createPost = async (
               <p style="margin: 6px 0; font-size: 15px;"><strong>Số điện thoại:</strong> ${dataFinal.phone}</p>
               <p style="margin: 6px 0; font-size: 15px;"><strong>Địa chỉ nhận hàng:</strong> ${dataFinal.address}</p>
               <p style="margin: 6px 0; font-size: 15px;"><strong>Phương thức thanh toán:</strong> ${
-                dataFinal.paymentMethod === 'money' ? 'Thanh toán khi nhận hàng (COD)' : 
-                dataFinal.paymentMethod === 'zalopay' ? 'Thanh toán qua ZaloPay' : 
-                dataFinal.paymentMethod === 'vnpay' ? 'Thanh toán qua VNPay' : dataFinal.paymentMethod
+                dataFinal.paymentMethod === "money"
+                  ? "Thanh toán khi nhận hàng (COD)"
+                  : dataFinal.paymentMethod === "zalopay"
+                    ? "Thanh toán qua ZaloPay"
+                    : dataFinal.paymentMethod === "vnpay"
+                      ? "Thanh toán qua VNPay"
+                      : dataFinal.paymentMethod
               }</p>
             </div>
 
@@ -116,26 +125,30 @@ export const createPost = async (
                 </tr>
               </thead>
               <tbody>
-                ${dataFinal.items.map((item: any) => `
+                ${dataFinal.items
+                  .map(
+                    (item: any) => `
                   <tr>
                     <td style="padding: 10px; border: 1px solid #e0e0e0; font-size: 14px;">${item.name}</td>
                     <td style="padding: 10px; border: 1px solid #e0e0e0; text-align: center; font-size: 14px;">${item.quantity}</td>
-                    <td style="padding: 10px; border: 1px solid #e0e0e0; text-align: right; font-size: 14px;">${item.price.toLocaleString('vi-VN')}đ</td>
-                    <td style="padding: 10px; border: 1px solid #e0e0e0; text-align: right; font-size: 14px;">${(item.price * item.quantity).toLocaleString('vi-VN')}đ</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0; text-align: right; font-size: 14px;">${item.price.toLocaleString("vi-VN")}đ</td>
+                    <td style="padding: 10px; border: 1px solid #e0e0e0; text-align: right; font-size: 14px;">${(item.price * item.quantity).toLocaleString("vi-VN")}đ</td>
                   </tr>
-                `).join('')}
+                `,
+                  )
+                  .join("")}
               </tbody>
               <tfoot>
                 <tr>
                   <td colspan="3" style="padding: 12px 10px; text-align: right; font-weight: bold; border: 1px solid #e0e0e0; font-size: 14px;">Tổng cộng:</td>
-                  <td style="padding: 12px 10px; text-align: right; font-weight: bold; color: #81c408; border: 1px solid #e0e0e0; font-size: 16px;">${dataFinal.total.toLocaleString('vi-VN')}đ</td>
+                  <td style="padding: 12px 10px; text-align: right; font-weight: bold; color: #81c408; border: 1px solid #e0e0e0; font-size: 16px;">${dataFinal.total.toLocaleString("vi-VN")}đ</td>
                 </tr>
               </tfoot>
             </table>
 
             <p style="font-size: 15px;">Quý khách có thể kiểm tra và tra cứu trạng thái đơn hàng của mình bất cứ lúc nào bằng cách sử dụng mã đơn hàng và nhấp vào nút dưới đây:</p>
             <div style="text-align: center; margin: 30px 0;">
-              <a href="${process.env.WEBSITE_DOMAIN || process.env.DOMAIN_WEBSITE || 'http://localhost:3000'}/order/track?orderCode=${dataFinal.code}" style="background-color: #81c408; color: #ffffff; padding: 12px 30px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block; box-shadow: 0 4px 6px rgba(129, 196, 8, 0.2); font-size: 15px;">Tra cứu trạng thái đơn hàng</a>
+              <a href="${settingGeneral.domainWebsite || settingGeneral.domainWebsite || "http://localhost:3000"}/order/track?orderCode=${dataFinal.code}" style="background-color: #81c408; color: #ffffff; padding: 12px 30px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block; box-shadow: 0 4px 6px rgba(129, 196, 8, 0.2); font-size: 15px;">Tra cứu trạng thái đơn hàng</a>
             </div>
             
             <p style="font-size: 13px; color: #666666; text-align: center; border-top: 1px solid #eaeaea; padding-top: 15px; margin-top: 25px;">Đây là email tự động từ hệ thống Q.TruongShop. Vui lòng không trả lời trực tiếp email này.</p>
@@ -208,15 +221,17 @@ export const paymentZaloPay = async (req: Request, res: Response) => {
     return;
   }
 
+  const apiPayment = await getApiPayment();
+  const settingGeneral = await getGeneral();
   const config = {
-    app_id: `${process.env.ZALOPAY_APPID || process.env.ZALOPAY_APP_ID}`,
-    key1: `${process.env.ZALOPAY_KEY1 || process.env.ZALOPAY_APP_KEY1}`,
-    key2: `${process.env.ZALOPAY_KEY2 || process.env.ZALOPAY_APP_KEY2}`,
-    endpoint: `${process.env.ZALOPAY_DOMAIN}/v2/create`,
+    app_id: `${apiPayment.zaloPayAppId || apiPayment.zaloPayAppId}`,
+    key1: `${apiPayment.zaloPayKey1 || apiPayment.zaloPayKey1}`,
+    key2: `${apiPayment.zaloPayKey2 || apiPayment.zaloPayKey2}`,
+    endpoint: `${apiPayment.zaloPayDomain}/v2/create`,
   };
 
   const embed_data = {
-    redirecturl: `${process.env.WEBSITE_DOMAIN || process.env.DOMAIN_WEBSITE}/order/success?orderCode=${orderCode}&phone=${phone}`,
+    redirecturl: `${settingGeneral.domainWebsite || settingGeneral.domainWebsite}/order/success?orderCode=${orderCode}&phone=${phone}`,
   };
 
   const items = [{}];
@@ -232,7 +247,7 @@ export const paymentZaloPay = async (req: Request, res: Response) => {
     description: `Thanh toán đơn hàng ${orderCode}`,
     bank_code: "",
     mac: "",
-    callback_url: `${process.env.WEBSITE_DOMAIN || process.env.DOMAIN_WEBSITE}/order/payment-zalopay-result`,
+    callback_url: `${settingGeneral.domainWebsite || settingGeneral.domainWebsite}/order/payment-zalopay-result`,
   };
 
   // appid|app_trans_id|appuser|amount|apptime|embeddata|item
@@ -318,7 +333,8 @@ export const track = async (req: Request, res: Response): Promise<void> => {
       });
 
       if (!order) {
-        errorMessage = "Không tìm thấy đơn hàng với mã đã nhập. Vui lòng kiểm tra lại!";
+        errorMessage =
+          "Không tìm thấy đơn hàng với mã đã nhập. Vui lòng kiểm tra lại!";
       } else {
         // Fetch current unit and slug for each product from the Product collection
         const itemsWithDetails = [];
@@ -350,7 +366,9 @@ export const track = async (req: Request, res: Response): Promise<void> => {
 
         const orderObj: any = order.toObject();
         orderObj.items = itemsWithDetails;
-        orderObj.formattedCreatedAt = moment(order.createdAt).format("DD/MM/YYYY HH:mm");
+        orderObj.formattedCreatedAt = moment(order.createdAt).format(
+          "DD/MM/YYYY HH:mm",
+        );
         orderDetail = orderObj;
       }
     }
@@ -359,14 +377,20 @@ export const track = async (req: Request, res: Response): Promise<void> => {
     const paymentStatusMap: Record<string, { text: string; class: string }> = {
       unpaid: { text: "Chưa thanh toán", class: "badge bg-warning text-dark" },
       paid: { text: "Đã thanh toán", class: "badge bg-success text-white" },
-      refunded: { text: "Đã hoàn lại tiền", class: "badge bg-danger text-white" },
+      refunded: {
+        text: "Đã hoàn lại tiền",
+        class: "badge bg-danger text-white",
+      },
     };
 
     const orderStatusMap: Record<string, { text: string; class: string }> = {
       pending: { text: "Chờ xác nhận", class: "badge bg-info text-dark" },
       confirmed: { text: "Đã xác nhận", class: "badge bg-primary text-white" },
       shipping: { text: "Đang giao", class: "badge bg-warning text-dark" },
-      completed: { text: "Giao thành công", class: "badge bg-success text-white" },
+      completed: {
+        text: "Giao thành công",
+        class: "badge bg-success text-white",
+      },
       cancelled: { text: "Hủy đơn hàng", class: "badge bg-danger text-white" },
       returned: { text: "Trả hàng", class: "badge bg-secondary text-white" },
     };
