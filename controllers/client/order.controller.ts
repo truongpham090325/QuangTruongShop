@@ -9,17 +9,12 @@ import {
 import axios from "axios";
 import hmacSHA256 from "crypto-js/hmac-sha256";
 import moment from "moment";
-import {
-  getApiPayment,
-  getGeneral,
-} from "../../../E-commerce/configs/setting.config";
 
 export const createPost = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
   try {
-    const settingGeneral = await getGeneral();
     const dataFinal: any = {};
 
     // Thêm code
@@ -148,7 +143,7 @@ export const createPost = async (
 
             <p style="font-size: 15px;">Quý khách có thể kiểm tra và tra cứu trạng thái đơn hàng của mình bất cứ lúc nào bằng cách sử dụng mã đơn hàng và nhấp vào nút dưới đây:</p>
             <div style="text-align: center; margin: 30px 0;">
-              <a href="${settingGeneral.domainWebsite || settingGeneral.domainWebsite || "http://localhost:3000"}/order/track?orderCode=${dataFinal.code}" style="background-color: #81c408; color: #ffffff; padding: 12px 30px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block; box-shadow: 0 4px 6px rgba(129, 196, 8, 0.2); font-size: 15px;">Tra cứu trạng thái đơn hàng</a>
+              <a href="${process.env.WEBSITE_DOMAIN || process.env.DOMAIN_WEBSITE || "http://localhost:3000"}/order/track?orderCode=${dataFinal.code}" style="background-color: #81c408; color: #ffffff; padding: 12px 30px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block; box-shadow: 0 4px 6px rgba(129, 196, 8, 0.2); font-size: 15px;">Tra cứu trạng thái đơn hàng</a>
             </div>
             
             <p style="font-size: 13px; color: #666666; text-align: center; border-top: 1px solid #eaeaea; padding-top: 15px; margin-top: 25px;">Đây là email tự động từ hệ thống Q.TruongShop. Vui lòng không trả lời trực tiếp email này.</p>
@@ -221,17 +216,15 @@ export const paymentZaloPay = async (req: Request, res: Response) => {
     return;
   }
 
-  const apiPayment = await getApiPayment();
-  const settingGeneral = await getGeneral();
   const config = {
-    app_id: `${apiPayment.zaloPayAppId || apiPayment.zaloPayAppId}`,
-    key1: `${apiPayment.zaloPayKey1 || apiPayment.zaloPayKey1}`,
-    key2: `${apiPayment.zaloPayKey2 || apiPayment.zaloPayKey2}`,
-    endpoint: `${apiPayment.zaloPayDomain}/v2/create`,
+    app_id: `${process.env.ZALOPAY_APPID || process.env.ZALOPAY_APP_ID}`,
+    key1: `${process.env.ZALOPAY_KEY1 || process.env.ZALOPAY_APP_KEY1}`,
+    key2: `${process.env.ZALOPAY_KEY2 || process.env.ZALOPAY_APP_KEY2}`,
+    endpoint: `${process.env.ZALOPAY_DOMAIN}/v2/create`,
   };
 
   const embed_data = {
-    redirecturl: `${settingGeneral.domainWebsite || settingGeneral.domainWebsite}/order/success?orderCode=${orderCode}&phone=${phone}`,
+    redirecturl: `${process.env.WEBSITE_DOMAIN || process.env.DOMAIN_WEBSITE}/order/success?orderCode=${orderCode}&phone=${phone}`,
   };
 
   const items = [{}];
@@ -247,7 +240,7 @@ export const paymentZaloPay = async (req: Request, res: Response) => {
     description: `Thanh toán đơn hàng ${orderCode}`,
     bank_code: "",
     mac: "",
-    callback_url: `${settingGeneral.domainWebsite || settingGeneral.domainWebsite}/order/payment-zalopay-result`,
+    callback_url: `${process.env.WEBSITE_DOMAIN || process.env.DOMAIN_WEBSITE}/order/payment-zalopay-result`,
   };
 
   // appid|app_trans_id|appuser|amount|apptime|embeddata|item
